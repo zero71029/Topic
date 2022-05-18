@@ -4,9 +4,11 @@ import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -40,5 +42,14 @@ public class LoginService {
         System.out.println(bean);
         System.out.println("=======================================================");
         mr.save(bean);
+    }
+
+
+
+    public MemberBean getMemberByEmail(String email) {
+        if(mr.existsByEmail(email)){
+           return mr.findByEmail(email);
+        }
+        return null;
     }
 }

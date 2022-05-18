@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -22,25 +23,25 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //登入
     @RequestMapping("/home")
-    public String login( HttpSession session) {
+    public String login(HttpSession session) {
         System.out.println("*****登入成功*****");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Object principal =authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
         String Username;
-        if(principal instanceof UserDetails) {
+        if (principal instanceof UserDetails) {
 
             UserDetails userDetails = (UserDetails) principal;
-             Username = userDetails.getUsername();
+            Username = userDetails.getUsername();
 
-        }else {
+        } else {
             Username = principal.toString();
 
         }
         System.out.println(Username);
         MemberBean mBean = ls.findByEmail(Username);
-        session.setAttribute(mBean.SESSIONID,mBean);
-     return "redirect:/topiclist.jsp?pag=1";
+        session.setAttribute(mBean.SESSIONID, mBean);
+        return "redirect:/topiclist.jsp?pag=1";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,7 @@ public class LoginController {
         session.invalidate();
         return "redirect:/topiclist.jsp";
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //新註冊
     @RequestMapping("/register")
@@ -74,25 +76,35 @@ public class LoginController {
 //            errors.put("recaptcha", "需要驗證");
 //        }
 
-        if(ls.existsMemberByName(bean.getName()))errors.put("username", "暱稱被使用過");
-        if(ls.existsMemberByEnail(bean.getEmail()))errors.put("email", "Email被使用過");
+        if (ls.existsMemberByName(bean.getName())) errors.put("username", "暱稱被使用過");
+        if (ls.existsMemberByEnail(bean.getEmail())) errors.put("email", "Email被使用過");
 
-
-        if(errors.isEmpty()){
-           ls.saveMember(bean);
+        if (errors.isEmpty()) {
+            ls.saveMember(bean);
         }
-
-
-
-
-
-
-
-
-
-
         return "/member/registerSuccess";
+    }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    @ResponseBody
+    @RequestMapping(path = {"/UserAuthorize"})
+    public boolean UserAuthorize(Authentication authentication, HttpSession session) {
+        System.out.println("*****登入驗證*****");
+        // 驗證 補session user
+        if (authentication != null) {
+            System.out.println("有authentication");
+            MemberBean mBean =   ls.getMemberByEmail(authentication.getName());
+            if(mBean == null){
+                return false;
+            }else {
+                session.setAttribute(mBean.SESSIONID,mBean);
+                return true;
+            }
+        } else {
+            System.out.println("沒有authentication");
+        }
+        return false;
     }
 
 }

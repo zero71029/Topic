@@ -43,7 +43,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <hr>
+                    <!-- <%-- 插入抬頭分類 JQ--%> -->
+                    <jsp:include page="/widget/menu.jsp"></jsp:include>
                 </div>
                 <!-- 中間主體 -->
                 <div class="row app">
@@ -98,10 +99,11 @@
                         </div>
 
                         <el-dialog title="上傳" :visible.sync="imgVisible" width="30%">
-                            <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple :on-success="upSuccess">
+                            <el-upload class="upload-demo" drag action="${pageContext.request.contextPath}/upfile"
+                                multiple :on-success="upSuccess" :before-upload="beforeAvatarUpload">
                                 <i class="el-icon-upload"></i>
-                                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                                <div class="el-upload__text">將文件拖到此處，或<em>點擊上傳</em></div>
+                                <div class="el-upload__tip" slot="tip">只能上傳jpg/png文件，且不超過2MB</div>
                             </el-upload>
                         </el-dialog>
 
@@ -135,6 +137,7 @@
                 </div>
             </div>
             </div>
+
         </body>
 
 
@@ -143,13 +146,33 @@
                 el: ".app",
                 data() {
                     return {
-                        imgVisible: true,
+                        imgVisible: false,
                     }
                 },
                 methods: {
-                    upSuccess(response, file, fileList){
-
+                    //上傳成功
+                    upSuccess(response, file, fileList) {
+                        console.log(response);
+                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto;"></p><p>&nbsp;</p>`;
+                        console.log(img);
+                        this.imgVisible = false;
+                        tinymce.activeEditor.execCommand('mceInsertContent', false, img);
+                        
                     },
+                    //上傳檢查
+                    beforeAvatarUpload(file) {
+                        const isJPG = file.type === 'image/jpeg';
+                        const isLt2M = file.size / 1024 / 1024 < 2;
+                        if (!(file.type == 'image/jpeg' || file.type == 'image/png')) {
+                            this.$message.error('上傳圖片只能是 JPG/PNG 格式!');
+                            return false;
+                        }
+                        if (!isLt2M) {
+                            this.$message.error('上傳圖片大小不能超過 2MB!');
+                            return false;
+                        }
+                        return true;
+                    }
                 },
             })
         </script>
@@ -164,26 +187,23 @@
 
             tinymce.init({
                 selector: 'textarea',  // change this value according to your HTML
-                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | basicDateButton selectiveDateButton',
+                plugins:["autosave preview code link media hr charmap "],
+                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|hr charmap | link unlink selectiveDateButton media |   preview code',
                 language: 'zh_TW',
+                height: '800',
                 setup: (editor) => {
                     const toDateHtml = (date) => `<time datetime="` + date.toString() + `">` + date.toDateString() + `</time>`;
 
                     editor.ui.registry.addIcon('triangleUp', `<i class="bi bi-image"></i>`);//更換icon
 
-                    editor.ui.registry.addButton('basicDateButton', {
-                        text: 'Insert Date',
-                        tooltip: 'Insert Current Date',
-                        onAction: (_) => {
-                            vm.imgVisible=true;
-                            
-                            console.log("dddddddd");
-                        }
-                    });
+
                     editor.ui.registry.addButton('selectiveDateButton', {
                         icon: 'triangleUp',
-                        tooltip: 'Insert Current Date',
-                        onAction: (_) => editor.insertContent(toDateHtml(new Date())),
+                        tooltip: 'Insert Image',
+                        onAction: (_) => {
+                            vm.imgVisible = true;
+                            console.log("dddddddd");
+                        },
 
                     });
                 }
@@ -193,8 +213,13 @@
             .el-upload {
                 width: 100%;
             }
-            .el-upload-dragger{
+
+            .el-upload-dragger {
                 width: auto;
+            }
+
+            .img-fluid {
+                max-width: 100px; height: auto;
             }
         </style>
 
