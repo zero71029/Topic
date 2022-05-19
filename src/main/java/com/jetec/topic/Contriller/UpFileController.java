@@ -1,24 +1,34 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.Tools.ZeroTools;
+import com.jetec.topic.model.FileBean;
+import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.service.UpFileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
 public class UpFileController {
 
 
+    @Autowired
+    UpFileService ufs;
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //上傳附件
     @RequestMapping("/upfile")
     @ResponseBody
-    public String upFile(MultipartHttpServletRequest multipartRequest) {
+    public String upFile(MultipartHttpServletRequest multipartRequest, HttpSession session) {
         System.out.println("*****上傳附件*****");
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         String uuid = ZeroTools.getUUID();
@@ -32,8 +42,7 @@ public class UpFileController {
                 String filename = fileMap.get("file").getOriginalFilename();
 
                 //讀取副檔名
-                String lastname = fileMap.get("file").getOriginalFilename()
-                        .substring(fileMap.get("file").getOriginalFilename().indexOf("."));
+                String lastname = fileMap.get("file").getOriginalFilename().substring(fileMap.get("file").getOriginalFilename().indexOf("."));
                 System.out.println(lastname);
 
                 //檔案輸出
@@ -42,11 +51,11 @@ public class UpFileController {
                 fileMap.get("file").transferTo(new File(path2));
                 System.out.println("輸出成功");
                 //3. 儲存檔案名稱到資料庫
-//                MarketFileBean fileBean = new MarketFileBean(zTools.getUUID(), authorizeId, filename, authorizeId, filename);
-//                MarketFileBean save = US.save(fileBean);
-//                return save;
+                MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+                FileBean fileBean = new FileBean(ZeroTools.getUUID(),memberBean.getMemberid(),uuid+lastname,ZeroTools.getTime(new Date()));
+                FileBean save =  ufs.save(fileBean);
 
-                return uuid  + lastname;
+                return save.getName();
             }
         } catch (Exception e) {
             e.printStackTrace();

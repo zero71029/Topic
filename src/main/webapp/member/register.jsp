@@ -8,10 +8,6 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>會員登入</title>
-            <!-- <%-- jQuery放這裡 --%> -->
-            <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
-
-
             <!-- bootstrap的CSS、JS樣式放這裡 -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
@@ -42,52 +38,6 @@
                     color: #222;
                     font-family: Arial, "Microsoft JhengHei", Helvetica, sans-serif;
                 }
-
-
-                /* 侧边小部件 */
-                .side-widget-container {
-                    width: 60px;
-                    margin-top: 10px;
-                    background-color: #fff;
-                    border-radius: 8px;
-                    box-shadow: 0 0 6px #e3e3e3;
-                    cursor: pointer;
-                    position: fixed;
-                    bottom: 100px;
-                    right: 0;
-                    z-index: 999;
-                }
-
-                .side-widget-item .widget-icon {
-
-                    width: 32px;
-                    height: 32px;
-                    background: url(${pageContext.request.contextPath}/images/side-widget.png) no-repeat 0 0/700% 200%;
-                }
-
-                .side-widget-item {
-                    border-radius: 8px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    box-sizing: border-box;
-                    width: 60px;
-                    height: 60px;
-                    font-size: 12px;
-                    transition: color, background-color 0.24s ease;
-                }
-
-                .side-widget-item:hover {
-                    color: #fff;
-                    background-color: #0b5ed7;
-                }
-
-                .side-widget-item:hover .widget-icon {
-                    background-position-y: -32px;
-                }
-
-                /*  侧边小部件 結束  */
             </style>
 
         </head>
@@ -103,48 +53,10 @@
                 </div>
                 <!-- 抬頭分類 -->
                 <div class="row">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <div class="container-fluid">
-                            <a class="navbar-brand" href="${pageContext.request.contextPath}/">首頁</a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor&pag=1">感測器</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/topiclist.jsp?nav=apparatus&pag=1">儀器儀表</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/topiclist.jsp?nav=Netcom&pag=1">網通裝置</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/topiclist.jsp?nav=software&pag=1">軟體配件</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/topiclist.jsp?nav=controlbox&pag=1">控制箱</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/topiclist.jsp?nav=application&pag=1">應用</a>
-                                    </li>
-
-                                </ul>
-                                <form class="d-flex">
-                                    <input class="form-control me-2" type="search" placeholder="Search">
-                                    <button class="btn btn-outline-success" type="submit">Search</button>
-                                </form>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="${pageContext.request.contextPath}/member/register.jsp">註冊</a>/ <a
-                                    href="${pageContext.request.contextPath}/member/login.jsp">登入</a>
-
-
-
-                            </div>
-                        </div>
-                    </nav>
+                    <!-- <%-- 插入抬頭分類 JQ--%> -->
+                    <jsp:include page="/widget/menu.jsp"></jsp:include>
+                    <!-- <%-- 右邊工具列--%> -->
+                    <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                 </div>
 
                 <!-- 中間主體 -->
@@ -155,32 +67,32 @@
                         <br><br>
                         <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label"> 會員名稱 <span
+                                <label class="form-label"> 會員名稱 <span
                                         style="color: red;">*</span><span style="color: red;">${errors.username}</span>
                                 </label>
                                 <input type="text" class="form-control" name="name" id="name">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">公司-組織</label>
+                                <label  class="form-label">公司-組織</label>
                                 <input type="text" class="form-control" name="company" id="company">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Email <span
+                                <label  class="form-label">Email <span
                                         style="color: red;">*</span><span style="color: red;">${errors.email}</span>
                                 </label>
                                 <input type="email" class="form-control" name="email" id="email">
                             </div><br>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">連絡電話 </label>
+                                <label  class="form-label">連絡電話 </label>
                                 <input type="text" class="form-control" name="phone" id="phone">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">登入密碼 <span
+                                <label class="form-label">登入密碼 <span
                                         style="color: red;">*</span> </label>
                                 <input type="text" class="form-control" name="password" id="password">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">密碼驗證</label>
+                                <label  class="form-label">密碼驗證</label>
                                 <input type="text" class="form-control" name="repassword" id="repassword">
                             </div>
 
@@ -1328,15 +1240,7 @@
                             </div>
 
                         </form>
-                        <!-- 侧边小部件 -->
-                        <div class="side-widget" style="bottom: 100px;">
-                            <div class="side-widget-container">
-                                <div class="side-widget-item backtop" data-visibility="50" style="display: flex;">
-                                    <div class="widget-icon"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 侧边小部件 結束 -->
+
 
                     </div>
                     <div class="col-lg-3 "></div>
@@ -1349,6 +1253,7 @@
             </div>
 
             <script>
+                //提交檢查
                 function formSubmit() {
                     var isok = true;
                     if ($("#name").val() == null || $("#name").val() == "") {
@@ -1408,7 +1313,6 @@
                     }
                 }
 
-
                 $(document).ready(function () {
                     //捲到底 才能勾選
                     $('#tos_wrap').scroll(function () {
@@ -1419,7 +1323,6 @@
                             $('#tos').attr('disabled', false);
                         }
                     });
-
                     $('#mobile01_forum_rule_wrap').scroll(function () {
                         var scrollTop = $(this).scrollTop();
                         var scrollHeight = $(this).prop("scrollHeight");
@@ -1428,8 +1331,6 @@
                             $('#forum_rule').attr('disabled', false);
                         }
                     });
-
-
                     $('#personal_information_wrap').scroll(function () {
                         var scrollTop = Math.round($(this).scrollTop() + 1);
                         var scrollHeight = $(this).prop("scrollHeight");
@@ -1438,12 +1339,10 @@
                             $('#personal_information').attr('disabled', false);
                         }
                     });
-
-
-
                 })
+
             </script>
-            <script src="${pageContext.request.contextPath}/js/toolbar.js"></script>
+
 
 
 

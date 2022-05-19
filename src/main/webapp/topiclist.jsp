@@ -8,7 +8,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>討論區列表</title>
-            
+
             <!-- <script src="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script> -->
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.css"> -->
 
@@ -43,6 +43,8 @@
                 <div class="row">
                     <!-- <%-- 插入抬頭分類 JQ--%> -->
                     <jsp:include page="/widget/menu.jsp"></jsp:include>
+                    <!-- <%-- 右邊工具列--%> -->
+                    <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                 </div>
                 <!-- 中間主體 -->
                 <div class="row app">
@@ -57,8 +59,10 @@
 
                         <div class="row ">
                             <div class="col-lg-12 text-end">
-                                <button type="button" class="btn btn-primary"
-                                    onclick="window.open('${pageContext.request.contextPath}/publish.jsp')">發布文章</button>
+                                <c:if test="${not empty member}">
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="window.open('${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}')">發布文章</button>
+                                </c:if>
                             </div>
                         </div>
                         <div class="row ">
@@ -95,6 +99,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- 右邊廣告 -->
                             <div class="col-lg-2">
                                 <a href="">
                                     <div style=" 
@@ -102,14 +107,10 @@
                                 </a>
                             </div>
                         </div>
-
                         <div class="row ">
                             <div class="col-lg-12"></div>
                         </div>
-
-
-                    </div>
-                    <!-- 右邊廣告 -->
+                    </div>                  
                     <div class="col-lg-2 ">
 
                     </div>

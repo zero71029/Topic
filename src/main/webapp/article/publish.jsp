@@ -45,6 +45,8 @@
                 <div class="row">
                     <!-- <%-- 插入抬頭分類 JQ--%> -->
                     <jsp:include page="/widget/menu.jsp"></jsp:include>
+                    <!-- <%-- 右邊工具列--%> -->
+                    <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                 </div>
                 <!-- 中間主體 -->
                 <div class="row app">
@@ -52,14 +54,13 @@
                     <div class="col-lg-2 ">
                     </div>
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
-
-
-
                         <div class="row ">
                             <div class="col-lg-10">
-                                <form action="" method="post">
+                                <form action="" method="post" id="articleform">
+                                    <input type="hidden" name="memberid" value="${member.memberid}">
+                                    <input type="hidden" name="articlegroup" value="${param.nav}">
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label"> 主題 <span
+                                        <label  class="form-label"> 主題 <span
                                                 style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
                                         </label>
@@ -69,35 +70,30 @@
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">內容</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
-                                            rows="13"></textarea>
+                                            name="content"></textarea>
                                     </div>
                                     <br>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            我已經閱讀並同意遵守討論區規則,本站服務條款與個人資料保護法
+                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
+                                                target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
                                         </label>
                                     </div>
                                     <br>
 
                                     <div class="mb-3 text-end">
-                                        <button type="button" class="btn btn-primary">Primary</button>
+                                        <button type="button" class="btn btn-primary" @click="preview">預覽</button>
+                                        <button type="button" class="btn btn-primary">提交</button>
                                     </div>
-
-
-
-
-
                                 </form>
                             </div>
+                            <!-- 右邊廣告 -->
                             <div class="col-lg-2">
-                                <a href="">
-                                    <div style=" 
-                                height: 700px;background-color: blue;    top: 47px;position: relative;">xxxxxxx</div>
-                                </a>
+                                <jsp:include page="/widget/advertise.jsp"></jsp:include>
                             </div>
                         </div>
-
+                        <!-- 上傳彈窗 -->
                         <el-dialog title="上傳" :visible.sync="imgVisible" width="30%">
                             <el-upload class="upload-demo" drag action="${pageContext.request.contextPath}/upfile"
                                 multiple :on-success="upSuccess" :before-upload="beforeAvatarUpload">
@@ -106,28 +102,13 @@
                                 <div class="el-upload__tip" slot="tip">只能上傳jpg/png文件，且不超過2MB</div>
                             </el-upload>
                         </el-dialog>
-
-
-
-
-
-
-
-
                         <div class="row ">
                             <div class="col-lg-6">
-
-                                XX
-
-
+                                &nbsp;
                             </div>
                         </div>
-
-
                     </div>
-                    <!-- 右邊廣告 -->
                     <div class="col-lg-2 ">
-
                     </div>
                 </div>
             </div>
@@ -157,7 +138,7 @@
                         console.log(img);
                         this.imgVisible = false;
                         tinymce.activeEditor.execCommand('mceInsertContent', false, img);
-                        
+
                     },
                     //上傳檢查
                     beforeAvatarUpload(file) {
@@ -172,6 +153,16 @@
                             return false;
                         }
                         return true;
+                    },
+                    //預覽
+                    preview(){
+                        $("#articleform").attr("target","_blank"); 
+                        $("#articleform").attr("action","${pageContext.request.contextPath}/article/preview")
+                       
+                        $("#articleform").submit();
+
+
+
                     }
                 },
             })
@@ -179,32 +170,23 @@
 
 
         <script>
-
-
-
-
-
-
             tinymce.init({
                 selector: 'textarea',  // change this value according to your HTML
-                plugins:["autosave preview code link media hr charmap "],
+                plugins: ["autosave preview code link media hr charmap "],
                 toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|hr charmap | link unlink selectiveDateButton media |   preview code',
                 language: 'zh_TW',
                 height: '800',
+                //自訂義按鈕
                 setup: (editor) => {
-                    const toDateHtml = (date) => `<time datetime="` + date.toString() + `">` + date.toDateString() + `</time>`;
-
-                    editor.ui.registry.addIcon('triangleUp', `<i class="bi bi-image"></i>`);//更換icon
-
-
+                    //定義新icon
+                    editor.ui.registry.addIcon('triangleUp', `<i class="bi bi-image"></i>`);
+                    //設定功能
                     editor.ui.registry.addButton('selectiveDateButton', {
                         icon: 'triangleUp',
                         tooltip: 'Insert Image',
                         onAction: (_) => {
                             vm.imgVisible = true;
-                            console.log("dddddddd");
                         },
-
                     });
                 }
             });
@@ -219,7 +201,8 @@
             }
 
             .img-fluid {
-                max-width: 100px; height: auto;
+                max-width: 100px;
+                height: auto;
             }
         </style>
 

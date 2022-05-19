@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
         <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
         <!-- session 檢查-->
         <c:if test='${empty member}'>
