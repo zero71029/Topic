@@ -56,7 +56,7 @@
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                         <div class="row ">
                             <div class="col-lg-10">
-                                <form action="" method="post" id="articleform">
+                                <form action="${pageContext.request.contextPath}/article/save" method="post" id="articleform">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
                                     <input type="hidden" name="articlegroup" value="${param.nav}">
                                     <div class="mb-3">
@@ -64,17 +64,17 @@
                                                 style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
                                         </label>
-                                        <input type="text" class="form-control" name="name" id="name">
+                                        <input type="text" class="form-control" name="name" id="name" v-model="bean.name">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">內容</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
-                                            name="content"></textarea>
+                                            name="content" v-model="bean.content"></textarea>
                                     </div>
                                     <br>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
                                                 target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
@@ -84,7 +84,7 @@
 
                                     <div class="mb-3 text-end">
                                         <button type="button" class="btn btn-primary" @click="preview">預覽</button>
-                                        <button type="button" class="btn btn-primary">提交</button>
+                                        <button type="button" class="btn btn-primary" @click="submitForm">提交</button>
                                     </div>
                                 </form>
                             </div>
@@ -128,6 +128,11 @@
                 data() {
                     return {
                         imgVisible: false,
+                        bean:{
+                            name:"",
+                            content:"",
+                            agree:false
+                        },
                     }
                 },
                 methods: {
@@ -157,12 +162,13 @@
                     //預覽
                     preview(){
                         $("#articleform").attr("target","_blank"); 
-                        $("#articleform").attr("action","${pageContext.request.contextPath}/article/preview")
-                       
+                        $("#articleform").attr("action","${pageContext.request.contextPath}/article/preview");                       
                         $("#articleform").submit();
-
-
-
+                    },
+                    submitForm(){
+                        console.log(this.bean.name,this.bean.name.length);
+                        console.log(tinyMCE.activeEditor.getContent().length);                       
+                        console.log("agree",this.bean.agree);
                     }
                 },
             })

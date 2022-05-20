@@ -61,10 +61,11 @@ public class LoginController {
 //        boolean recaptcha = zTools.recaptcha(token);// 機器人判斷
         //使有輸入的資料能返回
         model.addAttribute("email", bean.getEmail());
-        model.addAttribute("username", bean.getName());
-        model.addAttribute("userpassword", bean.getPassword());
-        model.addAttribute("userphone", bean.getPhone());
+        model.addAttribute("name", bean.getName());
+        model.addAttribute("password", bean.getPassword());
+        model.addAttribute("phone", bean.getPhone());
         model.addAttribute("company", bean.getCompany());
+        model.addAttribute("check",true);
         // 接收資料
         // 轉換資料
         Map<String, String> errors = new HashMap<>();
@@ -81,8 +82,10 @@ public class LoginController {
 
         if (errors.isEmpty()) {
             ls.saveMember(bean);
+            return "redirect:/member/registerSuccess.jsp";
         }
-        return "/member/registerSuccess";
+        System.out.println("發生錯誤,返回");
+        return "/member/register";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

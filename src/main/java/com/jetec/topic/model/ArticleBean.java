@@ -1,5 +1,8 @@
 package com.jetec.topic.model;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,6 +16,9 @@ public class ArticleBean {
     @Id
     private String articleid;
     private String name;
+//    @Column(length = 16777215, columnDefinition = "mediumtext")
+//    @Column(length = 65535, columnDefinition = "text")
+    @Type(type="text")
     private String content;
     private String state;
     private String replytime;

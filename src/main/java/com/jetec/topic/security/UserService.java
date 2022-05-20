@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
         MemberBean memberBean = mr.findByEmail(username);
         if (memberBean != null) {
             String password = encoder.encode(memberBean.getPassword());
-            return new User(username, password, AuthorityUtils.commaSeparatedStringToAuthorityList("認證名稱"));
+            return new User(username, memberBean.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("認證名稱"));
         }
         return null;
 
