@@ -50,7 +50,6 @@
                 </div>
                 <!-- 中間主體 -->
                 <div class="row app">
-
                     <div class="col-lg-2 ">
                     </div>
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
@@ -59,12 +58,13 @@
                                 <form action="${pageContext.request.contextPath}/article/save" method="post" id="articleform">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
                                     <input type="hidden" name="articlegroup" value="${param.nav}">
+                                    <input type="hidden" name="state" value="${article.state}">
                                     <div class="mb-3">
                                         <label  class="form-label"> 主題 <span
                                                 style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
                                         </label>
-                                        <input type="text" class="form-control" name="name" id="name" v-model="bean.name">
+                                        <input type="text" class="form-control" name="name" id="name" v-model="bean.name"  >
                                     </div>
 
                                     <div class="mb-3">
@@ -73,7 +73,7 @@
                                             name="content" v-model="bean.content"></textarea>
                                     </div>
                                     <br>
-                                    <div class="form-check">
+                                    <div class="form-check checkbox" >
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault" v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
@@ -113,14 +113,35 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-lg-12 text-center" >
 
                 </div>
             </div>
             </div>
 
         </body>
-
+        <script>
+            tinymce.init({
+                selector: 'textarea',  // change this value according to your HTML
+                plugins: ["autosave preview code link media hr charmap "],
+                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|hr charmap | link unlink selectiveDateButton media |   preview code',
+                language: 'zh_TW',
+                height: '800',
+                //自訂義按鈕
+                setup: (editor) => {
+                    //定義新icon
+                    editor.ui.registry.addIcon('triangleUp', `<i class="bi bi-image"></i>`);
+                    //設定功能
+                    editor.ui.registry.addButton('selectiveDateButton', {
+                        icon: 'triangleUp',
+                        tooltip: 'Insert Image',
+                        onAction: (_) => {
+                            vm.imgVisible = true;
+                        },
+                    });
+                }
+            });
+        </script>
 
         <script>
             var vm = new Vue({
@@ -166,37 +187,40 @@
                         $("#articleform").submit();
                     },
                     submitForm(){
-                        console.log(this.bean.name,this.bean.name.length);
-                        console.log(tinyMCE.activeEditor.getContent().length);                       
-                        console.log("agree",this.bean.agree);
+                        let isok =true;
+                        if(!this.bean.agree){
+                            isok=false
+                            this.$message.error('須同意條款');
+                            $(".checkbox").css("border","1px red solid");                         
+                        }else{
+                            $(".checkbox").css("border","0px ");
+                        }
+                        if(this.bean.name.length <= 0){
+                            isok=false
+                            this.$message.error('沒有主題');
+                            $("#name").css("border","1px red solid");                   
+                        }else{
+                            $("#name").css("border","1px solid #ced4da");
+                        }
+                        if(tinyMCE.activeEditor.getContent().length <= 0){
+                            isok=false
+                            this.$message.error('沒有內容');
+                            $(".tox-tinymce").css("border","1px red solid");                
+                        }else{
+                            $(".tox-tinymce").css("border","1px solid #ced4da");
+                        }
+                        if(isok){   
+                            $("#articleform").attr("target","");
+                            $("#articleform").attr("action","${pageContext.request.contextPath}/article/save");                            
+                            $("#articleform").submit();
+                        }
                     }
                 },
             })
         </script>
 
 
-        <script>
-            tinymce.init({
-                selector: 'textarea',  // change this value according to your HTML
-                plugins: ["autosave preview code link media hr charmap "],
-                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|hr charmap | link unlink selectiveDateButton media |   preview code',
-                language: 'zh_TW',
-                height: '800',
-                //自訂義按鈕
-                setup: (editor) => {
-                    //定義新icon
-                    editor.ui.registry.addIcon('triangleUp', `<i class="bi bi-image"></i>`);
-                    //設定功能
-                    editor.ui.registry.addButton('selectiveDateButton', {
-                        icon: 'triangleUp',
-                        tooltip: 'Insert Image',
-                        onAction: (_) => {
-                            vm.imgVisible = true;
-                        },
-                    });
-                }
-            });
-        </script>
+
         <style>
             .el-upload {
                 width: 100%;

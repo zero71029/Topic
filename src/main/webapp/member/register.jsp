@@ -63,41 +63,45 @@
                 <div class="row">
 
                     <div class="col-lg-3 "></div>
-                    <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">     
-                        <br><br>                   
+                    <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
+                        <br><br>
                         <div class="row">
-                            <div class="col-lg-11"> 
-                                <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm">
+                            <div class="col-lg-11">
+                                <form action="${pageContext.request.contextPath}/register" method="post"
+                                    id="registerForm">
                                     <div class="mb-3">
-                                        <label class="form-label"> 會員名稱 <span
-                                                style="color: red;">*</span><span style="color: red;">${errors.username}</span>
+                                        <label class="form-label"> 會員名稱 <span style="color: red;">*</span><span
+                                                style="color: red;">${errors.username}</span>
                                         </label>
                                         <input type="text" class="form-control" name="name" id="name" value="${name}">
                                     </div>
                                     <div class="mb-3">
-                                        <label  class="form-label">公司-組織</label>
-                                        <input type="text" class="form-control" name="company" id="company" value="${company}">
+                                        <label class="form-label">公司-組織</label>
+                                        <input type="text" class="form-control" name="company" id="company"
+                                            value="${company}">
                                     </div>
                                     <div class="mb-3">
-                                        <label  class="form-label">Email <span
-                                                style="color: red;">*</span><span style="color: red;">${errors.email}</span>
+                                        <label class="form-label">Email <span style="color: red;">*</span><span
+                                                style="color: red;">${errors.email}</span>
                                         </label>
-                                        <input type="email" class="form-control" name="email" id="email" value="${email}">
+                                        <input type="email" class="form-control" name="email" id="email"
+                                            value="${email}">
                                     </div><br>
                                     <div class="mb-3">
-                                        <label  class="form-label">連絡電話 </label>
-                                        <input type="text" class="form-control" name="phone" id="phone" value="${phone}">
+                                        <label class="form-label">連絡電話 </label>
+                                        <input type="text" class="form-control" name="phone" id="phone"
+                                            value="${phone}">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">登入密碼 <span
-                                                style="color: red;">*</span> </label>
-                                        <input type="password" class="form-control" name="password" id="password" value="${password}">
+                                        <label class="form-label">登入密碼 <span style="color: red;">*</span> </label>
+                                        <input type="password" class="form-control" name="password" id="password"
+                                            value="${password}">
                                     </div>
                                     <div class="mb-3">
-                                        <label  class="form-label">密碼驗證</label>
-                                        <input type="password" class="form-control" name="repassword" id="repassword" >
+                                        <label class="form-label">密碼驗證</label>
+                                        <input type="password" class="form-control" name="repassword" id="repassword">
                                     </div>
-        
+
                                     <br><br>
                                     <div class="l-formRow ">
                                         <label class="l-formRow__title l-formRow__title--lg">註冊確認</label>
@@ -120,8 +124,9 @@
                                             <div class="l-input ">
                                                 <div class="l-input__item">
                                                     <div class="c-checkbox1 ">
-                                                        <input type="checkbox" name="forum_rule" value="1" id="forum_rule" ${check?"checked":""} 
-                                                            disabled class="c-checkbox__input">
+                                                        <input type="checkbox" name="forum_rule" value="1"
+                                                            id="forum_rule" ${check?"checked":""} disabled
+                                                            class="c-checkbox__input">
                                                         <label for="forum_rule" class="c-checkbox__original">
                                                             <span>我已經閱讀 討論區規則並且同意註冊為會員</span>
                                                         </label>
@@ -178,7 +183,8 @@
                                                                     完成本服務的登記程序之後，您將收到一個密碼及帳號。維持密碼及帳號及身份證字號的機密安全，是您的責任。
                                                                     利用該密碼及帳號及身份證字號所進行的一切行動，您將負完全的責任。您並同意以下事項：
                                                                     <ul>
-                                                                        <li>您的密碼或帳號遭到盜用或有其他任何安全問題發生時，您將立即通知「Mobile01」。</li>
+                                                                        <li>您的密碼或帳號遭到盜用或有其他任何安全問題發生時，您將立即通知「Mobile01」。
+                                                                        </li>
                                                                         <li>每次連線完畢，均結束您的帳號使用。</li>
                                                                     </ul>
                                                                 </div>
@@ -205,7 +211,8 @@
                                                                     <ul>
                                                                         <li>公布或傳送任何誹謗、侮辱、具威脅性、攻擊性、不雅、猥褻、不實、違反公共秩序或善良風俗或其他不法之文字、圖片或任何形式的檔案
                                                                         </li>
-                                                                        <li>侵害他人名譽、隱私權、營業秘密、商標權、著作權、專利權、其他智慧財產權及其他權利</li>
+                                                                        <li>侵害他人名譽、隱私權、營業秘密、商標權、著作權、專利權、其他智慧財產權及其他權利
+                                                                        </li>
                                                                         <li>違反依法律或契約所應負之保密義務</li>
                                                                         <li>冒用他人名義使用本服務</li>
                                                                         <li>傳輸或散佈電腦病毒</li>
@@ -223,7 +230,8 @@
                                                                 </div>
                                                                 <div class="c-panel_content">
                                                                     <ul>
-                                                                        <li>「Mobile01」網站電子通信設備進行必要之保養及施工時發生突發性之電子通信設備故障時</li>
+                                                                        <li>「Mobile01」網站電子通信設備進行必要之保養及施工時發生突發性之電子通信設備故障時
+                                                                        </li>
                                                                         <li>「Mobile01」網站申請之電子通信服務被停止，無法提供服務時</li>
                                                                         <li>由於天災等不可抗力之因素致使「Mobile01」網站無法提供服務時</li>
                                                                     </ul>
@@ -304,8 +312,8 @@
                                             <div class="l-input ">
                                                 <div class="l-input__item">
                                                     <div class="c-checkbox2 ">
-                                                        <input type="checkbox" name="tos" value="1" id="tos" ${check?"checked":""} 
-                                                            class="c-checkbox__input" disabled>
+                                                        <input type="checkbox" name="tos" value="1" id="tos"
+                                                            ${check?"checked":""} class="c-checkbox__input" disabled>
                                                         <label for="tos" class="c-checkbox__original">
                                                             <span>我已經閱讀服務條款並且同意註冊為會員</span>
                                                         </label>
@@ -1222,8 +1230,9 @@
                                             <div class="l-input ">
                                                 <div class="l-input__item">
                                                     <div class="c-checkbox3 ">
-                                                        <input type="checkbox" name="personal_information" value="1" ${check?"checked":""} 
-                                                            id="personal_information" class="c-checkbox__input" disabled>
+                                                        <input type="checkbox" name="personal_information" value="1"
+                                                            ${check?"checked":""} id="personal_information"
+                                                            class="c-checkbox__input" disabled>
                                                         <label for="personal_information" class="c-checkbox__original">
                                                             <span>我已經閱讀個人資料保護法並且同意註冊為會員</span>
                                                         </label>
@@ -1234,14 +1243,15 @@
                                         </div>
                                     </div>
                                     <br>
-        
+
                                     <div class="row">
                                         <div class="col-lg-12 text-center">
-                                            <button type="button" class="btn btn-primary" onclick="formSubmit()">開始註冊</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="formSubmit()">開始註冊</button>
                                         </div>
                                     </div>
-        
-                                </form>                               
+
+                                </form>
                             </div>
                             <div class="col-lg-1 ">
 
@@ -1259,7 +1269,7 @@
 
 
 
-                        
+
 
 
 

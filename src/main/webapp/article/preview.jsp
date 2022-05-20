@@ -15,8 +15,7 @@
         </head>
 
         <body>
-            <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
-            <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -24,6 +23,9 @@
                     </div>
                 </div>
                 <div class="row">
+                    <!-- 傘型特效 -->
+                    <jsp:include page="/widget/umbrella.jsp"></jsp:include>
+                    <!-- <%-- 插入抬頭分類 JQ--%> -->
                     <!-- <%-- 插入抬頭分類 JQ--%> -->
                     <jsp:include page="/widget/menu.jsp"></jsp:include>
                     <!-- <%-- 右邊工具列--%> -->
@@ -50,15 +52,11 @@
                                             </div>
                                             <div class="col-lg-9 ">
                                                 <h3>${article.name}</h3>
-                                                <p>${article.createtime}<span style="float: right;">讚5 | 回復 | 分享</span> </p>                                              
+                                                <p>${article.createtime}<span style="float: right;">讚5 | 回復 | 分享</span>
+                                                </p>
                                                 <hr>
                                                 ${article.content}
                                             </div>
-
-
-
-
-
 
                                         </div>
                                     </div>

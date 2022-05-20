@@ -9,8 +9,6 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>討論區列表</title>
 
-            <!-- <script src="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script> -->
-            <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.css"> -->
 
             <!-- bootstrap的CSS、JS樣式放這裡 -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
@@ -18,7 +16,7 @@
             <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/icons/bootstrap-icons.css">
             <!-- 引入样式 vue-->
-            <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
+            <!-- <script src="${pageContext.request.contextPath}/js/vue.min.js"></script> -->
             <!-- 引入element-ui样式 -->
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css"> -->
             <!-- 引入element-ui组件库 -->
@@ -31,9 +29,6 @@
         </head>
 
         <body>
-            <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
-            <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
-
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -41,6 +36,8 @@
                     </div>
                 </div>
                 <div class="row">
+                    <!-- 傘型特效 -->
+                    <jsp:include page="/widget/umbrella.jsp"></jsp:include>
                     <!-- <%-- 插入抬頭分類 JQ--%> -->
                     <jsp:include page="/widget/menu.jsp"></jsp:include>
                     <!-- <%-- 右邊工具列--%> -->
@@ -54,7 +51,7 @@
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
 
                         <div class="row ">
-                            <div class="col-lg-12">hellow world ${member}</div>
+                            <div class="col-lg-12">&nbsp;</div>
                         </div>
 
                         <div class="row ">
@@ -71,31 +68,41 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">主題</th>
-                                            <th scope="col">發布時間</th>
-                                            <th scope="col">最後回覆</th>
-                                            <th scope="col">回復數</th>
+                                            <th scope="col" style="width: 150px;">發布時間</th>
+                                            <th scope="col" style="width: 150px;">最後回覆</th>
+                                            <th scope="col" style="width: 70px;">回復數</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <c:forEach varStatus="loop" begin="0" end="${list.size()}" items="${list}"
+                                            var="s">
+                                            <tr>
+                                                <td><a
+                                                        href="${pageContext.request.contextPath}/topicdetail?id=${s.articleid}">${s.name}</a>
+                                                </td>
+                                                <td ><a href="">${s.createtime}</a></td>
+                                                <td >${s.replytime}</td>
+                                                <td >0</td>
+                                            </tr>
+                                        </c:forEach>
 
-                                            <td>Markdasankdwkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
+                                        <style>
+                                            tr td a {
+                                                display: -webkit-box;
+                                                max-height: 1.5em;
+                                                -webkit-line-clamp: 1;
+                                                -webkit-box-orient: vertical;
+                                                overflow: hidden;
+                                                -o-text-overflow: ellipsis;
+                                                text-overflow: ellipsis;
+                                                word-break: break-all;
+                                                color: #111;
+                                                text-decoration: none;
+                                                outline: 0;
+                                                background-color: transparent;
+                                            }
+                                        </style>
 
-                                        </tr>
-                                        <tr>
-                                            <td>@mdo</td>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <td>@mdo</td>
-                                            <td colspan="2">Larry the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -110,7 +117,7 @@
                         <div class="row ">
                             <div class="col-lg-12"></div>
                         </div>
-                    </div>                  
+                    </div>
                     <div class="col-lg-2 ">
 
                     </div>
@@ -125,14 +132,19 @@
         </body>
 
         <script>
-            var vm = new Vue({
-                el: ".app",
-                data() {
-                    return {
+            // var vm = new Vue({
+            //     el: ".app",
+            //     data() {
+            //         return {
 
-                    }
-                },
-            })
+            //         }
+            //     },
+            //     created() {
+            //     },
+            //     methods: {
+
+            //     },
+            // })
         </script>
 
 

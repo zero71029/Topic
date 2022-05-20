@@ -25,6 +25,15 @@ public class ArticleBean {
     private String createtime;
     private String memberid;
     private String articlegroup;
+    private String membername;
+
+    public String getMembername() {
+        return membername;
+    }
+
+    public void setMembername(String membername) {
+        this.membername = membername;
+    }
 
     public String getArticleid() {
         return articleid;
@@ -95,7 +104,6 @@ public class ArticleBean {
         return "ArticleBean{" +
                 "articleid='" + articleid + '\'' +
                 ", name='" + name + '\'' +
-                ", content='" + content + '\'' +
                 ", state='" + state + '\'' +
                 ", replytime='" + replytime + '\'' +
                 ", createtime='" + createtime + '\'' +

@@ -9,7 +9,10 @@ import javax.persistence.Table;
 public class FileBean {
 
     @Id
-    private String fileid;private String memberid;private String name;private String createtime;
+    private String fileid;
+    private String memberid;
+    private String name;
+    private String createtime;
 
     public FileBean() {
     }

@@ -34,27 +34,27 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active"
-                                href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor&pag=1">感測器</a>
+                                href="${pageContext.request.contextPath}/topiclist?nav=sensor&pag=1">感測器</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="${pageContext.request.contextPath}/topiclist.jsp?nav=apparatus&pag=1">儀器儀表</a>
+                                href="${pageContext.request.contextPath}/topiclist?nav=apparatus&pag=1">儀器儀表</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="${pageContext.request.contextPath}/topiclist.jsp?nav=Netcom&pag=1">網通裝置</a>
+                                href="${pageContext.request.contextPath}/topiclist?nav=Netcom&pag=1">網通裝置</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="${pageContext.request.contextPath}/topiclist.jsp?nav=software&pag=1">軟體配件</a>
+                                href="${pageContext.request.contextPath}/topiclist?nav=software&pag=1">軟體配件</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="${pageContext.request.contextPath}/topiclist.jsp?nav=controlbox&pag=1">控制箱</a>
+                                href="${pageContext.request.contextPath}/topiclist?nav=controlbox&pag=1">控制箱</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="${pageContext.request.contextPath}/topiclist.jsp?nav=application&pag=1">應用</a>
+                                href="${pageContext.request.contextPath}/topiclist?nav=application&pag=1">應用</a>
                         </li>
 
                     </ul>

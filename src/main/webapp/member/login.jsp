@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="col-lg-12 ">
                             <span style="color: #AAA;">還不是會員嗎?</span>
-                            <a href="" >立刻註冊新帳號</a>
+                            <a href="${pageContext.request.contextPath}/member/register.jsp" >立刻註冊新帳號</a>
                             <button style="float:right" class="btn btn-primary">登入</button>
                         </div>
                     </div>
