@@ -2,23 +2,21 @@ package com.jetec.topic.model;
 
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name="article")
+@Table(name = "article")
 public class ArticleBean {
 
-    public static final String SESSIONID ="article";
+    public static final String SESSIONID = "article";
 
     @Id
     private String articleid;
     private String name;
-//    @Column(length = 16777215, columnDefinition = "mediumtext")
+    //    @Column(length = 16777215, columnDefinition = "mediumtext")
 //    @Column(length = 65535, columnDefinition = "text")
-    @Type(type="text")
+    @Type(type = "text")
     private String content;
     private String state;
     private String replytime;
@@ -27,9 +25,33 @@ public class ArticleBean {
     private String articlegroup;
     private String membername;
 
-    public String getMembername() {
-        return membername;
+
+    @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
+    private List<ArticleReplyBean> replylist;
+
+
+    @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
+    private List<ArticleThumbsupBean> thumbsuplist;
+
+    public List<ArticleReplyBean> getReplylist() {
+        return replylist;
     }
+
+    public void setReplylist(List<ArticleReplyBean> replylist) {
+        this.replylist = replylist;
+    }
+
+    public List<ArticleThumbsupBean> getThumbsuplist() {
+        return thumbsuplist;
+    }
+
+    public void setThumbsuplist(List<ArticleThumbsupBean> thumbsuplist) {
+        this.thumbsuplist = thumbsuplist;
+    }
+
+    public String getMembername() { return membername;  }
 
     public void setMembername(String membername) {
         this.membername = membername;
@@ -104,11 +126,14 @@ public class ArticleBean {
         return "ArticleBean{" +
                 "articleid='" + articleid + '\'' +
                 ", name='" + name + '\'' +
+                ", content='" + content + '\'' +
                 ", state='" + state + '\'' +
                 ", replytime='" + replytime + '\'' +
                 ", createtime='" + createtime + '\'' +
                 ", memberid='" + memberid + '\'' +
                 ", articlegroup='" + articlegroup + '\'' +
+                ", membername='" + membername + '\'' +
+                ", replylist=" + replylist +
                 '}';
     }
 }

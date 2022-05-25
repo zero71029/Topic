@@ -34,7 +34,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1>發布文章</h1>
+                        <h1>回復文章</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -50,26 +50,22 @@
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                         <div class="row ">
                             <div class="col-lg-10">
-                                <form action="${pageContext.request.contextPath}/article/save" method="post" id="articleform">
+                                <form action="${pageContext.request.contextPath}/article/save" method="post"
+                                    id="articleform">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
-                                    <input type="hidden" name="articlegroup" value="${param.nav}">
-                                    <input type="hidden" name="state" value="${article.state}">
+                                    <input type="hidden" name="membername" value="${member.name}">
+                                    <input type="hidden" name="articleid" value="${article.articleid}">
+                                    <p style="font-size: 18px;"><span
+                                            style="width: 80px; display: inline-block;">討論區</span> {{group}}</p>
+                                    <p style="font-size: 18px;"><span
+                                            style="width: 80px; display: inline-block;">主題</span> ${article.name}</p>
                                     <div class="mb-3">
-                                        <label  class="form-label"> 主題 <span
-                                                style="color: red;">*</span><span
-                                                style="color: red;">${errors.username}</span>
-                                        </label>
-                                        <input type="text" class="form-control" name="name" id="name" v-model="bean.name"  >
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlTextarea1" class="form-label">內容</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1"
-                                            name="content" v-model="bean.content"></textarea>
+                                        <textarea class="form-control" name="content" v-model="bean.content"></textarea>
                                     </div>
                                     <br>
-                                    <div class="form-check checkbox" >
-                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" v-model="bean.agree">
+                                    <div class="form-check checkbox">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
                                                 target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
@@ -108,7 +104,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-center" >
+                <div class="col-lg-12 text-center">
 
                 </div>
             </div>
@@ -144,13 +140,35 @@
                 data() {
                     return {
                         imgVisible: false,
-                        bean:{
-                            name:"",
-                            content:"",
-                            agree:false
+                        bean: {
+                            name: "",
+                            content: "",
+                            agree: false,
+                            articlegroup: '${article.articlegroup}',
+
                         },
+                        group: ""
                     }
                 },
+                created() {
+
+                    switch (this.bean.articlegroup) {
+                        case 'controlbox':
+                            this.group = "控制箱";
+                            break;
+                        case "sensor": this.group = "感測器";
+                            break;
+                        case "Netcom": this.group = "網通裝置";
+                            break;
+                        case "software": this.group = "軟體配件";
+                            break;
+                        case "application": this.group = "應用";
+                            break;
+                        case "apparatus": this.group = "儀器儀表";
+                            break;
+                    }
+                    
+                }, 
                 methods: {
                     //上傳成功
                     upSuccess(response, file, fileList) {
@@ -176,37 +194,31 @@
                         return true;
                     },
                     //預覽
-                    preview(){
-                        $("#articleform").attr("target","_blank"); 
-                        $("#articleform").attr("action","${pageContext.request.contextPath}/article/preview");                       
+                    preview() {
+                        $("#articleform").attr("target", "_blank");
+                        $("#articleform").attr("action", "${pageContext.request.contextPath}/article/preview");
                         $("#articleform").submit();
                     },
-                    submitForm(){
-                        let isok =true;
-                        if(!this.bean.agree){
-                            isok=false
+                    submitForm() {
+                        let isok = true;
+                        if (!this.bean.agree) {
+                            isok = false
                             this.$message.error('須同意條款');
-                            $(".checkbox").css("border","1px red solid");                         
-                        }else{
-                            $(".checkbox").css("border","0px ");
+                            $(".checkbox").css("border", "1px red solid");
+                        } else {
+                            $(".checkbox").css("border", "0px ");
                         }
-                        if(this.bean.name.length <= 0){
-                            isok=false
-                            this.$message.error('沒有主題');
-                            $("#name").css("border","1px red solid");                   
-                        }else{
-                            $("#name").css("border","1px solid #ced4da");
-                        }
-                        if(tinyMCE.activeEditor.getContent().length <= 0){
-                            isok=false
+
+                        if (tinyMCE.activeEditor.getContent().length <= 0) {
+                            isok = false
                             this.$message.error('沒有內容');
-                            $(".tox-tinymce").css("border","1px red solid");                
-                        }else{
-                            $(".tox-tinymce").css("border","1px solid #ced4da");
+                            $(".tox-tinymce").css("border", "1px red solid");
+                        } else {
+                            $(".tox-tinymce").css("border", "1px solid #ced4da");
                         }
-                        if(isok){   
-                            $("#articleform").attr("target","");
-                            $("#articleform").attr("action","${pageContext.request.contextPath}/article/save");                            
+                        if (isok) {
+                            $("#articleform").attr("target", "");
+                            $("#articleform").attr("action", "${pageContext.request.contextPath}/article/saveReply");
                             $("#articleform").submit();
                         }
                     }

@@ -2,6 +2,7 @@ package com.jetec.topic.Contriller;
 
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,12 +71,22 @@ public class ArticleController {
         System.out.println("*****細節初始化*****");
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         Map<String,Object> result = new HashMap<>();
+        result.put("replylist",as.getReplyList(articleid));
         result.put("thumbsupNum",as.getThumbsupNum(articleid));
         result.put("hasThumbsup",as.hasThumbsup(articleid,memberBean.getMemberid()));
-
-
-
         return result;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//文章回復 儲存
+    @RequestMapping(path = {"/saveReply"})
+    public String saveReply(HttpSession session,  ArticleReplyBean arBean) {
+        System.out.println("*****文章回復儲存*****");
+        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        arBean.setReplyid(ZeroTools.getUUID());
+        arBean.setCreatetime(ZeroTools.getTime(new Date()));
+        as.saveArticleReply(arBean);
+        System.out.println(LocalDateTime.now());
+        return "redirect:/topicdetail?id="+arBean.getArticleid();
     }
 
 }

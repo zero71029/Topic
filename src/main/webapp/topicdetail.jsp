@@ -8,6 +8,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${article.name}</title>
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/init.css">
             <!-- bootstrap的CSS、JS樣式放這裡 -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
@@ -15,6 +16,11 @@
             <link rel="stylesheet" href="${pageContext.request.contextPath}\icons\bootstrap-icons.css">
             <!-- 引入 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
+            <!-- 引入element-ui样式 -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css">
+            <!-- 引入element-ui组件库 -->
+            <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
+            <script src="//unpkg.com/element-ui/lib/umd/locale/zh-TW.js"></script>
         </head>
 
         <body>
@@ -32,7 +38,10 @@
                 span a .icon:hover {
                     cursor: pointer;
                     color: #0d6efd;
-                    ;
+                    
+                }
+                .thumbsup{
+                    color: #0d6efd;
                 }
             </style>
             <div class="container-fluid ">
@@ -51,9 +60,16 @@
                     <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                 </div>
                 <div class="row app" v-cloak>
+                    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+                        <span>这是一段信息</span>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="dialogVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                        </span>
+                    </el-dialog>
                     <div class="col-lg-12 ">
                         <div class="row">
-                            <div class="col-lg-2 " style="background-color: #ccc;opacity: 0.1;    min-height: 900px;">
+                            <div class="col-lg-2 scenery">
                             </div>
                             <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                                 <br><br>
@@ -66,19 +82,61 @@
                                                     style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
                                                 <span style="color: #379cf4;">${article.membername}</span><br>
                                             </div>
+                                            <!-- 主文 -->
                                             <div class="col-lg-9 ">
-                                                <h3>${article.name}</h3>
-                                                <p>${article.createtime}<span style="float: right;">
-                                                        <i class="bi bi-hand-thumbs-up icon  thumbsup"
-                                                            @click="clickThumbsup">讚
-                                                            {{thumbsupNum}}</i>
-                                                        &nbsp;
-                                                        |
-                                                        &nbsp;<a href=""><i class="bi bi-chat-left-text">回復</i></a>
-                                                        &nbsp; |&nbsp; <i class="bi bi-share icon share">分享</i></span>
-                                                </p>
-                                                <hr>
-                                                ${article.content}
+                                                <div class="row">
+                                                    <div class="col-lg-12 ">
+                                                        <h3>${article.name}</h3>
+                                                        <p>${article.createtime}<span style="float: right;">
+                                                                <i class="bi bi-hand-thumbs-up icon  main"
+                                                                    @click="clickThumbsup">讚
+                                                                    {{thumbsupNum}}</i>
+                                                                &nbsp;
+                                                                |
+                                                                &nbsp;<a
+                                                                    href="${pageContext.request.contextPath}/reply/${article.articleid}"><i
+                                                                        class="bi bi-chat-left-text">回復</i></a>
+                                                                &nbsp; |&nbsp; <i class="bi bi-share icon share"
+                                                                    @click="dialogVisible = true">分享</i></span>
+                                                        </p>
+                                                        <hr>
+                                                        ${article.content}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- 回復 -->
+                                        <div v-for="(s, index) in replylist" :key="index">
+                                            <div class="row">
+                                                <div class="col-lg-12 text-center">
+                                                    <hr>
+
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-lg-3 text-center">
+                                                    <span
+                                                        style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">${loop.index+2}樓</span><br>
+                                                    <span style="color: #379cf4;">{{s.membername}}</span><br>
+                                                </div>
+                                                <div class="col-lg-9 ">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 " v-html="s.content"></div>
+                                                        <p>{{s.createtime}}<span style="float: right;">
+                                                                <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
+
+
+
+                                                                    @click="replyClickThumbsup(s)">讚 
+                                                                    {{s.thumbsupNum}}</i>
+                                                                &nbsp; | &nbsp;<a href=""><i class="bi bi-chat-text">留言</i></a>
+                                                                &nbsp; |&nbsp; <i class="bi bi-share icon share"
+                                                                    @click="dialogVisible = true">分享</i></span>
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -88,14 +146,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 " style="background-color: #ccc;opacity: 0.1;    min-height: 900px;">
+                            <div class="col-lg-2 scenery">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1></h1>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -111,8 +179,13 @@
                 el: ".app",
                 data() {
                     return {
+                        dialogVisible: false,
                         thumbsupNum: 0,
                         hasThumbsup: false,
+                        replylist: [
+                            
+                        ],
+                        handthumbs :"bi bi-hand-thumbs-up icon",
                     }
                 },
                 created() {
@@ -121,29 +194,71 @@
                         type: 'POST',
                         async: false,//同步請求
                         cache: false,//不快取頁面
-                        success: (response) => {
-                            this.thumbsupNum = response.thumbsupNum,
-                                this.hasThumbsup = response.hasThumbsup
+                        success: response => {
+                            this.thumbsupNum = response.thumbsupNum;
+                            this.hasThumbsup = response.hasThumbsup;
+                            this.replylist = response.replylist;
                         },
                         error: function (returndata) {
                             console.log(returndata);
                         }
                     });
+
+                    //判斷 瀏覽者是否點讚
+                    this.replylist.forEach(reply => {
+                        reply.thumbsupNum = reply.thumbsuplist.length;
+
+                        reply.thumbsuplist.forEach(e=>{
+                            if(e.memberid == '${member.memberid}'){
+                                reply.isthumbs = true;
+                                
+                            }
+                        } )
+                    });
                     if (this.hasThumbsup) {
-                        $(".thumbsup").css("color", "blue")
+                        $(".main").css("color", "#0d6efd")
                     }
+
+
+
+                },mounted() {
+
                 },
                 methods: {
+                    //回復文章點讚
+                    replyClickThumbsup(replyBean) {
+                        console.log(replyBean);
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/article/thumbsup/' + replyBean.replyid,
+                            type: 'POST',
+                            success: (boo) => {
+                                if (boo) {
+                                    replyBean.isthumbs=true;
+                                    replyBean.thumbsupNum++;
+                                    this.$forceUpdate();
+                                } else {
+                                    replyBean.isthumbs=false;
+                                    replyBean.thumbsupNum--;
+                                    this.$forceUpdate();
+                                }
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+                        
+                    },
+                    //主文章點讚
                     clickThumbsup() {
                         $.ajax({
                             url: '${pageContext.request.contextPath}/article/thumbsup/' + id,
                             type: 'POST',
-                            success: (boo)=> {
+                            success: (boo) => {
                                 if (boo) {
-                                    $(".thumbsup").css("color", "blue");
+                                    $(".main").css("color", "#0d6efd");
                                     this.thumbsupNum++;
                                 } else {
-                                    $(".thumbsup").css("color", "black");
+                                    $(".main").css("color", "black");
                                     this.thumbsupNum--;
                                 }
 

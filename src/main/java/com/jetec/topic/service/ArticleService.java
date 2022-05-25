@@ -2,7 +2,9 @@ package com.jetec.topic.service;
 
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.ArticleThumbsupBean;
+import com.jetec.topic.repository.ArticleReplyRepository;
 import com.jetec.topic.repository.ArticleRepository;
 import com.jetec.topic.repository.ArticleThumbsupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,6 +22,8 @@ public class ArticleService {
     ArticleRepository ar;
     @Autowired
     ArticleThumbsupRepository atr;
+    @Autowired
+    ArticleReplyRepository arr;
 
     public void save(ArticleBean articleBean) {
         ar.save(articleBean);
@@ -65,5 +68,18 @@ public class ArticleService {
 
     public boolean hasThumbsup(String articleid, String memberid) {
         return atr.existsByArticleidAndMemberid(articleid, memberid);
+    }
+    public boolean hasArticle(String articleid) {
+        return ar.existsById(articleid);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//文章回復 儲存
+    public ArticleReplyBean saveArticleReply(ArticleReplyBean arBean) {
+        return arr.save(arBean);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//取得文章回復
+    public List<ArticleReplyBean> getReplyList(String articleid) {
+        return arr.findByArticleid(articleid);
     }
 }
