@@ -28,6 +28,7 @@ public class ArticleBean {
 
     @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
+    @OrderBy("num DESC")
     private List<ArticleReplyBean> replylist;
 
 

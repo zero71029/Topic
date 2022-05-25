@@ -10,6 +10,7 @@ import com.jetec.topic.repository.ArticleThumbsupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +81,11 @@ public class ArticleService {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //取得文章回復
     public List<ArticleReplyBean> getReplyList(String articleid) {
-        return arr.findByArticleid(articleid);
+
+        return arr.findByArticleid(articleid, Sort.by(Sort.Direction.ASC,"num"));
+    }
+    //取得有幾筆回復
+    public Integer getArticleNum(String articleid) {
+        return arr.getArticleNum(articleid);
     }
 }

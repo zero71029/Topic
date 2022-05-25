@@ -18,11 +18,17 @@ public class ArticleReplyBean {
     @Type(type="text")
     private String content;
     private String createtime;
+    private Integer num;
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
     private List<ArticleThumbsupBean> thumbsuplist;
 
+
+    @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
+    @OrderBy("createtime ASC")
+    private List<ArticleReplyBean> replylist;
 
     public ArticleReplyBean(String replyid, String articleid, String memberid, String membername, String content, String createtime) {
         this.replyid = replyid;
@@ -35,6 +41,22 @@ public class ArticleReplyBean {
 
     public ArticleReplyBean() {
 
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public List<ArticleReplyBean> getReplylist() {
+        return replylist;
+    }
+
+    public void setReplylist(List<ArticleReplyBean> replylist) {
+        this.replylist = replylist;
     }
 
     public List<ArticleThumbsupBean> getThumbsuplist() {

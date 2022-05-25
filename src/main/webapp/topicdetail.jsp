@@ -38,11 +38,14 @@
                 span a .icon:hover {
                     cursor: pointer;
                     color: #0d6efd;
-                    
+
                 }
-                .thumbsup{
+
+                .thumbsup {
                     color: #0d6efd;
                 }
+
+                .bi-chat-text {}
             </style>
             <div class="container-fluid ">
                 <div class="row">
@@ -118,23 +121,47 @@
                                             <div class="row ">
                                                 <div class="col-lg-3 text-center">
                                                     <span
-                                                        style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">${loop.index+2}樓</span><br>
+                                                        style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.num+1}}樓</span><br>
                                                     <span style="color: #379cf4;">{{s.membername}}</span><br>
                                                 </div>
                                                 <div class="col-lg-9 ">
                                                     <div class="row">
-                                                        <div class="col-lg-12 " v-html="s.content"></div>
+                                                        <div class="col-lg-12 text-break" v-html="s.content"></div>
                                                         <p>{{s.createtime}}<span style="float: right;">
                                                                 <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
-
-
-
-                                                                    @click="replyClickThumbsup(s)">讚 
+                                                                    @click="replyClickThumbsup(s)">讚
                                                                     {{s.thumbsupNum}}</i>
-                                                                &nbsp; | &nbsp;<a href=""><i class="bi bi-chat-text">留言</i></a>
+                                                                &nbsp; | &nbsp;<i @click="message(s)"
+                                                                    class="bi bi-chat-text icon">留言</i>
                                                                 &nbsp; |&nbsp; <i class="bi bi-share icon share"
                                                                     @click="dialogVisible = true">分享</i></span>
                                                         </p>
+                                                    </div>
+                                                    <!-- <div class="row">
+                                                        <div class="col-lg-12 " >
+                                                            {{s}}
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="row align-items-center" style="height: 50px;"
+                                                        v-show="s.see">
+                                                        <div class="col-lg-10" style="padding: 0px;">
+                                                            <el-input type="text" placeholder="請輸入内容" maxlength="100"
+                                                                v-model="text" show-word-limit></el-input>
+                                                        </div>
+                                                        <div class="col-lg-2" style="padding: 0px;">
+                                                            <button type="button" style="width: 100%;"
+                                                                @click="savemessage(s)"
+                                                                class="btn btn-secondary">留言</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" v-for="(r, index) in s.replylist" :key="index">
+                                                        <div class="col-lg-2 ">
+                                                            {{r.membername}}
+                                                        </div>
+                                                        <div class="col-lg-7 text-break">
+                                                            {{r.content}}
+                                                        </div>
+                                                        <div class="col-lg-3 text-end">{{r.createtime}}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,9 +210,10 @@
                         thumbsupNum: 0,
                         hasThumbsup: false,
                         replylist: [
-                            
+
                         ],
-                        handthumbs :"bi bi-hand-thumbs-up icon",
+                        handthumbs: "bi bi-hand-thumbs-up icon",
+                        text: "",
                     }
                 },
                 created() {
@@ -207,13 +235,12 @@
                     //判斷 瀏覽者是否點讚
                     this.replylist.forEach(reply => {
                         reply.thumbsupNum = reply.thumbsuplist.length;
-
-                        reply.thumbsuplist.forEach(e=>{
-                            if(e.memberid == '${member.memberid}'){
+                        reply.see = false;
+                        reply.thumbsuplist.forEach(e => {
+                            if (e.memberid == '${member.memberid}') {
                                 reply.isthumbs = true;
-                                
                             }
-                        } )
+                        })
                     });
                     if (this.hasThumbsup) {
                         $(".main").css("color", "#0d6efd")
@@ -221,7 +248,7 @@
 
 
 
-                },mounted() {
+                }, mounted() {
 
                 },
                 methods: {
@@ -233,11 +260,11 @@
                             type: 'POST',
                             success: (boo) => {
                                 if (boo) {
-                                    replyBean.isthumbs=true;
+                                    replyBean.isthumbs = true;
                                     replyBean.thumbsupNum++;
                                     this.$forceUpdate();
                                 } else {
-                                    replyBean.isthumbs=false;
+                                    replyBean.isthumbs = false;
                                     replyBean.thumbsupNum--;
                                     this.$forceUpdate();
                                 }
@@ -246,7 +273,7 @@
                                 console.log(returndata);
                             }
                         });
-                        
+
                     },
                     //主文章點讚
                     clickThumbsup() {
@@ -261,13 +288,74 @@
                                     $(".main").css("color", "black");
                                     this.thumbsupNum--;
                                 }
-
                             },
                             error: function (returndata) {
                                 console.log(returndata);
                             }
                         });
                     },
+                    //點留言
+                    message(reply) {
+                        this.text = "";
+                        const b = reply.see;
+                        this.replylist.forEach(e => {
+                            e.see = false;
+                        })
+                        if (b) {
+                            reply.see = false;
+                        } else {
+                            reply.see = true;
+                        }
+                        this.$forceUpdate();
+                    },
+                    savemessage(reply) {
+
+                        if (this.text.trim() != "") {
+                            var data = new FormData();
+                            data.append("articleid", reply.replyid);
+                            data.append("memberid", "${member.memberid}");
+                            data.append("membername", "${member.name}");
+                            data.append("content", this.text);
+                            data.append("article", id);
+                            $.ajax({
+                                url: '${pageContext.request.contextPath}/article/savemessage',
+                                type: 'POST',
+                                data: data,
+                                async: false,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: (response) => {
+                                    console.log(response);
+                                    this.replylist = response;
+                                },
+                                error: function (returndata) {
+                                    console.log(returndata);
+                                }
+                            });
+
+
+                            //判斷 瀏覽者是否點讚
+                            this.replylist.forEach(reply => {
+                                reply.thumbsupNum = reply.thumbsuplist.length;
+                                reply.see = false;
+                                reply.thumbsuplist.forEach(e => {
+                                    if (e.memberid == '${member.memberid}') {
+                                        reply.isthumbs = true;
+                                    }
+                                })
+                            });
+
+                            this.$forceUpdate();
+
+
+
+
+                        }
+
+
+
+                    }
 
                 },
             })

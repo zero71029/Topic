@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -71,6 +73,7 @@ public class ArticleController {
         System.out.println("*****細節初始化*****");
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         Map<String,Object> result = new HashMap<>();
+
         result.put("replylist",as.getReplyList(articleid));
         result.put("thumbsupNum",as.getThumbsupNum(articleid));
         result.put("hasThumbsup",as.hasThumbsup(articleid,memberBean.getMemberid()));
@@ -79,14 +82,29 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //文章回復 儲存
     @RequestMapping(path = {"/saveReply"})
-    public String saveReply(HttpSession session,  ArticleReplyBean arBean) {
+    public String saveReply(  ArticleReplyBean arBean) {
         System.out.println("*****文章回復儲存*****");
-        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        arBean.setReplyid(ZeroTools.getUUID());
+        arBean.setCreatetime(ZeroTools.getTime(new Date()));
+        Integer num = as.getArticleNum(arBean.getArticleid());
+        arBean.setNum(num+1);
+
+        as.saveArticleReply(arBean);
+        return "redirect:/topicdetail?id="+arBean.getArticleid();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//儲存留言
+    @RequestMapping(path = {"/savemessage"})
+    @ResponseBody
+    public List<ArticleReplyBean> savemessage(  ArticleReplyBean arBean,@RequestParam("article")String article) {
+        System.out.println("*****儲存留言*****");
         arBean.setReplyid(ZeroTools.getUUID());
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);
         System.out.println(LocalDateTime.now());
-        return "redirect:/topicdetail?id="+arBean.getArticleid();
+
+
+        return as.getReplyList(article);
     }
 
 }
