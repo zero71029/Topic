@@ -50,7 +50,7 @@
 
 
                                             </div>
-                                            <div class="col-lg-9 ">
+                                            <div class="col-lg-9 text-break" >
                                                 <h3>${article.name}</h3>
                                                 <p>${article.createtime}<span style="float: right;">讚5 | 回復 | 分享</span>
                                                 </p>

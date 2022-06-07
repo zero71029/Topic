@@ -14,4 +14,6 @@ public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean,S
 
     @Query( value = "SELECT  count(*)  from articlereply where articleid = ?1 ", nativeQuery = true)
     Integer getArticleNum(String articleid);
+
+    Integer countByMemberid(String memberid);
 }

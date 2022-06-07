@@ -69,7 +69,7 @@
                             href="${pageContext.request.contextPath}/member/login.jsp">登入</a>
                     </c:if>
                     <c:if test="${member != null}">
-                        <a href=""><i class="bi bi-person-lines-fill"></i>${member.name}</a> / <a
+                        <a href="${pageContext.request.contextPath}/member/mypage.jsp"><i class="bi bi-person-lines-fill"></i>${member.name}</a> / <a
                             href="${pageContext.request.contextPath}/logout">登出</a>
                     </c:if>
 

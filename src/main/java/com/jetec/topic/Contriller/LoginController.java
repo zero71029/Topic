@@ -36,7 +36,6 @@ public class LoginController {
 
         } else {
             Username = principal.toString();
-
         }
         System.out.println(Username);
         MemberBean mBean = ls.findByEmail(Username);

@@ -50,26 +50,28 @@
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                         <div class="row ">
                             <div class="col-lg-10">
-                                <form action="${pageContext.request.contextPath}/article/save" method="post" id="articleform">
+                                <form action="${pageContext.request.contextPath}/article/save" method="post"
+                                    id="articleform">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
                                     <input type="hidden" name="articlegroup" value="${param.nav}">
                                     <input type="hidden" name="state" value="${article.state}">
                                     <div class="mb-3">
-                                        <label  class="form-label"> 主題 <span
-                                                style="color: red;">*</span><span
+                                        <label class="form-label"> 主題 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
                                         </label>
-                                        <input type="text" class="form-control" name="name" id="name" v-model="bean.name"  >
+                                        <input type="text" class="form-control" name="name" id="name"
+                                            v-model="bean.name">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">內容</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1"
-                                            name="content" v-model="bean.content"></textarea>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" name="content"
+                                            v-model="bean.content"></textarea>
                                     </div>
                                     <br>
-                                    <div class="form-check checkbox" >
-                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" v-model="bean.agree">
+                                    <div class="form-check checkbox">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
                                                 target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
@@ -108,7 +110,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-center" >
+                <div class="col-lg-12 text-center">
 
                 </div>
             </div>
@@ -118,8 +120,9 @@
         <script>
             tinymce.init({
                 selector: 'textarea',  // change this value according to your HTML
-                plugins: ["autosave preview code link media hr charmap "],
-                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|hr charmap | link unlink selectiveDateButton media |   preview code',
+                plugins: ["autosave preview code link media hr charmap emoticons"],
+                toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink selectiveDateButton media |   preview code',
+
                 language: 'zh_TW',
                 height: '800',
                 //自訂義按鈕
@@ -144,10 +147,10 @@
                 data() {
                     return {
                         imgVisible: false,
-                        bean:{
-                            name:"",
-                            content:"",
-                            agree:false
+                        bean: {
+                            name: "",
+                            content: "",
+                            agree: false
                         },
                     }
                 },
@@ -176,37 +179,37 @@
                         return true;
                     },
                     //預覽
-                    preview(){
-                        $("#articleform").attr("target","_blank"); 
-                        $("#articleform").attr("action","${pageContext.request.contextPath}/article/preview");                       
+                    preview() {
+                        $("#articleform").attr("target", "_blank");
+                        $("#articleform").attr("action", "${pageContext.request.contextPath}/article/preview");
                         $("#articleform").submit();
                     },
-                    submitForm(){
-                        let isok =true;
-                        if(!this.bean.agree){
-                            isok=false
+                    submitForm() {
+                        let isok = true;
+                        if (!this.bean.agree) {
+                            isok = false
                             this.$message.error('須同意條款');
-                            $(".checkbox").css("border","1px red solid");                         
-                        }else{
-                            $(".checkbox").css("border","0px ");
+                            $(".checkbox").css("border", "1px red solid");
+                        } else {
+                            $(".checkbox").css("border", "0px ");
                         }
-                        if(this.bean.name.length <= 0){
-                            isok=false
+                        if (this.bean.name.length <= 0) {
+                            isok = false
                             this.$message.error('沒有主題');
-                            $("#name").css("border","1px red solid");                   
-                        }else{
-                            $("#name").css("border","1px solid #ced4da");
+                            $("#name").css("border", "1px red solid");
+                        } else {
+                            $("#name").css("border", "1px solid #ced4da");
                         }
-                        if(tinyMCE.activeEditor.getContent().length <= 0){
-                            isok=false
+                        if (tinyMCE.activeEditor.getContent().length <= 0) {
+                            isok = false
                             this.$message.error('沒有內容');
-                            $(".tox-tinymce").css("border","1px red solid");                
-                        }else{
-                            $(".tox-tinymce").css("border","1px solid #ced4da");
+                            $(".tox-tinymce").css("border", "1px red solid");
+                        } else {
+                            $(".tox-tinymce").css("border", "1px solid #ced4da");
                         }
-                        if(isok){   
-                            $("#articleform").attr("target","");
-                            $("#articleform").attr("action","${pageContext.request.contextPath}/article/save");                            
+                        if (isok) {
+                            $("#articleform").attr("target", "");
+                            $("#articleform").attr("action", "${pageContext.request.contextPath}/article/save");
                             $("#articleform").submit();
                         }
                     }

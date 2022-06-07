@@ -36,8 +36,8 @@ public class TopicController {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚
-    @RequestMapping("/topicdetail")
-    public String topicdetailt(@RequestParam("id") String articleid, Model model) {
+    @RequestMapping("/detail/{articleid}")
+    public String topicdetailt(@PathVariable("articleid") String articleid, Model model) {
         System.out.println("=====進入文章細節=====");
         model.addAttribute(ArticleBean.SESSIONID,as.findById(articleid));
         JSONArray a = new JSONArray(as.findThumbsup(articleid));

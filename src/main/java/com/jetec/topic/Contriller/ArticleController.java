@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,10 +72,19 @@ public class ArticleController {
         System.out.println("*****細節初始化*****");
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         Map<String,Object> result = new HashMap<>();
+        result.put("replylist",as.getReplyList(articleid));//回復
+        result.put("thumbsupNum",as.getThumbsupNum(articleid));//點讚數
+        System.out.println(articleid);
+        System.out.println(as.getReplyList(articleid));
 
-        result.put("replylist",as.getReplyList(articleid));
-        result.put("thumbsupNum",as.getThumbsupNum(articleid));
-        result.put("hasThumbsup",as.hasThumbsup(articleid,memberBean.getMemberid()));
+
+
+
+        if(memberBean == null){
+            result.put("hasThumbsup",false);
+        }else {
+            result.put("hasThumbsup",as.hasThumbsup(articleid,memberBean.getMemberid()));//登入者是否點讚
+        }
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,9 +96,8 @@ public class ArticleController {
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         Integer num = as.getArticleNum(arBean.getArticleid());
         arBean.setNum(num+1);
-
         as.saveArticleReply(arBean);
-        return "redirect:/topicdetail?id="+arBean.getArticleid();
+        return "redirect:/detail/"+arBean.getArticleid();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //儲存留言
@@ -101,9 +108,6 @@ public class ArticleController {
         arBean.setReplyid(ZeroTools.getUUID());
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);
-        System.out.println(LocalDateTime.now());
-
-
         return as.getReplyList(article);
     }
 

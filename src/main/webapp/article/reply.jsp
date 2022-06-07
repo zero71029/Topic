@@ -114,8 +114,9 @@
         <script>
             tinymce.init({
                 selector: 'textarea',  // change this value according to your HTML
-                plugins: ["autosave preview code link media hr charmap "],
-                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|hr charmap | link unlink selectiveDateButton media |   preview code',
+                plugins: ["autosave preview code link media hr charmap emoticons"],
+                toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink selectiveDateButton media |   preview code',
+              
                 language: 'zh_TW',
                 height: '800',
                 //自訂義按鈕

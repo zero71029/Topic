@@ -78,7 +78,7 @@
                                             var="s">
                                             <tr>
                                                 <td><a
-                                                        href="${pageContext.request.contextPath}/topicdetail?id=${s.articleid}">${s.name}</a>
+                                                        href="${pageContext.request.contextPath}/detail/${s.articleid}">${s.name}</a>
                                                 </td>
                                                 <td ><a href="">${s.createtime}</a></td>
                                                 <td >${s.replytime}</td>
