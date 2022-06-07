@@ -59,19 +59,23 @@
                                                 alt="line" style="width: 100px;">
                                         </div>
                                         <div class="col-lg-3 text-center">
-                                            <i class="bi bi-file-earmark-text" style="font-size: 60px;"></i>
-                                            <p>發表文章</p>
-                                            <p style="font-size: 20px;"><b>{{articleNum}}</b></p>
+                                            <a href="">
+                                                <i class="bi bi-file-earmark-text" style="font-size: 60px;"></i><br>
+                                                <span>發表文章</span><br>
+                                                <span style="font-size: 20px;"><b>{{articleNum}}</b></span>
+                                            </a>
                                         </div>
                                         <div class="col-lg-3 text-center">
-                                            <i class="bi bi-chat-text" style="font-size: 60px;"></i>
-                                            <p>回復文章</p>
-                                            <p style="font-size: 20px;"><b>{{replyNum}}</b></p>
+                                            <a href="">
+                                                <i class="bi bi-chat-text" style="font-size: 60px;"></i><br>
+                                                <span>回復文章</span><br>
+                                                <span style="font-size: 20px;"><b>{{replyNum}}</b></span>
+                                            </a>
                                         </div>
                                         <div class="col-lg-3 text-center">
-                                            <i class="bi bi-trophy" style="font-size: 60px;"></i>
-                                            <p>獲得積分</p>
-                                            <p style="font-size: 20px;"><b>{{replyNum}}</b></p>
+                                            <i class="bi bi-trophy" style="font-size: 60px;"></i><br>
+                                            <span>獲得積分</span><br>
+                                            <span style="font-size: 20px;"><b>{{integral}}</b></span>
                                         </div>
                                     </div>
                                     <br>
@@ -106,13 +110,9 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">生日</label>
-
                                             <el-date-picker v-model="birthday" type="date" placeholder="選擇日期"
-                                                name="birthday">
+                                                format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" name="birthday">
                                             </el-date-picker>
-
-
-
                                             <!-- 
                                             <input type="text" class="form-control" name="birthday"
                                                 value="${member.birthday}"> -->
@@ -139,8 +139,9 @@
                     return {
                         replyNum: 0,//回復文章數
                         articleNum: 0,//發表文章數
+                        integral: 0,//獲得積分
                         show: false,
-                        birthday: ""
+                        birthday: "${member.birthday}",
                     }
                 },
                 created() {
@@ -152,6 +153,7 @@
                         success: response => {
                             this.articleNum = response.articleNum;
                             this.replyNum = response.replyNum;
+                            this.integral = response.integral;
                         },
                         error: function (returndata) {
                             console.log(returndata);
@@ -173,6 +175,9 @@
         <style>
             .el-date-editor.el-input {
                 width: 100%;
+            }
+            a{
+                text-decoration: none;
             }
         </style>
 

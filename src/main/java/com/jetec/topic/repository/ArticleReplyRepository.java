@@ -16,4 +16,6 @@ public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean,S
     Integer getArticleNum(String articleid);
 
     Integer countByMemberid(String memberid);
+
+    List<ArticleReplyBean> findByMemberid(String memberid);
 }
