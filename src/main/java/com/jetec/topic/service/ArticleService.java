@@ -9,12 +9,15 @@ import com.jetec.topic.repository.ArticleRepository;
 import com.jetec.topic.repository.ArticleThumbsupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -87,5 +90,19 @@ public class ArticleService {
     //取得有幾筆回復
     public Integer getArticleNum(String articleid) {
         return arr.getArticleNum(articleid);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //首頁初始化
+    public Map<String, Object> init() {
+        Map<String, Object> result = new HashMap<>();
+        Pageable p = PageRequest.of(0, 5, Sort.Direction.DESC,"createtime");
+        result.put("popular",ar.findAll(p).getContent());//熱門
+        result.put("sensor",ar.findByArticlegroup("sensor",p).getContent());//感測器
+        result.put("apparatus",ar.findByArticlegroup("apparatus",p).getContent());//儀器儀表
+        result.put("Netcom",ar.findByArticlegroup("Netcom",p).getContent());//網通裝置
+        result.put("software",ar.findByArticlegroup("software",p).getContent());//軟體配件
+        result.put("controlbox",ar.findByArticlegroup("controlbox",p).getContent());//控制箱
+        result.put("application",ar.findByArticlegroup("application",p).getContent());//應用
+        return result;
     }
 }

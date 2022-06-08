@@ -40,7 +40,7 @@ public class LoginController {
         System.out.println(Username);
         MemberBean mBean = ls.findByEmail(Username);
         session.setAttribute(mBean.SESSIONID, mBean);
-        return "redirect:/topiclist.jsp?pag=1";
+        return "redirect:/index";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ public class LoginController {
     public String Signout(HttpSession session) {
         System.out.println("*****登出*****");
         session.invalidate();
-        return "redirect:/topiclist.jsp";
+        return "redirect:/index";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

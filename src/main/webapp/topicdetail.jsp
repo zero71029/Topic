@@ -124,11 +124,6 @@
                                                     <span
                                                         style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
                                                     <span style="color: #379cf4;">${article.membername} </span><br>
-                                                    <a href="https://social-plugins.line.me/lineit/share?url=<%=url%>/detail/${article.articleid}"
-                                                        target="_blank">
-                                                        <img src="${pageContext.request.contextPath}/images/lint-small.png"
-                                                            alt="line">
-                                                    </a>
                                                     <br>
                                                 </div>
                                                 <!-- 主文 -->
@@ -234,17 +229,17 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                           &nbsp;
+                            &nbsp;
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                          
+
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            
+
                         </div>
                     </div>
                 </div>
