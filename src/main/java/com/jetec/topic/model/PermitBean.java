@@ -1,5 +1,6 @@
 package com.jetec.topic.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,7 +10,9 @@ import javax.persistence.Table;
 public class PermitBean {
 
     @Id
+    @Column(columnDefinition="CHAR(32)")
     private String permitid;
+    @Column(columnDefinition="CHAR(32)")
     private String memberid;
     private String level;
     private String createtime;

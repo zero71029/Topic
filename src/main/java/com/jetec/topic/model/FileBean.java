@@ -1,5 +1,6 @@
 package com.jetec.topic.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,7 +10,9 @@ import javax.persistence.Table;
 public class FileBean {
 
     @Id
+    @Column(columnDefinition="CHAR(32)")
     private String fileid;
+    @Column(columnDefinition="CHAR(32)")
     private String memberid;
     private String name;
     private String createtime;

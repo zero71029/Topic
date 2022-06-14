@@ -12,6 +12,7 @@ public class ArticleBean {
     public static final String SESSIONID = "article";
 
     @Id
+    @Column(columnDefinition="CHAR(32)")
     private String articleid;
     private String name;
     //    @Column(length = 16777215, columnDefinition = "mediumtext")
@@ -21,6 +22,7 @@ public class ArticleBean {
     private String state;
     private String replytime;
     private String createtime;
+    @Column(columnDefinition="CHAR(32)")
     private String memberid;
     private String articlegroup;
     private String membername;

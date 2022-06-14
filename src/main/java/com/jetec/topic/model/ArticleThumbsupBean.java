@@ -1,6 +1,7 @@
 package com.jetec.topic.model;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,8 +12,11 @@ public class ArticleThumbsupBean {
 
     public static final String THUMBSUPID = "thumbsup";
     @Id
+    @Column(columnDefinition="CHAR(32)")
     private String thumbsupid;
+    @Column(columnDefinition="CHAR(32)")
     private String articleid;
+    @Column(columnDefinition="CHAR(32)")
     private String  memberid;
 
 

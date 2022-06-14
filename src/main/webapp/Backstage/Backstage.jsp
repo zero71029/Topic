@@ -112,12 +112,6 @@
                                         <el-table-column prop="birthday" label="生日">
                                         </el-table-column>
                                     </el-table>
-
-
-
-
-
-
                                     <p class="text-center">
                                         <el-pagination @size-change="handleSizeChange"
                                             @current-change="handleCurrentChange" :current-page="currentPage"
@@ -125,11 +119,6 @@
                                             layout="total, sizes, prev, pager, next, jumper" :total="total">
                                         </el-pagination>
                                     </p>
-
-
-
-
-
                                 </el-main>
                             </el-container>
                         </el-container>
@@ -146,12 +135,12 @@
                         memberList: [],//會員列表
                         currentPage: 1,//當前頁面
                         pageSize: 10,//每頁幾條
-                        total:40,//總共幾條
+                        total: 40,//總共幾條
                     }
                 },
                 created() {
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/backstage/init?page=1',
+                        url: 'http://localhost:8080/topic/backstage/init?page=1',
                         type: 'POST',
                         async: false,//同步請求
                         cache: false,//不快取頁面

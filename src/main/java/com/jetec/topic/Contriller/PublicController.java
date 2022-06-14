@@ -52,9 +52,8 @@ public class PublicController {
         Map<String , Object> result = as.init();
         return result;
     }
-
-
-
-
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//首頁
+    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail"})
+    public String articleList() {  return "/Backstage/index";    }
 }

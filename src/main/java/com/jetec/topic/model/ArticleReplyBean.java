@@ -11,14 +11,19 @@ public class ArticleReplyBean {
 
 
     @Id
+    @Column(columnDefinition="CHAR(32)")
     private String replyid;
+    @Column(columnDefinition="CHAR(32)")
     private String articleid;
+    @Column(columnDefinition="CHAR(32)")
     private String memberid;
     private String membername;
     @Type(type="text")
     private String content;
     private String createtime;
     private Integer num;
+    private String state;
+
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
@@ -41,6 +46,14 @@ public class ArticleReplyBean {
 
     public ArticleReplyBean() {
 
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public Integer getNum() {

@@ -11,6 +11,7 @@ public class MemberBean {
 
 
     @Id
+    @Column(columnDefinition="CHAR(32)")
     private String memberid;
     private String email;
     private String name;

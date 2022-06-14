@@ -48,7 +48,7 @@ public class ArticleController {
             MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
             articleBean.setMemberid(memberBean.getMemberid());
             articleBean.setMembername(memberBean.getName());
-            articleBean.setState("未認證");
+            articleBean.setState("未驗證");
             articleBean.setReplytime(articleBean.getCreatetime());
         }
         as.save(articleBean);
@@ -76,10 +76,6 @@ public class ArticleController {
         result.put("thumbsupNum",as.getThumbsupNum(articleid));//點讚數
         System.out.println(articleid);
         System.out.println(as.getReplyList(articleid));
-
-
-
-
         if(memberBean == null){
             result.put("hasThumbsup",false);
         }else {
