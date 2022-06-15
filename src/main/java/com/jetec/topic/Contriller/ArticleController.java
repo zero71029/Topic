@@ -50,9 +50,13 @@ public class ArticleController {
             articleBean.setMembername(memberBean.getName());
             articleBean.setState("未驗證");
             articleBean.setReplytime(articleBean.getCreatetime());
+            new Thread(() -> {
+                as.Integral(memberBean.getMemberid());
+            }).start();
         }
         as.save(articleBean);
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
+
         return "/article/preview";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +66,13 @@ public class ArticleController {
     public Boolean thumbsup(@PathVariable("articleid")String articleid, HttpSession session) {
         System.out.println("*****點讚*****");
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        return as.thumbsup(articleid,memberBean.getMemberid());
+        Boolean result = as.thumbsup(articleid,memberBean.getMemberid());
+
+        new Thread(() -> {
+            ArticleBean abean = as.findById(articleid);
+            as.Integral(abean.getMemberid());
+        }).start();
+        return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //細節初始化
@@ -90,7 +100,14 @@ public class ArticleController {
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         Integer num = as.getArticleNum(arBean.getArticleid());
         arBean.setNum(num+1);
-        as.saveArticleReply(arBean);
+        ArticleReplyBean save = as.saveArticleReply(arBean);
+        new Thread(() -> {
+            as.Integral(save.getMemberid());
+        }).start();
+        new Thread(() -> {
+            ArticleBean abean = as.findById(save.getArticleid());
+            as.Integral(abean.getMemberid());
+        }).start();
         return "redirect:/detail/"+arBean.getArticleid();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

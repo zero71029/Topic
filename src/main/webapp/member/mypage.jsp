@@ -20,7 +20,7 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
-
+            <meta name="robots" content="noindex">
         </head>
 
         <body>
@@ -43,10 +43,6 @@
                 <div class="row app" v-cloak>
                     <div class="col-lg-12 ">
                         <transition name="el-zoom-in-top">
-
-
-
-
                             <div class="row" v-show="show">
                                 <div class="col-lg-3 "></div>
                                 <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
@@ -59,14 +55,14 @@
                                                 alt="line" style="width: 100px;">
                                         </div>
                                         <div class="col-lg-3 text-center">
-                                            <a href="">
+                                            <a href="${pageContext.request.contextPath}/member/myArticle.jsp">
                                                 <i class="bi bi-file-earmark-text" style="font-size: 60px;"></i><br>
                                                 <span>發表文章</span><br>
                                                 <span style="font-size: 20px;"><b>{{articleNum}}</b></span>
                                             </a>
                                         </div>
                                         <div class="col-lg-3 text-center">
-                                            <a href="">
+                                            <a href="${pageContext.request.contextPath}/member/myReply.jsp">
                                                 <i class="bi bi-chat-text" style="font-size: 60px;"></i><br>
                                                 <span>回復文章</span><br>
                                                 <span style="font-size: 20px;"><b>{{replyNum}}</b></span>
@@ -83,7 +79,7 @@
                                         style="font-size: 30px; border-left: 10px solid #555; border-bottom: 1px solid #555;">
                                         &nbsp; 個人資料</p>
 
-                                    <form action="" method="post">
+                                    <form action="" method="post" id="reviseForm">
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">會員名稱</label>
                                             <input type="text" class="form-control" name="name" value="${member.name}">
@@ -111,13 +107,14 @@
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">生日</label>
                                             <el-date-picker v-model="birthday" type="date" placeholder="選擇日期"
-                                                format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" name="birthday">
+                                                format="yyyy 年 MM 月 dd 日" value-format="yyyy 年 MM 月 dd 日" name="birthday">
                                             </el-date-picker>
                                             <!-- 
                                             <input type="text" class="form-control" name="birthday"
                                                 value="${member.birthday}"> -->
                                         </div>
-                                        <button type="button" class="btn btn-primary" style="float: right;">修改</button>
+                                        <button type="button" class="btn btn-primary" style="float: right;"
+                                            @click="revise">修改</button>
                                     </form>
                                     <br><br>
                                 </div>
@@ -162,21 +159,40 @@
                 },
                 mounted() {
                     this.show = true
-
                 },
                 methods: {
+                    revise() {
+                        var data = new FormData(document.getElementById("reviseForm"));
+                        console.log(data.get("name"));
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/member/revise',
+                            type: 'POST',
+                            data: data,
+                            async: false,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: response => {
+                                // this.articleNum = response.articleNum;
+                                // this.replyNum = response.replyNum;
+                                // this.integral = response.integral;
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
 
+                    }
                 },
             })
-
-
             $("input[name='birthday']").addClass("form-control")
         </script>
         <style>
             .el-date-editor.el-input {
                 width: 100%;
             }
-            a{
+
+            a {
                 text-decoration: none;
             }
         </style>

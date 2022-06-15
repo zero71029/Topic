@@ -26,7 +26,7 @@ public class PublicController {
         return "/index";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//進入文章回復
+    //進入文章回復
     @RequestMapping(path = {"/reply/{articleid}"})
     public String reply(HttpSession session, @PathVariable("articleid")String articleid,Model model) {
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
@@ -43,7 +43,7 @@ public class PublicController {
         return "/article/reply";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//首頁
+    //首頁
     @RequestMapping("/init")
     @ResponseBody
     public Map<String , Object> init() {

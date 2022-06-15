@@ -80,7 +80,7 @@
                                             </td>
                                             <td>{{s.createtime}}</td>
                                             <td>{{s.replytime}}</td>
-                                            <td>0</td>
+                                            <td>{{s.replylist.length}}</td>
                                         </tr>
 
                                     </tbody>

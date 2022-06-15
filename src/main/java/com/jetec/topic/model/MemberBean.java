@@ -18,7 +18,7 @@ public class MemberBean {
     private String password;
     private String company;
     private String phone;
-    private String integral;
+    private Integer integral;
     private String address;
     private String birthday;
     private String createtime;
@@ -85,11 +85,11 @@ public class MemberBean {
         this.phone = phone;
     }
 
-    public String getIntegral() {
+    public Integer getIntegral() {
         return integral;
     }
 
-    public void setIntegral(String integral) {
+    public void setIntegral(Integer integral) {
         this.integral = integral;
     }
 

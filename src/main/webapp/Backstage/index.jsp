@@ -15,6 +15,7 @@
     <link href="${pageContext.request.contextPath}/css/app.24cec28c.css" rel="stylesheet">
     <script defer="defer" src="${pageContext.request.contextPath}/js/chunk-vendors-legacy.3b7c2bcd.js" nomodule></script>
     <script defer="defer" src="${pageContext.request.contextPath}/js/app-legacy.f542d654.js" nomodule></script>
+    <meta name="robots" content="noindex">
 </head>
 
 <body><noscript><strong>We're sorry but backstage doesn't work properly without JavaScript enabled. Please enable it to

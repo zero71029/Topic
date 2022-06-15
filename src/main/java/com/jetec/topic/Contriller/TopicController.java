@@ -26,7 +26,8 @@ public class TopicController {
 
     @Autowired
     ArticleService as;
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //文章列表
     @RequestMapping("/topiclist")
     @ResponseBody
     public Map<String,Object> topiclist(@RequestParam("nav") String nav, @RequestParam("pag") Integer pag, @RequestParam("size") Integer size) {
@@ -41,7 +42,7 @@ public class TopicController {
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//點讚
+    //進入文章細節
     @RequestMapping("/detail/{articleid}")
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model) {
         System.out.println("=====進入文章細節=====");

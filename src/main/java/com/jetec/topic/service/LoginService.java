@@ -21,8 +21,6 @@ public class LoginService {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public MemberBean findByEmail(String email) {
-
-
         return mr.findByEmail(email);
     }
 
@@ -36,7 +34,7 @@ public class LoginService {
         return mr.existsByEmail(email);
     }
 
-    //儲存會員
+    //註冊會員
     public void saveMember(MemberBean bean) {
         System.out.println("註冊沒有錯誤,儲存會員");
         bean.setMemberid(ZeroTools.getUUID());

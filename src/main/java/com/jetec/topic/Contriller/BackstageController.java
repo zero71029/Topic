@@ -71,13 +71,8 @@ public class BackstageController {
     @ResponseBody
     public List<ArticleReplyBean> replyState(@PathVariable("replyid")String replyid, @PathVariable("state")String state) {
         System.out.println("reply修改狀態");
-
         ArticleReplyBean aBean =  BS.replyState(replyid,state);
-
         List<ArticleReplyBean> result = BS.getArticleReplyList(aBean.getArticleid());
-
-
-
         return result;
     }
 }

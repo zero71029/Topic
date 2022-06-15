@@ -1,6 +1,7 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,8 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     LoginService ls;
+    @Autowired
+    ArticleService as;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //登入
@@ -26,20 +29,22 @@ public class LoginController {
     public String login(HttpSession session) {
         System.out.println("*****登入成功*****");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         Object principal = authentication.getPrincipal();
         String Username;
         if (principal instanceof UserDetails) {
-
             UserDetails userDetails = (UserDetails) principal;
             Username = userDetails.getUsername();
-
         } else {
             Username = principal.toString();
         }
         System.out.println(Username);
         MemberBean mBean = ls.findByEmail(Username);
         session.setAttribute(mBean.SESSIONID, mBean);
+
+        //計算積分
+        new Thread(() -> {
+            as.Integral(mBean.getMemberid());
+        }).start();
         return "redirect:/index";
     }
 
