@@ -74,8 +74,6 @@ public class ArticleController {
         Map<String,Object> result = new HashMap<>();
         result.put("replylist",as.getReplyList(articleid));//回復
         result.put("thumbsupNum",as.getThumbsupNum(articleid));//點讚數
-        System.out.println(articleid);
-        System.out.println(as.getReplyList(articleid));
         if(memberBean == null){
             result.put("hasThumbsup",false);
         }else {

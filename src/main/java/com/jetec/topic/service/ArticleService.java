@@ -34,8 +34,7 @@ public class ArticleService {
     }
 
     public Page<ArticleBean> findByArticlegroup(String nav, Pageable pageable) {
-        return ar.findByArticlegroup(nav, pageable);
-
+        return ar.findByArticlegroupAndState(nav, pageable,"允許");
     }
 
     public ArticleBean findById(String articleid) {

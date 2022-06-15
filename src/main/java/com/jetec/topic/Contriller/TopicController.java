@@ -16,6 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class TopicController {
@@ -24,15 +28,17 @@ public class TopicController {
     ArticleService as;
 
     @RequestMapping("/topiclist")
-    public String topiclist(@RequestParam("nav") String nav, @RequestParam("pag") Integer pag, Model model) {
+    @ResponseBody
+    public Map<String,Object> topiclist(@RequestParam("nav") String nav, @RequestParam("pag") Integer pag, @RequestParam("size") Integer size) {
         System.out.println("=====文章列表=====");
         pag--;
-        Pageable pageable = PageRequest.of(pag, 20, Sort.Direction.DESC, "createtime");
+        Pageable pageable = PageRequest.of(pag, size, Sort.Direction.DESC, "createtime");
         Page<ArticleBean> p = as.findByArticlegroup(nav ,pageable);
-        model.addAttribute("list" , p.getContent());
-        model.addAttribute("total",p.getTotalElements());
-        model.addAttribute("totalPag",p.getTotalPages());
-        return "/topiclist";
+        Map<String,Object> result = new HashMap<>();
+        result.put("list" , p.getContent());
+        result.put("total",p.getTotalElements());
+        result.put("totalPag",p.getTotalPages());
+        return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚

@@ -54,7 +54,7 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}</a>
                                                         </span>
                                                         <span
@@ -83,7 +83,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span>
-                                                            <a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                            <a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}
                                                             </a>
                                                         </span>
@@ -104,7 +104,7 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}</a>
                                                         </span>
                                                         <span
@@ -124,7 +124,7 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}</a>
                                                         </span>
                                                         <span
@@ -144,7 +144,7 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}</a>
                                                         </span>
                                                         <span
@@ -164,7 +164,7 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}</a>
                                                         </span>
                                                         <span
@@ -184,7 +184,7 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist?nav='+s.articlegroup+'&pag=1'"
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
                                                                 target="_blank">{{s.group}}</a>
                                                         </span>
                                                         <span

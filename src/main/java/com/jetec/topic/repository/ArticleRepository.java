@@ -18,4 +18,6 @@ public interface ArticleRepository extends JpaRepository<ArticleBean,String> {
     List<ArticleBean> findByState(String state);
 
     Page<ArticleBean> findByStateNot(String 未驗證, Pageable p);
+
+    Page<ArticleBean> findByArticlegroupAndState(String nav, Pageable pageable, String state);
 }
