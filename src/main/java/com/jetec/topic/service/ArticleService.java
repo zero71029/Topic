@@ -17,8 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +46,7 @@ public class ArticleService {
     }
 
 
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚
     public Boolean thumbsup(String articleid, String memberid) {
@@ -58,9 +57,7 @@ public class ArticleService {
             atr.save(new ArticleThumbsupBean(ZeroTools.getUUID(), articleid, memberid));
             return true;
         }
-
     }
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //取得點讚列表
     public List<ArticleThumbsupBean> findThumbsup(String articleid) {

@@ -69,8 +69,7 @@ public class MemberService {
         //
         articleidList.forEach(e -> {
             Optional<ArticleBean> op = ar.findById(e);
-            if (op.isPresent())
-                articleList.add(op.get());
+            op.ifPresent(articleList::add);
         });
         //
         List<ArticleBean> aaa = new ArrayList<>();

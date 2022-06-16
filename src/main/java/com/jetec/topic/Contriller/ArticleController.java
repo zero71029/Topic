@@ -53,9 +53,7 @@ public class ArticleController {
             articleBean.setMembername(memberBean.getName());
             articleBean.setState("未驗證");
             articleBean.setReplytime(articleBean.getCreatetime());
-            new Thread(() -> {
-                as.Integral(memberBean.getMemberid());
-            }).start();
+            new Thread(() -> as.Integral(memberBean.getMemberid())).start();
         }
         as.save(articleBean);
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
@@ -104,9 +102,7 @@ public class ArticleController {
         Integer num = as.getArticleNum(arBean.getArticleid());
         arBean.setNum(num+1);
         ArticleReplyBean save = as.saveArticleReply(arBean);
-        new Thread(() -> {
-            as.Integral(save.getMemberid());
-        }).start();
+        new Thread(() -> as.Integral(save.getMemberid())).start();
         new Thread(() -> {
             ArticleBean abean = as.findById(save.getArticleid());
             as.Integral(abean.getMemberid());
@@ -128,9 +124,8 @@ public class ArticleController {
     //搜索
     @RequestMapping("/search")
     @ResponseBody
-    public Map<String, Object> search(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size, @RequestParam("search")String search) {
+    public Map<String, Object> search( @RequestParam("page")Integer page , @RequestParam("size")Integer size, @RequestParam("search")String search) {
         System.out.println("*****搜索*****");
-        MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         page--;
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
 

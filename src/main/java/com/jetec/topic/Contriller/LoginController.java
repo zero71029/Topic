@@ -42,9 +42,7 @@ public class LoginController {
         session.setAttribute(mBean.SESSIONID, mBean);
 
         //計算積分
-        new Thread(() -> {
-            as.Integral(mBean.getMemberid());
-        }).start();
+        new Thread(() -> as.Integral(mBean.getMemberid())).start();
         return "redirect:/index";
     }
 
