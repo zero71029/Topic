@@ -173,10 +173,8 @@
                             contentType: false,
                             processData: false,
                             success: response => {
-                                // this.articleNum = response.articleNum;
-                                // this.replyNum = response.replyNum;
-                                // this.integral = response.integral;
-                            },
+                                this.$message.success("修改成功");
+                               },
                             error: function (returndata) {
                                 console.log(returndata);
                             }

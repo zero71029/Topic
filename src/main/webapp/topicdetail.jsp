@@ -10,6 +10,19 @@
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+                <!-- <meta property="og:url" content="https://www.your-domain.com/your-page.html" /> -->
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="${article.name}" />
+                <!-- <meta property="og:description" content="Your description" /> -->
+                <!-- <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" /> -->
+
+
+
+                
                 <title>${article.name}</title>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/init.css">
                 <!-- bootstrap的CSS、JS樣式放這裡 -->
@@ -73,7 +86,6 @@
 
                             <span slot="footer" class="dialog-footer">
                                 <el-button type="primary" @click="dialogVisible = false">取 消</el-button>
-
                             </span>
                         </el-dialog>
                         <el-dialog title="還未登入" :visible.sync="loginVisible" width="30%">
@@ -123,8 +135,8 @@
                                                 <div class="col-lg-3 text-center">
                                                     <span
                                                         style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
-                                                    <span style="color: #379cf4;">${article.membername} </span><br>                                                 
-                                                    積分:${member.integral}
+                                                    <span style="color: #379cf4;">${article.membername} </span><br>
+                                                    積分:${article.member.integral}
                                                 </div>
                                                 <!-- 主文 -->
                                                 <div class="col-lg-9 ">

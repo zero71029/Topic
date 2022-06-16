@@ -38,6 +38,12 @@ public class ArticleBean {
     @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
     private List<ArticleThumbsupBean> thumbsuplist;
 
+
+    @OneToOne(targetEntity = MemberBean.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "memberid", referencedColumnName = "memberid", insertable = false, updatable = false)
+    private MemberBean member;
+
+
     public List<ArticleReplyBean> getReplylist() {
         return replylist;
     }
@@ -123,6 +129,10 @@ public class ArticleBean {
     public void setArticlegroup(String articlegroup) {
         this.articlegroup = articlegroup;
     }
+
+    public MemberBean getMember() {        return member;    }
+
+    public void setMember(MemberBean member) {        this.member = member;    }
 
     @Override
     public String toString() {

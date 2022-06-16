@@ -6,19 +6,19 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="articlereply")
+@Table(name = "articlereply")
 public class ArticleReplyBean {
 
 
     @Id
-    @Column(columnDefinition="CHAR(32)")
+    @Column(columnDefinition = "CHAR(32)")
     private String replyid;
-    @Column(columnDefinition="CHAR(32)")
+    @Column(columnDefinition = "CHAR(32)")
     private String articleid;
-    @Column(columnDefinition="CHAR(32)")
+    @Column(columnDefinition = "CHAR(32)")
     private String memberid;
     private String membername;
-    @Type(type="text")
+    @Type(type = "text")
     private String content;
     private String createtime;
     private Integer num;
@@ -34,6 +34,10 @@ public class ArticleReplyBean {
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
     @OrderBy("createtime ASC")
     private List<ArticleReplyBean> replylist;
+
+    @OneToOne(targetEntity = MemberBean.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "memberid", referencedColumnName = "memberid", insertable = false, updatable = false)
+    private MemberBean member;
 
     public ArticleReplyBean(String replyid, String articleid, String memberid, String membername, String content, String createtime) {
         this.replyid = replyid;
@@ -126,6 +130,14 @@ public class ArticleReplyBean {
 
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
+    }
+
+    public MemberBean getMember() {
+        return member;
+    }
+
+    public void setMember(MemberBean member) {
+        this.member = member;
     }
 
     @Override

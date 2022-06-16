@@ -57,9 +57,11 @@
                             </tr>
                             <tr v-for="(s, index) in list" :key="index" style="line-height: 40px;">
                                 <th scope="row">{{index + 1}}</th>
-                                <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.articleid">
+                                <td>
+                                    <a :href="'${pageContext.request.contextPath}/detail/'+s.articleid">
                                         <div style="width: 100%;height: 80%;">{{s.name}}</div>
-                                    </a> </td>
+                                    </a>
+                                </td>
                                 <td>{{s.createtime}}</td>
                                 <td>{{s.replytime}}</td>
                                 <td>{{s.replylist.length}}</td>
@@ -156,7 +158,6 @@
                             }
                         });
                     }
-
                 },
             })
         </script>
