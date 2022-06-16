@@ -24,9 +24,10 @@
                 <!-- 引入element-ui组件库 -->
                 <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
                 <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
+                <meta property="og:locale" content="zh_TW">
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
-                <!-- <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" /> -->
+                <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
             </head>
 
 
@@ -272,7 +273,6 @@
 
             <script>
                 var id = '${article.articleid}';
-
                 var vm = new Vue({
                     el: ".app",
                     data() {
