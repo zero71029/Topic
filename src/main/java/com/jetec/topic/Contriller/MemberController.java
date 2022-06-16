@@ -4,11 +4,17 @@ import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,20 +39,26 @@ public class MemberController {
     //我的文章
     @RequestMapping("/myArticle")
     @ResponseBody
-    public List<ArticleBean> myArticle(HttpSession session) {
+    public Map<String, Object> myArticle(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
         System.out.println("*****我的文章*****");
         MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-
-        return ms.myArticle(member);
+        page--;
+        Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
+        Page<ArticleBean> pa =ms.myArticle(member,p);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list",  pa.getContent()  );
+        result.put("total",  pa.getTotalElements()  );
+        return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的回復
     @RequestMapping("/myReply")
     @ResponseBody
-    public List<ArticleBean> myReply(HttpSession session) {
+    public Map<String, Object> myReply(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
         System.out.println("*****我的回復*****");
         MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        return ms.myReply(member);
+        page--;
+        return ms.myReply(member,page,size);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

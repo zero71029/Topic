@@ -6,6 +6,9 @@ import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -120,6 +123,18 @@ public class ArticleController {
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);
         return as.getReplyList(article);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //搜索
+    @RequestMapping("/search")
+    @ResponseBody
+    public Map<String, Object> search(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size, @RequestParam("search")String search) {
+        System.out.println("*****搜索*****");
+        MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        page--;
+        Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
+
+        return  as.search(search ,p);
     }
 
 }

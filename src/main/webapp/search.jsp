@@ -7,22 +7,24 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>我的文章</title>
+            <title>搜索</title>
             <!-- <script src="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script> -->
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.css"> -->
+
             <!-- bootstrap的CSS、JS樣式放這裡 -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
-            <!-- <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script> -->
+            <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
+            <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
             <!-- 引入样式 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
             <!-- 引入element-ui样式 -->
-            <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css">
+            <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css"> -->
             <!-- 引入element-ui组件库 -->
-            <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
-            <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
-            <script>
-                ELEMENT.locale(ELEMENT.lang.zhTW)
-            </script>
+            <!-- <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
+    <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
+    <script>
+        ELEMENT.locale(ELEMENT.lang.zhTW)
+    </script> -->
         </head>
 
         <body>
@@ -31,7 +33,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1>我的回復</h1>
+                        <h1>搜索</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -54,7 +56,7 @@
                                 <th scope="col">狀態</th>
                             </tr>
                             <tr v-for="(s, index) in list" :key="index" style="line-height: 40px;">
-                                <th scope="row">{{index+1}}</th>
+                                <th scope="row">{{index + 1}}</th>
                                 <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.articleid">
                                         <div style="width: 100%;height: 80%;">{{s.name}}</div>
                                     </a> </td>
@@ -80,6 +82,9 @@
             </div>
         </body>
         <script>
+            const url = new URL(location.href);
+            const q = url.searchParams.get("q");
+            console.log(q);
             var vm = new Vue({
                 el: ".app",
                 data() {
@@ -92,21 +97,12 @@
                 },
                 created() {
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/member/myReply?page=1&size=20',
+                        url: '${pageContext.request.contextPath}/article/search?page=1&size=20&search=' + q,
                         type: 'POST',
                         async: false,//同步請求
                         cache: false,//不快取頁面
                         success: response => {
-                            console.log(response);
                             this.list = response.list;
-                            this.total = response.total;
-                            this.list.forEach(e => {
-                                if (e.state == "允許") {
-                                    e.allow = "blue";
-                                } else {
-                                    e.allow = "red";
-                                }
-                            });
                         },
                         error: function (returndata) {
                             console.log(returndata);
@@ -117,12 +113,11 @@
                     handleSizeChange(val) {
                         this.pageSize = val;
                         $.ajax({
-                            url: '${pageContext.request.contextPath}/member/myReply?page=' + this.currentPage + '&size=' + val,
+                            url: '${pageContext.request.contextPath}/member/myArticle?page=' + this.currentPage + '&size=' + val,
                             type: 'POST',
                             async: false,//同步請求
                             cache: false,//不快取頁面
                             success: response => {
-                                console.log(response);
                                 this.list = response.list;
                                 this.total = response.total;
                                 this.list.forEach(e => {
@@ -141,12 +136,11 @@
                     handleCurrentChange(val) {
                         this.currentPage = val;
                         $.ajax({
-                            url: '${pageContext.request.contextPath}/member/myReply?page=' + val + '&size=' + this.pageSize,
+                            url: '${pageContext.request.contextPath}/member/myArticle?page=' + val + '&size=' + this.pageSize,
                             type: 'POST',
                             async: false,//同步請求
                             cache: false,//不快取頁面
                             success: response => {
-                                console.log(response);
                                 this.list = response.list;
                                 this.total = response.total;
                                 this.list.forEach(e => {
@@ -162,7 +156,7 @@
                             }
                         });
                     }
-                
+
                 },
             })
         </script>

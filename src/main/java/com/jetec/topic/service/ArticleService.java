@@ -47,9 +47,6 @@ public class ArticleService {
         return ar.findById(articleid).get();
     }
 
-    public Page<ArticleBean> findall(Pageable pageable) {
-        return ar.findAll(pageable);
-    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚
@@ -141,5 +138,15 @@ public class ArticleService {
         //儲存
         mbean.setIntegral(integral);
         mr.save(mbean);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //搜索
+    public Map<String, Object> search(String search, Pageable p) {
+        Page<ArticleBean> page = ar.findByNameLikeIgnoreCase("%" + search + "%", p);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list",page.getContent());
+        result.put("total",page.getTotalElements());
+        return result;
     }
 }

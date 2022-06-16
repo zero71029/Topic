@@ -16,14 +16,15 @@
             <!-- 引入样式 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
             <!-- 引入element-ui样式 -->
-            <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css"> -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css">
             <!-- 引入element-ui组件库 -->
-            <!-- <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
-            <script src="//unpkg.com/element-ui/lib/umd/locale/zh-TW.js"></script>
+            <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
+            <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
-            </script> -->
+            </script>
         </head>
+
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
             <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
@@ -53,14 +54,22 @@
                                 <th scope="col">狀態</th>
                             </tr>
                             <tr v-for="(s, index) in list" :key="index" style="line-height: 40px;">
-                                <th scope="row">{{index}}</th>
-                                <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.articleid"><div style="width: 100%;height: 80%;">{{s.name}}</div></a>   </td>
+                                <th scope="row">{{index + 1}}</th>
+                                <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.articleid">
+                                        <div style="width: 100%;height: 80%;">{{s.name}}</div>
+                                    </a> </td>
                                 <td>{{s.createtime}}</td>
                                 <td>{{s.replytime}}</td>
                                 <td>{{s.replylist.length}}</td>
-                                <td :class="s.allow"  >{{s.state}}</td>
+                                <td :class="s.allow">{{s.state}}</td>
                             </tr>
                         </table>
+                        <p style="text-align: center;">
+                            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                :current-page="currentPage" :page-sizes="[1,2,3,10, 20, 30, 40,100]"
+                                :page-size="pageSize" layout=" sizes, prev, pager, next, jumper" :total="total">
+                            </el-pagination>
+                        </p>
                     </div>
                 </div>
                 <div class="row">
@@ -76,20 +85,24 @@
                 data() {
                     return {
                         list: [],
+                        currentPage: 1,
+                        pageSize: 20,
+                        total: 100,
                     }
                 },
                 created() {
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/member/myArticle',
+                        url: '${pageContext.request.contextPath}/member/myArticle?page=1&size=20',
                         type: 'POST',
                         async: false,//同步請求
                         cache: false,//不快取頁面
                         success: response => {
-                            this.list = response;
+                            this.list = response.list;
+                            this.total = response.total;
                             this.list.forEach(e => {
-                                if(e.state == "允許"){
+                                if (e.state == "允許") {
                                     e.allow = "blue";
-                                }else{
+                                } else {
                                     e.allow = "red";
                                 }
                             });
@@ -100,19 +113,68 @@
                     });
                 },
                 methods: {
+                    handleSizeChange(val) {
+                        this.pageSize = val;
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/member/myArticle?page=' + this.currentPage + '&size=' + val,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.list = response.list;
+                                this.total = response.total;
+                                this.list.forEach(e => {
+                                    if (e.state == "允許") {
+                                        e.allow = "blue";
+                                    } else {
+                                        e.allow = "red";
+                                    }
+                                });
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+                    },
+                    handleCurrentChange(val) {
+                        this.currentPage = val;
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/member/myArticle?page=' + val + '&size=' + this.pageSize,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.list = response.list;
+                                this.total = response.total;
+                                this.list.forEach(e => {
+                                    if (e.state == "允許") {
+                                        e.allow = "blue";
+                                    } else {
+                                        e.allow = "red";
+                                    }
+                                });
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+                    }
                 },
             })
         </script>
         <style>
-            tr td  a{
+            tr td a {
                 text-decoration: none;
                 color: black;
             }
-            .red{
+
+            .red {
                 color: red;
             }
-            .blue{
+
+            .blue {
                 color: blue;
             }
         </style>
+
         </html>

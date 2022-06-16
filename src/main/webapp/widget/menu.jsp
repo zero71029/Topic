@@ -58,8 +58,8 @@
                         </li>
 
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search">
+                    <form class="d-flex" method="get" action="${pageContext.request.contextPath}/search.jsp">
+                        <input class="form-control me-2" type="search" placeholder="Search" name="q" maxlength="20">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     &nbsp;&nbsp;&nbsp;

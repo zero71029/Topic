@@ -8,11 +8,13 @@ import com.jetec.topic.repository.ArticleRepository;
 import com.jetec.topic.repository.ArticleThumbsupRepository;
 import com.jetec.topic.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,29 +54,42 @@ public class MemberService {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的文章
-    public List<ArticleBean> myArticle(MemberBean member) {
-        return ar.findByMemberid(member.getMemberid(), Sort.by(Sort.Direction.DESC, "createtime"));
+    public Page<ArticleBean> myArticle(MemberBean member, Pageable p) {
+        return ar.findByMemberid(member.getMemberid(), p);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的回復
-    public List<ArticleBean> myReply(MemberBean member) {
+    public Map<String, Object> myReply(MemberBean member,Integer page ,Integer size) {
         List<ArticleReplyBean> arList = arr.findByMemberid(member.getMemberid());
-        List<ArticleBean> result = new ArrayList<>();
+        List<ArticleBean> articleList = new ArrayList<>();
+        //
         Set<String> articleidList = new HashSet<>();
-        arList.forEach(e -> {
-            articleidList.add(e.getArticleid());
-        });
+        arList.forEach(e -> articleidList.add(e.getArticleid()) );
+        //
         articleidList.forEach(e -> {
             Optional<ArticleBean> op = ar.findById(e);
             if (op.isPresent())
-                result.add(op.get());
+                articleList.add(op.get());
         });
-
-        return result.stream()
+        //
+        List<ArticleBean> aaa = new ArrayList<>();
+        AtomicInteger i = new AtomicInteger();
+        articleList.forEach(e -> {
+            if(page *size <= i.get() && i.get() < page*size +size ){
+                aaa.add(e);
+            }
+            i.getAndIncrement();
+        });
+        //
+        List<ArticleBean> list = aaa.stream()
                 .sorted(Comparator
                         .comparing(ArticleBean::getCreatetime)
                         .reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
+        Map<String, Object> result = new HashMap<>();
+        result.put("list",list);
+        result.put("total",articleList.size());
+        return result;
     }
 }
