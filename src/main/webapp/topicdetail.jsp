@@ -2,7 +2,6 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <% String url=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
             request.getContextPath(); %>
-
             <!DOCTYPE html>
             <html lang="zh-TW">
 
@@ -12,11 +11,6 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>${article.name}</title>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/init.css">
-                <!-- bootstrap的CSS、JS樣式放這裡 -->
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
-                <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
-                <!-- <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script> -->
-                <link rel="stylesheet" href="${pageContext.request.contextPath}\icons\bootstrap-icons.css">
                 <!-- 引入 vue-->
                 <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
                 <!-- 引入element-ui样式 -->
@@ -29,8 +23,6 @@
                 <meta property="og:title" content="${article.name}" />
                 <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
             </head>
-
-
 
             <body>
                 <style>
@@ -53,13 +45,12 @@
                     .thumbsup {
                         color: #0d6efd;
                     }
+
                     @media (max-width:990px) {
-                        .scenery{
+                        .scenery {
                             display: none;
                         }
                     }
-
-
                 </style>
                 <div class="container-fluid ">
                     <div class="row">
@@ -192,7 +183,6 @@
                                                 <div class="row">
                                                     <div class="col-lg-12 text-center">
                                                         <hr>
-
                                                     </div>
                                                 </div>
                                                 <div class="row ">
@@ -378,7 +368,6 @@
                     methods: {
                         //回復文章點讚
                         replyClickThumbsup(replyBean) {
-
                             if ('${member.name}' == '') {
                                 this.loginVisible = true;
                             } else {
@@ -400,12 +389,10 @@
                                         console.log(returndata);
                                     }
                                 });
-
                             }
                         },
                         //主文章點讚
                         clickThumbsup() {
-
                             if ('${member.name}' == '') {
                                 this.loginVisible = true;
                             } else {
@@ -431,7 +418,6 @@
                         },
                         //點留言
                         message(reply) {
-
                             this.text = "";
                             const b = reply.see;
                             this.replylist.forEach(e => {
@@ -445,7 +431,6 @@
                             this.$forceUpdate();
                         },
                         savemessage(reply) {
-
                             if (this.text.trim() != "") {
                                 var data = new FormData();
                                 data.append("articleid", reply.replyid);
@@ -469,8 +454,6 @@
                                         console.log(returndata);
                                     }
                                 });
-
-
                                 //判斷 瀏覽者是否點讚
                                 this.replylist.forEach(reply => {
                                     reply.thumbsupNum = reply.thumbsuplist.length;
@@ -482,11 +465,9 @@
                                     })
                                 });
                                 this.$forceUpdate();
-
                             }
                         },
                         clickReply() {
-
                             if ('${member.name}' == '') {
                                 this.loginVisible = true;
                             } else {
@@ -511,8 +492,6 @@
                                     this.$message.error('電子郵件或密碼錯誤');
                                 }
                             });
-
-
                         }
                     },
                 })

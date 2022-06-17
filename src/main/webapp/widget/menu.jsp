@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
+        <!-- bootstrap的CSS、JS樣式放這裡 -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
+        <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/icons/bootstrap-icons.css">
+        <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
         <!-- session 檢查-->
         <c:if test='${empty member}'>
             <script>
@@ -24,7 +29,7 @@
             </script>
         </c:if>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
+            <div class="container-fluid " style="position: relative;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">首頁</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent">
@@ -63,14 +68,21 @@
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     &nbsp;&nbsp;&nbsp;
-
                     <c:if test="${member == null}">
                         <a href="${pageContext.request.contextPath}/member/register.jsp">註冊</a>/ <a
                             href="${pageContext.request.contextPath}/member/login.jsp">登入</a>
                     </c:if>
                     <c:if test="${member != null}">
-                        <a href="${pageContext.request.contextPath}/member/mypage.jsp"><i class="bi bi-person-lines-fill"></i>${member.name}</a> / <a
-                            href="${pageContext.request.contextPath}/logout">登出</a>
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                aria-expanded="false"><i class="bi bi-person-lines-fill"></i>${member.name}</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                        href="${pageContext.request.contextPath}/member/mypage.jsp">我的頁面</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">登出</a>
+                                </li>
+                            </ul>
+                        </div>
                     </c:if>
 
                 </div>
