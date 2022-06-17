@@ -15,7 +15,7 @@
                 <!-- bootstrap的CSS、JS樣式放這裡 -->
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
                 <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
-                <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+                <!-- <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script> -->
                 <link rel="stylesheet" href="${pageContext.request.contextPath}\icons\bootstrap-icons.css">
                 <!-- 引入 vue-->
                 <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
@@ -33,15 +33,6 @@
 
 
             <body>
-                <div id="fb-root"></div>
-                <script>(function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) return;
-                        js = d.createElement(s); js.id = id;
-                        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));</script>
-
                 <style>
                     [v-cloak] {
                         display: none;
@@ -62,6 +53,13 @@
                     .thumbsup {
                         color: #0d6efd;
                     }
+                    @media (max-width:990px) {
+                        .scenery{
+                            display: none;
+                        }
+                    }
+
+
                 </style>
                 <div class="container-fluid ">
                     <div class="row">
@@ -85,8 +83,23 @@
                                 target="_blank">
                                 <img src="${pageContext.request.contextPath}/images/lint-small.png" alt="line">
                             </a>
-
-
+                            &nbsp;
+                            <a href="https://www.facebook.com/sharer.php?u=<%=url%>/detail/${article.articleid}&quote=${article.name}"
+                                target="_blank">
+                                <img src="${pageContext.request.contextPath}/images/FB.png" />
+                            </a>&nbsp;
+                            <a href="mailto:?subject:${article.name}＆body=<a href='<%=url%>/detail/${article.articleid}'>${article.name}</a>"
+                                target="_blank">
+                                <img src="${pageContext.request.contextPath}/images/Mail.png" />
+                            </a>&nbsp;
+                            <a href
+                                onclick="event.preventDefault();navigator.clipboard.writeText(window.location.href).then(() => alert('複製網址'));"
+                                target="_blank">
+                                <div class="text-center"
+                                    style="vertical-align: middle;display:inline-block ;   border-radius: 50px; height: 59px;width: 59px; background-color: #816b5b;font-size:40px;line-height: 59px;color: #fff;">
+                                    <i class="bi bi-link-45deg"></i>
+                                </div>
+                            </a>
                             <span slot="footer" class="dialog-footer">
                                 <el-button type="primary" @click="dialogVisible = false">取 消</el-button>
                             </span>
@@ -141,10 +154,11 @@
                                                     <span style="color: #379cf4;">${article.membername} </span><br>
                                                     積分:${article.member.integral}
                                                     <br>
-                                                    <div class="fb-share-button"
+                                                    <!-- <div class="fb-share-button"
                                                         data-href="https://www.your-domain.com/your-page.html"
                                                         data-layout="button_count">
-                                                    </div>
+                                                    </div> -->
+                                                    <img :src="level">
                                                 </div>
                                                 <!-- 主文 -->
                                                 <div class="col-lg-9 ">
@@ -186,6 +200,9 @@
                                                         <span
                                                             style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.num+1}}樓</span><br>
                                                         <span style="color: #379cf4;">{{s.membername}}</span><br>
+                                                        積分:{{s.member.integral}} <br>
+                                                        <img :src="s.level" alt="">
+
                                                     </div>
                                                     <div class="col-lg-9 ">
                                                         <div class="row">
@@ -285,6 +302,9 @@
                             replylist: [],
                             handthumbs: "bi bi-hand-thumbs-up icon",
                             text: "",
+                            integral: '${article.member.integral}',
+
+                            level: "${pageContext.request.contextPath}/images/小青銅.png",
                         }
                     },
                     created() {
@@ -298,10 +318,6 @@
                                 this.hasThumbsup = response.hasThumbsup;
                                 this.replylist = response.replylist;
 
-
-
-
-
                             },
                             error: function (returndata) {
                                 console.log(returndata);
@@ -309,13 +325,15 @@
                         });
 
 
-
-
-
-
-
-
-
+                        if (this.integral >= 90000) {
+                            this.level = '${pageContext.request.contextPath}/images/小傳奇.png';
+                        } else if (this.integral >= 30000) {
+                            this.level = '${pageContext.request.contextPath}/images/小鉑金.png';
+                        } else if (this.integral >= 10000) {
+                            this.level = '${pageContext.request.contextPath}/images/小黃金.png';
+                        } else if (this.integral >= 1000) {
+                            this.level = '${pageContext.request.contextPath}/images/小白銀.png';
+                        }
 
                         //判斷 瀏覽者是否點讚(回復)
                         this.replylist.forEach(reply => {
@@ -330,6 +348,24 @@
                                     reply.isthumbs = true;
                                 }
                             })
+
+
+                            reply.level = '${pageContext.request.contextPath}/images/小青銅.png';
+
+                            if (reply.member.integral >= 90000) {
+                                reply.level = '${pageContext.request.contextPath}/images/小傳奇.png';
+                            } else if (reply.member.integral >= 30000) {
+                                reply.level = '${pageContext.request.contextPath}/images/小鉑金.png';
+                            } else if (reply.member.integral >= 10000) {
+                                reply.level = '${pageContext.request.contextPath}/images/小黃金.png';
+                            } else if (reply.member.integral >= 1000) {
+                                reply.level = '${pageContext.request.contextPath}/images/小白銀.png';
+                            }
+
+                            console.log(reply.member.integral);
+                            console.log(reply.level);
+
+
                         });
                         if (this.hasThumbsup) {
                             $(".main").css("color", "#0d6efd")

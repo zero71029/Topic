@@ -11,7 +11,7 @@
             <!-- bootstrap的CSS、JS樣式放這裡 -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
-            <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+            <!-- <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script> -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}\icons\bootstrap-icons.css">
             <!-- 引入 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
@@ -50,9 +50,10 @@
                                     <p>註冊日期 : ${member.createtime}</p>
                                     <div class="row" style="border: 1px solid #444;">
                                         <div class="col-lg-3 " style="position:relative;">
-                                            <img class="position-absolute top-50 start-50 translate-middle"
-                                                src="${pageContext.request.contextPath}/images/lint-small.png"
+                                            <a href="${pageContext.request.contextPath}/system/level.jsp">
+                                                <img class="position-absolute top-50 start-50 translate-middle" :src="level"
                                                 alt="line" style="width: 100px;">
+                                            </a>
                                         </div>
                                         <div class="col-lg-3 text-center">
                                             <a href="${pageContext.request.contextPath}/member/myArticle.jsp">
@@ -107,7 +108,8 @@
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">生日</label>
                                             <el-date-picker v-model="birthday" type="date" placeholder="選擇日期"
-                                                format="yyyy 年 MM 月 dd 日" value-format="yyyy 年 MM 月 dd 日" name="birthday">
+                                                format="yyyy 年 MM 月 dd 日" value-format="yyyy 年 MM 月 dd 日"
+                                                name="birthday">
                                             </el-date-picker>
                                             <!-- 
                                             <input type="text" class="form-control" name="birthday"
@@ -139,6 +141,7 @@
                         integral: 0,//獲得積分
                         show: false,
                         birthday: "${member.birthday}",
+                        level: "${pageContext.request.contextPath}/images/青銅.png"
                     }
                 },
                 created() {
@@ -156,6 +159,17 @@
                             console.log(returndata);
                         }
                     });
+
+                    if (this.integral >= 90000) {
+                        this.level = '${pageContext.request.contextPath}/images/傳奇.png';
+                    } else if (this.integral >= 30000) {
+                        this.level = '${pageContext.request.contextPath}/images/鉑金.png';
+                    } else if (this.integral >= 10000) {
+                        this.level = '${pageContext.request.contextPath}/images/黃金.png';
+                    } else if (this.integral >= 1000) {
+                        this.level = '${pageContext.request.contextPath}/images/白銀.png';
+                    }
+
                 },
                 mounted() {
                     this.show = true
@@ -174,7 +188,7 @@
                             processData: false,
                             success: response => {
                                 this.$message.success("修改成功");
-                               },
+                            },
                             error: function (returndata) {
                                 console.log(returndata);
                             }
