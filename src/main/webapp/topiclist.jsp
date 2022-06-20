@@ -47,7 +47,7 @@
                         <div class="row ">
                             <div class="col-lg-12 text-end">
                                 <c:if test="${not empty member}">
-                                    <button type="button" class="btn btn-primary"
+                                    <button type="button" class="btn btn-primary" id="publish"
                                         onclick="window.open('${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}')">
                                         發布文章
                                     </button>
@@ -67,7 +67,7 @@
                                     </thead>
                                     <tbody>
 
-                                        <tr v-for="(s, index) in list" :key="index">
+                                        <tr v-for="(s, index) in list" :key="index" class="article">
                                             <td><a
                                                     :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a>
                                             </td>

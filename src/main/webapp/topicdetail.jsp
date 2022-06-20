@@ -155,7 +155,7 @@
                                                 <div class="col-lg-9 ">
                                                     <div class="row">
                                                         <div class="col-lg-12 text-break">
-                                                            <h3>${article.name}</h3>
+                                                            <h3 id="articlename">${article.name}</h3>
                                                             <p>${article.createtime}<span style="float: right;">
                                                                     <i class="bi bi-hand-thumbs-up icon  main"
                                                                         @click="clickThumbsup">讚

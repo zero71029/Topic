@@ -14,6 +14,6 @@ public interface ArticleThumbsupRepository extends JpaRepository<ArticleThumbsup
 
 
 
-    @Query( value = "SELECT  count(*)  from articlethumbsup where articleid = ?1 ", nativeQuery = true)
+    @Query( value = "SELECT  count(*)  from article_thumbsup where articleid = ?1 ", nativeQuery = true)
     Integer getThumbsupNum(String articleid);
 }

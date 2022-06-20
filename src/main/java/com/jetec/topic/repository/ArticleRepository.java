@@ -3,6 +3,7 @@ package com.jetec.topic.repository;
 import com.jetec.topic.model.ArticleBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface ArticleRepository extends JpaRepository<ArticleBean,String> {
 
     Integer countByMemberid(String memberid);
 
-    List<ArticleBean> findByState(String state);
+    List<ArticleBean> findByState(String state, Sort sort);
 
     Page<ArticleBean> findByStateNot(String state, Pageable p);
 

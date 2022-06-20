@@ -80,7 +80,7 @@
 
                                     <div class="mb-3 text-end">
                                         <button type="button" class="btn btn-primary" @click="preview">預覽</button>
-                                        <button type="button" class="btn btn-primary" @click="submitForm">提交</button>
+                                        <button type="button" class="btn btn-primary" @click="submitForm" id="sub">提交</button>
                                     </div>
                                 </form>
                             </div>

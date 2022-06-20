@@ -52,7 +52,7 @@ public class BackstageService {
 
     public Map<String, Object> articleLiat(Integer page, Integer size) {
         Map<String, Object> result = new HashMap<>();
-        List <ArticleBean> list = ar.findByState("未驗證");
+        List <ArticleBean> list = ar.findByState("未驗證",Sort.by(Sort.Direction.DESC,"createtime"));
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
         Page<ArticleBean> mp = ar.findByStateNot("未驗證",p);
         list.addAll(mp.getContent());
