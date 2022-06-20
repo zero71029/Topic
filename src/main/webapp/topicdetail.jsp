@@ -172,7 +172,7 @@
                                                             </p>
                                                             <hr>
                                                             <div id="content">
-                                                                ${article.content}
+                                                                ${article_content.content}
                                                             </div>
                                                         </div>
                                                     </div>

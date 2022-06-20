@@ -1,6 +1,7 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.BackstageService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,9 +55,12 @@ public class BackstageController {
     //文章細節
     @RequestMapping("/articleDetail/{id}")
     @ResponseBody
-    public ArticleBean articleDetail(@PathVariable("id")String articleid) {
+    public Map<String, Object> articleDetail(@PathVariable("id")String articleid) {
         System.out.println("文章細節");
-        return BS.getarticleDetail(articleid);
+        Map<String, Object> result = new HashMap<>();
+        result.put(ArticleBean.SESSIONID,BS.getarticleDetail(articleid));
+        result.put(ArticleContentBean.SESSIONID,BS.getArticleContent(articleid));
+        return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //修改狀態

@@ -53,6 +53,6 @@ public class PublicController {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //首頁
-    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail"})
+    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail","/Backstage","/b"})
     public String articleList() {  return "/Backstage/index";    }
 }

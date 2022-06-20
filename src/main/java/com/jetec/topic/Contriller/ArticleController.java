@@ -2,6 +2,7 @@ package com.jetec.topic.Contriller;
 
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
@@ -32,17 +33,18 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //預覽
     @RequestMapping("/preview")
-    public String Signout(Model model, ArticleBean articleBean) {
+    public String Signout(Model model, ArticleBean articleBean,@RequestParam("content")String content) {
         System.out.println("*****預覽*****");
         articleBean.setCreatetime(ZeroTools.getTime(new Date()));
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
+        model.addAttribute(ArticleContentBean.SESSIONID, content);
         return "/article/preview";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //發布文章
     @RequestMapping("/save")
-    public String save(Model model, ArticleBean articleBean, HttpSession session) {
+    public String save(Model model, ArticleBean articleBean,@RequestParam("content")String content , HttpSession session) {
         System.out.println("*****發布文章*****");
 
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
@@ -55,10 +57,17 @@ public class ArticleController {
             articleBean.setReplytime(articleBean.getCreatetime());
             new Thread(() -> as.Integral(memberBean.getMemberid())).start();
         }
-        as.save(articleBean);
+       ArticleBean save =    as.save(articleBean);
+
+        if(save != null){
+            ArticleContentBean acBean = new ArticleContentBean(save.getArticleid(),content);
+            as.saveArticleContent(acBean) ;
+        }
+
+
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
 
-        return "/article/preview";
+        return "redirect:/article/success.jsp";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚

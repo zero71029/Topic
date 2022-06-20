@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "articlereply")
+@Table(name = "article_reply")
 public class ArticleReplyBean {
 
 

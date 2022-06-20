@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="articlethumbsup")
+@Table(name="article_thumbsup")
 public class ArticleThumbsupBean {
 
     public static final String THUMBSUPID = "thumbsup";

@@ -1,8 +1,10 @@
 package com.jetec.topic.service;
 
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.repository.ArticleContentRepository;
 import com.jetec.topic.repository.ArticleReplyRepository;
 import com.jetec.topic.repository.ArticleRepository;
 import com.jetec.topic.repository.MemberRepository;
@@ -29,6 +31,8 @@ public class BackstageService {
     ArticleRepository ar;
     @Autowired
     ArticleReplyRepository arr;
+    @Autowired
+    ArticleContentRepository acr;
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,5 +90,9 @@ public class BackstageService {
 
     public List<ArticleReplyBean> getArticleReplyList(String articleid) {
         return arr.findByArticleid(articleid,Sort.by(Sort.Direction.ASC,"createtime"));
+    }
+
+    public ArticleContentBean getArticleContent(String articleid) {
+        return acr.getById(articleid);
     }
 }

@@ -1,6 +1,8 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleContentBean;
+import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.ArticleThumbsupBean;
 import com.jetec.topic.service.ArticleService;
 import org.json.JSONArray;
@@ -45,6 +47,8 @@ public class TopicController {
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model) {
         System.out.println("=====進入文章細節=====");
         model.addAttribute(ArticleBean.SESSIONID,as.findById(articleid));
+        model.addAttribute(ArticleContentBean.SESSIONID,as.findArticleContentByArticleid(articleid));
+
         JSONArray a = new JSONArray(as.findThumbsup(articleid));
         model.addAttribute(ArticleThumbsupBean.THUMBSUPID,a);
         return "/topicdetail";

@@ -52,7 +52,7 @@
                                                 <p>${article.createtime}<span style="float: right;">讚5 | 回復 | 分享</span>
                                                 </p>
                                                 <hr>
-                                                ${article.content}
+                                                ${article_content}
                                             </div>
 
                                         </div>

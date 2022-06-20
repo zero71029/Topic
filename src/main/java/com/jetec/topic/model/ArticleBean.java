@@ -1,7 +1,5 @@
 package com.jetec.topic.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,17 +10,13 @@ public class ArticleBean {
     public static final String SESSIONID = "article";
 
     @Id
-    @Column(columnDefinition="CHAR(32)")
+    @Column(columnDefinition = "CHAR(32)")
     private String articleid;
     private String name;
-    //    @Column(length = 16777215, columnDefinition = "mediumtext")
-//    @Column(length = 65535, columnDefinition = "text")
-    @Type(type = "text")
-    private String content;
     private String state;
     private String replytime;
     private String createtime;
-    @Column(columnDefinition="CHAR(32)")
+    @Column(columnDefinition = "CHAR(32)")
     private String memberid;
     private String articlegroup;
     private String membername;
@@ -60,7 +54,9 @@ public class ArticleBean {
         this.thumbsuplist = thumbsuplist;
     }
 
-    public String getMembername() { return membername;  }
+    public String getMembername() {
+        return membername;
+    }
 
     public void setMembername(String membername) {
         this.membername = membername;
@@ -82,13 +78,6 @@ public class ArticleBean {
         this.name = name;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public String getState() {
         return state;
@@ -130,16 +119,19 @@ public class ArticleBean {
         this.articlegroup = articlegroup;
     }
 
-    public MemberBean getMember() {        return member;    }
+    public MemberBean getMember() {
+        return member;
+    }
 
-    public void setMember(MemberBean member) {        this.member = member;    }
+    public void setMember(MemberBean member) {
+        this.member = member;
+    }
 
     @Override
     public String toString() {
         return "ArticleBean{" +
                 "articleid='" + articleid + '\'' +
                 ", name='" + name + '\'' +
-                ", content='" + content + '\'' +
                 ", state='" + state + '\'' +
                 ", replytime='" + replytime + '\'' +
                 ", createtime='" + createtime + '\'' +

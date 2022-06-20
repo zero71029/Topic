@@ -1,14 +1,8 @@
 package com.jetec.topic.service;
 
 import com.jetec.topic.Tools.ZeroTools;
-import com.jetec.topic.model.ArticleBean;
-import com.jetec.topic.model.ArticleReplyBean;
-import com.jetec.topic.model.ArticleThumbsupBean;
-import com.jetec.topic.model.MemberBean;
-import com.jetec.topic.repository.ArticleReplyRepository;
-import com.jetec.topic.repository.ArticleRepository;
-import com.jetec.topic.repository.ArticleThumbsupRepository;
-import com.jetec.topic.repository.MemberRepository;
+import com.jetec.topic.model.*;
+import com.jetec.topic.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,9 +26,11 @@ public class ArticleService {
     ArticleReplyRepository arr;
     @Autowired
     MemberRepository mr;
+    @Autowired
+    ArticleContentRepository acr;
 
-    public void save(ArticleBean articleBean) {
-        ar.save(articleBean);
+    public ArticleBean save(ArticleBean articleBean) {
+     return   ar.save(articleBean);
     }
 
     public Page<ArticleBean> findByArticlegroup(String nav, Pageable pageable) {
@@ -145,5 +141,13 @@ public class ArticleService {
         result.put("list",page.getContent());
         result.put("total",page.getTotalElements());
         return result;
+    }
+
+    public ArticleContentBean findArticleContentByArticleid(String articleid) {
+        return acr.getById(articleid);
+    }
+
+    public void saveArticleContent(ArticleContentBean acBean) {
+        acr.save(acBean);
     }
 }
