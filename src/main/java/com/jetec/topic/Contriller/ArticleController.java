@@ -78,6 +78,7 @@ public class ArticleController {
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         Boolean result = as.thumbsup(articleid,memberBean.getMemberid());
 
+        //計算積分
         new Thread(() -> {
             ArticleBean abean = as.findById(articleid);
             as.Integral(abean.getMemberid());
@@ -139,6 +140,16 @@ public class ArticleController {
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
 
         return  as.search(search ,p);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //搜索
+    @RequestMapping("/getContent/{articleid}")
+    @ResponseBody
+    public Map<String, Object> getContent( @PathVariable("articleid")String articleid ) {
+        Map<String, Object> result = new HashMap<>();
+        result.put(ArticleBean.SESSIONID,as.findById(articleid));
+        result.put(ArticleContentBean.SESSIONID,as.findArticleContentByArticleid(articleid));
+        return  result;
     }
 
 }

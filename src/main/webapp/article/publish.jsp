@@ -10,7 +10,7 @@
             <title>發布文章</title>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/init.css">
 
-            
+
             <!-- 引入样式 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
             <!-- 引入element-ui样式 -->
@@ -19,7 +19,7 @@
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="//unpkg.com/element-ui/lib/umd/locale/zh-TW.js"></script>
 
-
+            <!-- tinymce -->
             <script src="${pageContext.request.contextPath}/tinymce/js/tinymce.min.js"></script>
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
@@ -53,7 +53,11 @@
                                     id="articleform">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
                                     <input type="hidden" name="articlegroup" value="${param.nav}">
-                                    <input type="hidden" name="state" value="${article.state}">
+                                    <input type="hidden" name="articleid" v-model="bean.articleid">
+                                    <input type="hidden" name="createtime" v-model="bean.createtime">
+                                    <input type="hidden" name="membername" v-model="bean.membername">
+                                    <input type="hidden" name="replytime" v-model="bean.replytime">
+                                    <input type="hidden" name="state" value="未驗證">
                                     <div class="mb-3">
                                         <label class="form-label"> 主題 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
@@ -80,7 +84,8 @@
 
                                     <div class="mb-3 text-end">
                                         <button type="button" class="btn btn-primary" @click="preview">預覽</button>
-                                        <button type="button" class="btn btn-primary" @click="submitForm" id="sub">提交</button>
+                                        <button type="button" class="btn btn-primary" @click="submitForm"
+                                            id="sub">提交</button>
                                     </div>
                                 </form>
                             </div>
@@ -152,6 +157,31 @@
                             agree: false
                         },
                     }
+                },
+                created() {
+                    const url = new URL(location.href);
+                    const id = url.searchParams.get("id");
+                    console.log(id);
+                    if (id == null || id == "") {
+
+                    }else   {
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/article/getContent/'+id,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                console.log(response);
+                                this.bean = response.article;
+                                this.bean.content = response.article_content.content;
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+
+                    }
+
                 },
                 methods: {
                     //上傳成功

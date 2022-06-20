@@ -50,7 +50,7 @@ public class BackstageService {
         return mr.findById(memberid).get();
     }
 
-    public Map<String, Object> articleLiat(Integer page, Integer size) {
+    public Map<String, Object> articleList(Integer page, Integer size) {
         Map<String, Object> result = new HashMap<>();
         List <ArticleBean> list = ar.findByState("未驗證",Sort.by(Sort.Direction.DESC,"createtime"));
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");

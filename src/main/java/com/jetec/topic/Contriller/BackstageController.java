@@ -42,12 +42,12 @@ public class BackstageController {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //文章列表初始化
-    @RequestMapping("/articleLiat")
+    @RequestMapping("/articleList")
     @ResponseBody
     public Map<String , Object> articleLiat(@RequestParam("page")Integer page,@RequestParam("pageSize")Integer size) {
         page--;
         System.out.println("文章列表初始化");
-        Map<String , Object> result = BS.articleLiat(page,size);
+        Map<String , Object> result = BS.articleList(page,size);
         System.out.println("********************************************************");
         return result;
     }
