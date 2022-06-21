@@ -14,17 +14,17 @@ public class PermitBean {
     private String permitid;
     @Column(columnDefinition="CHAR(32)")
     private String memberid;
-    private String level;
-    private String createtime;
+    @Column(columnDefinition = "TINYINT(1)")
+    private Integer level;
+
 
     public PermitBean() {
     }
 
-    public PermitBean(String permitid, String memberid, String level, String createtime) {
+    public PermitBean(String permitid, String memberid, Integer level) {
         this.permitid = permitid;
         this.memberid = memberid;
         this.level = level;
-        this.createtime = createtime;
     }
 
     public String getPermitid() {
@@ -43,20 +43,12 @@ public class PermitBean {
         this.memberid = memberid;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
-    }
-
-    public String getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
     }
 
     @Override
@@ -65,7 +57,6 @@ public class PermitBean {
                 "permitid='" + permitid + '\'' +
                 ", memberid='" + memberid + '\'' +
                 ", level='" + level + '\'' +
-                ", createtime='" + createtime + '\'' +
                 '}';
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<ArticleBean,String> {
+public interface ArticleRepository extends JpaRepository<ArticleBean, String> {
 
     Integer countByMemberid(String memberid);
 
@@ -25,4 +25,7 @@ public interface ArticleRepository extends JpaRepository<ArticleBean,String> {
     Page<ArticleBean> findByMemberid(String memberid, Pageable createtime);
 
     Page<ArticleBean> findByNameLikeIgnoreCase(String s, Pageable p);
+
+    List<ArticleBean> findByNameLikeIgnoreCase(String s, Sort sort);
+
 }

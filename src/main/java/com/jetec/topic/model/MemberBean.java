@@ -1,6 +1,7 @@
 package com.jetec.topic.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,21 @@ public class MemberBean {
     private String address;
     private String birthday;
     private String createtime;
+    @Column(name = "create_time")
+    private Date create;
 
 
     @OneToMany(targetEntity = PermitBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "memberid", referencedColumnName = "memberid", insertable = false, updatable = false)
     private List<PermitBean> permitList;
 
+    public Date getCreate() {
+        return create;
+    }
+
+    public void setCreate(Date create) {
+        this.create = create;
+    }
 
     public List<PermitBean> getPermitList() {
         return permitList;
