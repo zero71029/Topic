@@ -102,7 +102,7 @@
                                 <div class="col-lg-12 ">
                                     <input class="form-check-input" type="checkbox" id="remember-me" name='remember-me'>
                                     <label class="form-check-label" for="remember-me">記住我</label>
-                                    <a href="" style="float:right">忘記密碼</a>
+                                    <a href="${pageContext.request.contextPath}/member/forget.jsp" style="float:right">忘記密碼</a>
                                 </div>
                             </div>
                             <br><br>

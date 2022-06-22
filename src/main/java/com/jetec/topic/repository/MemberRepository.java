@@ -7,9 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<MemberBean,String> {
-    MemberBean findByEmail(String email);
+    Optional<MemberBean> findByEmail(String email);
 
     boolean existsByName(String name);
 
@@ -18,4 +19,6 @@ public interface MemberRepository extends JpaRepository<MemberBean,String> {
     List<MemberBean> findByNameLikeIgnoreCase(String s, Sort createtime);
 
     List<MemberBean> findByEmailLikeIgnoreCase(String s, Sort createtime);
+
+
 }

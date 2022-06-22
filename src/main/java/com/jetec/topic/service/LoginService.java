@@ -1,7 +1,9 @@
 package com.jetec.topic.service;
 
 import com.jetec.topic.Tools.ZeroTools;
+import com.jetec.topic.model.AuthorizeBean;
 import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.repository.AuthorizeRepository;
 import com.jetec.topic.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Optional;
 
 
 @Service
@@ -18,10 +21,14 @@ public class LoginService {
     @Autowired
     MemberRepository mr;
 
+    @Autowired
+    AuthorizeRepository authorizeRepository;
+
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public MemberBean findByEmail(String email) {
-        return mr.findByEmail(email);
+        Optional<MemberBean> op = mr.findByEmail(email);
+        return op.orElse(null);
     }
 
     //判斷暱稱重複
@@ -47,10 +54,12 @@ public class LoginService {
     }
 
 
-    public MemberBean getMemberByEmail(String email) {
-        if (mr.existsByEmail(email)) {
-            return mr.findByEmail(email);
-        }
-        return null;
+    public Optional<MemberBean> getMemberByEmail(String email) {
+        return mr.findByEmail(email);
+    }
+
+    // 儲存認證碼
+    public void saveAuthorize(String uuid, String memberid) {
+        authorizeRepository.save(new AuthorizeBean(uuid,memberid));
     }
 }

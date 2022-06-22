@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 
 @Service
@@ -36,9 +37,10 @@ public class UserService implements UserDetailsService {
         String response = request.getParameter("g-recaptcha-response");
 
         if(ZeroTools.recaptcha(response)){
-            MemberBean memberBean = mr.findByEmail(username);
-            if (memberBean != null) {
-                return new User(username, memberBean.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("認證名稱"));
+            Optional<MemberBean> op = mr.findByEmail(username);
+
+            if (op.isPresent()) {
+                return new User(username, op.get().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("認證名稱"));
             }
         }else {
             request.setAttribute("recaptcha" , "認證錯誤");

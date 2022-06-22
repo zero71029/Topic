@@ -3,6 +3,7 @@ package com.jetec.topic.security;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.Access;
 import javax.servlet.ServletException;
@@ -41,12 +42,13 @@ public class AppsAuthenticationFailureHandler implements AuthenticationFailureHa
         String password = request.getParameter("password");
         System.out.println(username);
         System.out.println(password);
-        MemberBean memberBean = mr.findByEmail(username);
+        Optional<MemberBean> op = mr.findByEmail(username);
+        MemberBean memberBean = op.get();
         Map<String, String> error = new HashMap<>();
         if (memberBean == null) {
             System.out.println("找不到使用者");
             error.put("user","找不到使用者") ;
-        } else if ( !passwordEncoder .matches(password,memberBean.getPassword())){     
+        } else if ( !passwordEncoder .matches(password,memberBean.getPassword())){
             System.out.println("密碼錯誤");
             error.put("pass","密碼錯誤") ;
 
