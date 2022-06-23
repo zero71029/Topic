@@ -6,11 +6,11 @@ import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -99,7 +100,7 @@ public class LoginController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
+    //登入驗證
     @ResponseBody
     @RequestMapping(path = {"/UserAuthorize"})
     public boolean UserAuthorize(Authentication authentication, HttpSession session) {
@@ -180,7 +181,25 @@ public class LoginController {
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
+    //密碼重置
+    @RequestMapping(path = {"/reset"})
+    @ResponseBody
+    public String reset(@RequestParam("id")String id, @RequestParam("password")String passwoed) {
+        System.out.println("*****密碼重置*****");
+        //檢查認證碼
+        String auth=  ls.checkAithorize(id);
+        if(Objects.equals(auth,"時效過期") || Objects.equals(auth,"錯誤")){
+            return "認證碼"+auth+",請重新申請";
+        }
+        //取出member  後儲存
+        Optional<MemberBean> op  = ls.getMemberById(auth);
+        if(op.isPresent()){
+            ls.saveMember(op.get());
+            return "修改成功,請用新密碼登入";
+        }
+
+        return "錯誤,請重新申請";
+    }
 
 
 }

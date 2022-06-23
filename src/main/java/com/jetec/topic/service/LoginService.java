@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -44,9 +46,11 @@ public class LoginService {
     //註冊會員
     public void saveMember(MemberBean bean) {
         System.out.println("註冊沒有錯誤,儲存會員");
-        bean.setMemberid(ZeroTools.getUUID());
+        if(bean.getMemberid() == null ){
+            bean.setMemberid(ZeroTools.getUUID());
+            bean.setCreatetime(ZeroTools.getTime(new Date()));
+        }
         bean.setPassword(passwordEncoder.encode(bean.getPassword()));
-        bean.setCreatetime(ZeroTools.getTime(new Date()));
         System.out.println("=======================================================");
         System.out.println(bean);
         System.out.println("=======================================================");
@@ -60,6 +64,26 @@ public class LoginService {
 
     // 儲存認證碼
     public void saveAuthorize(String uuid, String memberid) {
-        authorizeRepository.save(new AuthorizeBean(uuid,memberid));
+        authorizeRepository.save(new AuthorizeBean(uuid, memberid));
+    }
+
+    public String checkAithorize(String id) {
+        Optional<AuthorizeBean> op = authorizeRepository.findById(id);
+        if (op.isPresent()) {
+            AuthorizeBean auth = op.get();
+            LocalDateTime now = LocalDateTime.now();
+            Duration duration = Duration.between( auth.getCreate(),now);
+            if(duration.toDays() > 1){
+                authorizeRepository.delete(auth);
+                return "時效過期";
+            }
+            authorizeRepository.delete(auth);
+            return auth.getMemberid();
+        }
+        return "錯誤";
+    }
+
+    public Optional<MemberBean> getMemberById(String id) {
+        return mr.findById(id);
     }
 }

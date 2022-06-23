@@ -21,7 +21,6 @@ public class AuthorizeBean {
     @Column(columnDefinition="CHAR(32)")
     private String  memberid;
     @Column(name = "create_time")
-
     private LocalDateTime create;
 
 
@@ -53,7 +52,9 @@ public class AuthorizeBean {
         return create;
     }
 
-
+    public void setCreate(LocalDateTime create) {
+        this.create = create;
+    }
 
     @Override
     public String toString() {

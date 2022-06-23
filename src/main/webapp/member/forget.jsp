@@ -39,7 +39,7 @@
                                 class='form-label ${empty error.email  ? "":"red" }'>電子郵件 <span style="color: red;">${errors.email}
                                 </span> </label>
                             <input type="email" class="form-control ${empty errors.email  ? '':' is-error' }" id="username"
-                                name="email" value="jeter.tony56@gmail.com">
+                                name="email" value="${email}">
                         </div>
                         <p style="color: #AAA;">*請填寫您申請帳號時所用的電子郵件,我們會提供重置密碼相關設定到該信箱</p>
                         <br><br>

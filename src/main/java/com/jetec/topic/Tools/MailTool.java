@@ -16,7 +16,7 @@ public class MailTool {
     @Autowired
     private JavaMailSender mailSender;
 
-    String users[] = {"xxxxx@qq.com","xxxxx@126.com"};
+//    String users[] = {"xxxxx@qq.com","xxxxx@126.com"};
 
     public void sendSimpleMail(String to, String Subject,String text) throws Exception {
         SimpleMailMessage message = new SimpleMailMessage();
