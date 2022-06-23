@@ -75,7 +75,7 @@
                     <c:if test="${member != null}">
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                                aria-expanded="false"><i class="bi bi-person-lines-fill"></i>${member.name}</a>
+                                aria-expanded="false"><i class="bi bi-person-circle" style="font-size: 28px;"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item"
                                         href="${pageContext.request.contextPath}/member/mypage.jsp">我的頁面</a></li>

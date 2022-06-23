@@ -66,7 +66,7 @@ public class TopicTest {
         System.out.println("=============================================");
         driver.findElementByLinkText("感測器").click();
         driver.findElementById("publish").click();
-        //彈窗
+        //彈窗切換
         Set wh = driver.getWindowHandles();
         Iterator<Object> it = wh.iterator();
         String p1 = (String) it.next();

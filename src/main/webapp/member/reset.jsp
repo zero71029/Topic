@@ -7,6 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>密碼重置</title>
+        <!-- 禁止SEO -->
+        <meta name="robots" content="noindex">
         <!-- 引入样式 vue-->
         <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
         <!-- 引入element-ui样式 -->
@@ -41,12 +43,13 @@
                 <div class="col-lg-3 "></div>
                 <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
                     <br>
-                    <form id="resetform" action="${pageContext.request.contextPath}/reset" method="post" style="position: relative;">
+                    <form id="resetform" action="${pageContext.request.contextPath}/reset" method="post"
+                        style="position: relative;">
                         <input type="hidden" name="id" v-model="id">
                         <div class="mb-3">
                             <label class="form-label">登入密碼 <span style="color: red;">*</span> </label>
-                            <input type="password" class="form-control" name="password" id="password" v-model.trim="password"
-                                @input="inChange">
+                            <input type="password" class="form-control" name="password" id="password"
+                                v-model.trim="password" @input="inChange">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">密碼驗證</label>
@@ -54,7 +57,8 @@
                                 name="repassword" id="repassword" v-model.trim="rePassword" @input="inChange">
                         </div>
                         <span style="color: red;" v-text="msg"></span>
-                        <button style="float: right;" class="btn btn-primary " :disabled="isDisabl" type="button" @click="submitform">送出</button>
+                        <button style="float: right;" class="btn btn-primary " :disabled="isDisabl" type="button"
+                            @click="submitform">送出</button>
                     </form>
                 </div>
             </div>
@@ -77,7 +81,7 @@
                     isDisabl: true,
                     msg: "",
                     iserror: false,
-                    id:id,
+                    id: id,
                 }
             },
             methods: {
@@ -91,29 +95,29 @@
                         this.msg = "";
                         this.iserror = false;
                     }
-                    if(this.rePassword  == "" ){
+                    if (this.rePassword == "") {
                         this.isDisabl = true;
                         this.iserror = true;
                     }
                 },
-                submitform(){
+                submitform() {
                     var formdata = new FormData(document.getElementById('resetform'));
                     $.ajax({
-                            url: '${pageContext.request.contextPath}/reset',
-                            type: 'POST',
-                            data: formdata,
-                            async: false,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: response => {
-                               alert(response);
-                               location.href='${pageContext.request.contextPath}/member/login.jsp'
-                            },
-                            error: function (returndata) {
-                                console.log(returndata);
-                            }
-                        });
+                        url: '${pageContext.request.contextPath}/reset',
+                        type: 'POST',
+                        data: formdata,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: response => {
+                            alert(response);
+                            location.href = '${pageContext.request.contextPath}/member/login.jsp'
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
                 }
             },
         })

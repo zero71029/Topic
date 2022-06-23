@@ -7,9 +7,11 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>會員登入</title>
-
+            <title>會員註冊</title>
+            <!-- 禁止SEO -->
             <meta name="robots" content="noindex">
+            <!-- 我不是機器人 -->
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <style>
                 /* 勾選框 */
                 .rule_wrap {
@@ -1242,9 +1244,14 @@
                                     <br>
 
                                     <div class="row">
-                                        <div class="col-lg-12 text-center">
-                                            <button type="button" class="btn btn-primary"
+                                        <div class="col-lg-12 position-relative">
+                                            <div class="g-recaptcha " style='width: 304px;display: inline-block; ${empty errors.recaptcha?"":"border: 1px red solid;"}'
+                                                data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
+
+                                            <button type="button"
+                                                class="btn btn-primary position-absolute bottom-0 end-0"
                                                 onclick="formSubmit()">開始註冊</button>
+                                            <p style="color: red;">${errors.recaptcha}</p>
                                         </div>
                                     </div>
 
@@ -1258,26 +1265,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                     </div>
                     <div class="col-lg-3 "></div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h1>&nbsp;${errors}&nbsp;</h1>
-                    </div>
-                </div>
+
             </div>
 
             <script>
@@ -1370,9 +1361,6 @@
                 })
 
             </script>
-
-
-
 
         </body>
 

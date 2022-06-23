@@ -31,6 +31,8 @@ public class MemberBean {
     @JoinColumn(name = "memberid", referencedColumnName = "memberid", insertable = false, updatable = false)
     private List<PermitBean> permitList;
 
+
+
     public Date getCreate() {
         return create;
     }

@@ -9,7 +9,8 @@
         <title>寄件成功</title>
         <!-- 我不是機器人 -->
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+            <!-- 禁止SEO -->
+            <meta name="robots" content="noindex">
 
     </head>
 

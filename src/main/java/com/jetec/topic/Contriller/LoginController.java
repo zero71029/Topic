@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +54,7 @@ public class LoginController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//登出
+    //登出
     @RequestMapping(path = {"/Signout"})
     public String Signout(HttpSession session) {
         System.out.println("*****登出*****");
@@ -67,9 +65,8 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //新註冊
     @RequestMapping("/register")
-    public String SaveAdmin(MemberBean bean, Model model) {
+    public String SaveAdmin(MemberBean bean, Model model, @RequestParam("g-recaptcha-response") String token) {
         System.out.println("*****新註冊*****");
-//        boolean recaptcha = zTools.recaptcha(token);// 機器人判斷
         //使有輸入的資料能返回
         model.addAttribute("email", bean.getEmail());
         model.addAttribute("name", bean.getName());
@@ -77,22 +74,38 @@ public class LoginController {
         model.addAttribute("phone", bean.getPhone());
         model.addAttribute("company", bean.getCompany());
         model.addAttribute("check", true);
-        // 接收資料
-        // 轉換資料
+
+        // 錯誤輸出
         Map<String, String> errors = new HashMap<>();
         model.addAttribute("errors", errors);
 
         // 機器人判斷
-//        if (!recaptcha) {
-//            System.out.println("errors.put(recaptcha, 需要驗證)");
-//            errors.put("recaptcha", "需要驗證");
-//        }
+        if (!ZeroTools.recaptcha(token)) {
+            System.out.println("errors.put(recaptcha, 需要驗證)");
+            errors.put("recaptcha", "需要驗證");
+        }
 
         if (ls.existsMemberByName(bean.getName())) errors.put("username", "暱稱被使用過");
         if (ls.existsMemberByEnail(bean.getEmail())) errors.put("email", "Email被使用過");
-
+        //沒有錯誤, 儲存資料 ,存權限 ,寄認證信
         if (errors.isEmpty()) {
-            ls.saveMember(bean);
+            String uuid = ZeroTools.getUUID();
+            //存會員
+            MemberBean save = ls.saveMember(bean);
+            //存認證
+            ls.saveAuthorize(uuid, save.getMemberid());
+            //存權限
+            ls.savePermit(uuid, save.getMemberid(), 0);
+
+            //寄認證信
+            String text = "<html><body><p><a href='http://192.168.11.100:8080/topic/Certification?id=" + uuid + "'>點擊認證</a></p></body></html>";
+            String Subject = "久德討論版認證信";// 主題
+            try {
+                mailTool.sendlineMail(save.getEmail(), Subject, text);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return "redirect:/member/registerSuccess.jsp";
         }
         System.out.println("發生錯誤,返回");
@@ -156,11 +169,9 @@ public class LoginController {
                 // 儲存認證碼?
                 ls.saveAuthorize(uuid, bean.getMemberid());
 
-// 寄發郵件
+                // 寄發郵件
                 String text = "<html><body><p><a href='http://192.168.11.100:8080/topic/member/reset.jsp?id=" + uuid + "'>從新設定密碼</a></p></body></html>";
-
                 String Subject = "從新設定密碼";// 主題
-
                 try {
                     mailTool.sendlineMail(bean.getEmail(), Subject, text);
                 } catch (Exception e) {
@@ -184,22 +195,77 @@ public class LoginController {
     //密碼重置
     @RequestMapping(path = {"/reset"})
     @ResponseBody
-    public String reset(@RequestParam("id")String id, @RequestParam("password")String passwoed) {
+    public String reset(@RequestParam("id") String id, @RequestParam("password") String passwoed) {
         System.out.println("*****密碼重置*****");
         //檢查認證碼
-        String auth=  ls.checkAithorize(id);
-        if(Objects.equals(auth,"時效過期") || Objects.equals(auth,"錯誤")){
-            return "認證碼"+auth+",請重新申請";
+        String auth = ls.checkAithorize(id);
+        if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+            return "認證碼" + auth + ",請重新申請";
         }
         //取出member  後儲存
-        Optional<MemberBean> op  = ls.getMemberById(auth);
-        if(op.isPresent()){
-            ls.saveMember(op.get());
+        Optional<MemberBean> op = ls.getMemberById(auth);
+        if (op.isPresent()) {
+            MemberBean mBean = op.get();
+            mBean.setPassword(passwoed);
+            ls.saveMember(mBean);
             return "修改成功,請用新密碼登入";
         }
 
         return "錯誤,請重新申請";
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //點認證信
+    @RequestMapping(path = {"/Certification"})
+    public String certification(@RequestParam("id") String id, Model model) {
+        System.out.println("*****點認證信*****");
+        //檢查認證碼
+        String auth = ls.checkAithorize(id);
+        if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+            model.addAttribute("message", "認證碼" + auth + ",請重新申請 ");
+            model.addAttribute("error", "<a href='/topic/member/reSend.jsp'>重寄認證信</a>");
+            return "/member/certification";
+        }
+        //取出member  新增權限
+        ls.savePermit(ZeroTools.getUUID(), auth, 1);
+        model.addAttribute("message", "認證成功,歡迎您的加入");
+        return "/member/certification";
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //重寄認證信
+    @RequestMapping(path = {"/reSend"})
+    public String reSend(@RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String token) {
+        System.out.println("*****重寄認證信*****");
+        //使有輸入的資料能返回
+        model.addAttribute("email", email);
+        // 錯誤輸出
+        Map<String, String> errors = new HashMap<>();
+        model.addAttribute("errors", errors);
+        // 機器人判斷
+        if (!ZeroTools.recaptcha(token)) {
+            System.out.println("errors.put(recaptcha, 需要驗證)");
+            errors.put("recaptcha", "需要驗證");
+        }
+        if (!ls.existsMemberByEnail(email)) errors.put("email", "未找到Email");
+        if (ls.existsPermetByEmailAndLevel(email,1)) errors.put("level", "已經通過認證");
+        //沒有錯誤, 儲存資料 ,存權限 ,寄認證信
+        if (errors.isEmpty()) {
+            String uuid = ZeroTools.getUUID();
+            MemberBean save = ls.findByEmail(email);
+            //存認證
+            ls.saveAuthorize(uuid, save.getMemberid());
+            //寄認證信
+            String text = "<html><body><p><a href='http://192.168.11.100:8080/topic/Certification?id=" + uuid + "'>點擊認證</a></p></body></html>";
+            String Subject = "久德討論版認證信";// 主題
+            try {
+                mailTool.sendlineMail(save.getEmail(), Subject, text);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "redirect:/member/registerSuccess.jsp";
+        }
+        return "/member/reSend";
+
+    }
 
 }

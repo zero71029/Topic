@@ -123,12 +123,12 @@
                         currentPage: 1,
                         pageSize: 10,
                         total: 400,
-                        list:[],
+                        list: [],
                     }
                 },
                 created() {
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/topiclist?nav='+nav+'&pag='+this.currentPage+'&size='+this.pageSize,
+                        url: '${pageContext.request.contextPath}/topiclist?nav=' + nav + '&pag=' + this.currentPage + '&size=' + this.pageSize,
                         type: 'POST',
                         async: false,//同步請求
                         cache: false,//不快取頁面
@@ -142,37 +142,37 @@
                     });
                 },
                 methods: {
-                    handleSizeChange(val) { 
-                        this.pageSize = val;             
+                    handleSizeChange(val) {
+                        this.pageSize = val;
                         $.ajax({
-                        url: '${pageContext.request.contextPath}/topiclist?nav='+nav+'&pag='+this.currentPage+'&size='+val,
-                        type: 'POST',
-                        async: false,//同步請求
-                        cache: false,//不快取頁面
-                        success: response => {
-                            this.list = response.list;
-                            this.total = response.total;
-                        },
-                        error: function (returndata) {
-                            console.log(returndata);
-                        }
-                    });
+                            url: '${pageContext.request.contextPath}/topiclist?nav=' + nav + '&pag=' + this.currentPage + '&size=' + val,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.list = response.list;
+                                this.total = response.total;
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
                     },
-                    handleCurrentChange(val) {   
+                    handleCurrentChange(val) {
                         this.currentPage = val;
                         $.ajax({
-                        url: '${pageContext.request.contextPath}/topiclist?nav='+nav+'&pag='+val+'&size='+this.pageSize,
-                        type: 'POST',
-                        async: false,//同步請求
-                        cache: false,//不快取頁面
-                        success: response => {
-                            this.list = response.list;
-                            this.total = response.total;
-                        },
-                        error: function (returndata) {
-                            console.log(returndata);
-                        }
-                    });
+                            url: '${pageContext.request.contextPath}/topiclist?nav=' + nav + '&pag=' + val + '&size=' + this.pageSize,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.list = response.list;
+                                this.total = response.total;
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
                     }
                 },
             })

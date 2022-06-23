@@ -16,6 +16,7 @@
             <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
             <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
             <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+            <!-- 禁止SEO -->
             <meta name="robots" content="noindex">
             <!-- 我不是機器人 -->
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -89,20 +90,22 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1"
                                     class='form-label ${empty error.user  ? "":"red" }'>電子郵件 ${error.user} </label>
-                                <input type="email" class="form-control ${empty error.user  ? '':' is-error' }" id="username"
-                                    name="username" value="AAA@AAA.com">
+                                <input type="email" class="form-control ${empty error.user  ? '':' is-error' }"
+                                    id="username" name="username" value="AAA@AAA.com">
                             </div><br>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1"
                                     class='form-label ${empty  error.pass  ? "":"red" }'>登入密碼 ${error.pass}</label>
-                                <input type="text" class="form-control ${empty error.pass  ? '':' is-error' }" id="password" name="password" value="AAA">
+                                <input type="text" class="form-control ${empty error.pass  ? '':' is-error' }"
+                                    id="password" name="password" value="AAA">
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-lg-12 ">
                                     <input class="form-check-input" type="checkbox" id="remember-me" name='remember-me'>
                                     <label class="form-check-label" for="remember-me">記住我</label>
-                                    <a href="${pageContext.request.contextPath}/member/forget.jsp" style="float:right">忘記密碼</a>
+                                    <a href="${pageContext.request.contextPath}/member/forget.jsp"
+                                        style="float:right">忘記密碼</a>
                                 </div>
                             </div>
                             <br><br>
@@ -112,7 +115,8 @@
                                     <a href="${pageContext.request.contextPath}/member/register.jsp">立刻註冊新帳號 </a>
                                     <br><br>
                                     <div style="position: relative;">
-                                        <div class="g-recaptcha " style="width: 304px;display: inline-block;   ${empty recaptcha  ? '':'border: 1px solid #ef4f4f;' }"
+                                        <div class="g-recaptcha "
+                                            style="width: 304px;display: inline-block;   ${empty recaptcha  ? '':'border: 1px solid #ef4f4f;' }"
                                             data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
                                         <button style="position: absolute;bottom: 0%; right: 0%;"
                                             class="btn btn-primary   ">登入</button>

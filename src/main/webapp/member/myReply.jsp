@@ -8,6 +8,8 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>我的文章</title>
+            <!-- 禁止SEO -->
+            <meta name="robots" content="noindex">
             <!-- 引入样式 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
             <!-- 引入element-ui样式 -->
@@ -157,7 +159,7 @@
                             }
                         });
                     }
-                
+
                 },
             })
         </script>
