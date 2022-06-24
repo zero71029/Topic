@@ -60,6 +60,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">主題</th>
+                                       
                                             <th scope="col" style="width: 150px;">發布時間</th>
                                             <th scope="col" style="width: 150px;">最後回覆</th>
                                             <th scope="col" style="width: 70px;">回復數</th>
@@ -68,12 +69,18 @@
                                     <tbody>
 
                                         <tr v-for="(s, index) in list" :key="index" class="article">
-                                            <td><a
-                                                    :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a>
+                                            <td>                                                   
+                                                <a  :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">{{s.bean.name}}
+                                                    <span 
+                                                    v-if="s.watch >0 "
+                                                    style="background-color: red; border-radius: 25px; display: inline-block;width: 25px; text-align: center;color: #fff;" >{{s.watch}}  </span>
+                                                </a>
+                                                    
                                             </td>
-                                            <td>{{s.createtime}}</td>
-                                            <td>{{s.replytime}}</td>
-                                            <td>{{s.replylist.length}}</td>
+                                       
+                                            <td>{{s.bean.createtime}}</td>
+                                            <td>{{s.bean.replytime}}</td>
+                                            <td>{{s.bean.replylist.length}}</td>
                                         </tr>
 
                                     </tbody>

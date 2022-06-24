@@ -2,6 +2,7 @@ package com.jetec.topic.Contriller;
 
 import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,6 +26,8 @@ public class MemberController {
 
     @Autowired
     MemberService ms;
+    @Autowired
+    ArticleService as;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的頁面
@@ -45,7 +50,24 @@ public class MemberController {
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
         Page<ArticleBean> pa =ms.myArticle(member,p);
         Map<String, Object> result = new HashMap<>();
-        result.put("list",  pa.getContent()  );
+
+        //取 未看 回復數
+        List<ArticleBean> list = pa.getContent();
+        List<Map<String, Object>> a = new ArrayList();
+        if (member != null) {
+            list.forEach(e -> {
+                Map<String, Object> artlcle = new HashMap<>();
+                Integer i = as.getWatchCount(member.getMemberid(), e.getArticleid());
+                artlcle.put("bean", e);
+                artlcle.put("watch", i);
+                a.add(artlcle);
+            });
+        }
+        //a = { "bean" : articleBean , "watch" : i }
+
+
+
+        result.put("list",  a );
         result.put("total",  pa.getTotalElements()  );
         return result;
     }

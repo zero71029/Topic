@@ -8,12 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @Transactional
@@ -28,9 +29,11 @@ public class ArticleService {
     MemberRepository mr;
     @Autowired
     ArticleContentRepository acr;
+    @Autowired
+    WatchRepository wr;
 
     public ArticleBean save(ArticleBean articleBean) {
-     return   ar.save(articleBean);
+        return ar.save(articleBean);
     }
 
     public Page<ArticleBean> findByArticlegroup(String nav, Pageable pageable) {
@@ -40,7 +43,6 @@ public class ArticleService {
     public ArticleBean findById(String articleid) {
         return ar.findById(articleid).get();
     }
-
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +56,7 @@ public class ArticleService {
             return true;
         }
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //取得點讚列表
     public List<ArticleThumbsupBean> findThumbsup(String articleid) {
@@ -138,8 +141,8 @@ public class ArticleService {
     public Map<String, Object> search(String search, Pageable p) {
         Page<ArticleBean> page = ar.findByNameLikeIgnoreCase("%" + search + "%", p);
         Map<String, Object> result = new HashMap<>();
-        result.put("list",page.getContent());
-        result.put("total",page.getTotalElements());
+        result.put("list", page.getContent());
+        result.put("total", page.getTotalElements());
         return result;
     }
 
@@ -147,7 +150,32 @@ public class ArticleService {
         return acr.getById(articleid);
     }
 
+    //存文章內容
     public void saveArticleContent(ArticleContentBean acBean) {
         acr.save(acBean);
+    }
+
+    //存觀看時間
+    public void saveWatchTime(MemberBean mBean, String articleid) {
+        Optional<WatchBean> op = wr.findByMemberidAndArticleid(mBean.getMemberid(), articleid);
+        WatchBean wBean;
+        if (op.isPresent()) {
+            wBean = op.get();
+            wBean.setWatchtime(LocalDateTime.now());
+        } else {
+            wBean = new WatchBean(mBean.getMemberid(), articleid, LocalDateTime.now());
+        }
+        wr.save(wBean);
+    }
+
+    //取 未看 回復數
+    public Integer getWatchCount(String memberid, String articleid) {
+        Optional<WatchBean> op = wr.findByMemberidAndArticleid(memberid, articleid);
+        if (op.isPresent()) {
+            WatchBean wBean = op.get();
+            return arr.countByArticleidAndCreatetimeGreaterThan(articleid, wBean.getWatchtime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        } else {
+            return 0;
+        }
     }
 }

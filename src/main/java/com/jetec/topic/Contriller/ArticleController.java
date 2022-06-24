@@ -26,8 +26,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
-    @Autowired
+    final
     ArticleService as;
+
+    public ArticleController(ArticleService as) {
+        this.as = as;
+    }
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

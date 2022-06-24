@@ -50,15 +50,20 @@
                                 <th scope="col">回復數</th>
                                 <th scope="col">狀態</th>
                             </tr>
-                            <tr v-for="(s, index) in list" :key="index" style="line-height: 40px;">
+                            <tr v-for="(s, index) in list" :key="index" >
                                 <th scope="row">{{index + 1}}</th>
-                                <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.articleid">
-                                        <div style="width: 100%;height: 80%;">{{s.name}}</div>
+                                <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">
+                                        <div style="width: 100%;height: 80%;">{{s.bean.name}} <span 
+                                            v-if="s.watch >0 "
+                                            style="background-color: red; border-radius: 25px; display: inline-block;width: 25px; text-align: center;color: #fff;" 
+                                            >{{s.watch}}  </span>
+                                      </div>
+                                      
                                     </a> </td>
-                                <td>{{s.createtime}}</td>
-                                <td>{{s.replytime}}</td>
-                                <td>{{s.replylist.length}}</td>
-                                <td :class="s.allow">{{s.state}}</td>
+                                <td>{{s.bean.createtime}}</td>
+                                <td>{{s.bean.replytime}}</td>
+                                <td>{{s.bean.replylist.length}}</td>
+                                <td :class="s.allow">{{s.bean.state}}</td>
                             </tr>
                         </table>
                         <p style="text-align: center;">
@@ -97,7 +102,7 @@
                             this.list = response.list;
                             this.total = response.total;
                             this.list.forEach(e => {
-                                if (e.state == "允許") {
+                                if (e.bean.state == "允許") {
                                     e.allow = "blue";
                                 } else {
                                     e.allow = "red";
@@ -121,7 +126,7 @@
                                 this.list = response.list;
                                 this.total = response.total;
                                 this.list.forEach(e => {
-                                    if (e.state == "允許") {
+                                    if (e.bean.state == "允許") {
                                         e.allow = "blue";
                                     } else {
                                         e.allow = "red";
@@ -144,7 +149,7 @@
                                 this.list = response.list;
                                 this.total = response.total;
                                 this.list.forEach(e => {
-                                    if (e.state == "允許") {
+                                    if (e.bean.state == "允許") {
                                         e.allow = "blue";
                                     } else {
                                         e.allow = "red";

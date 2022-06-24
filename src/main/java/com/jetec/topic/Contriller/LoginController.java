@@ -38,8 +38,7 @@ public class LoginController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
         String Username;
-        if (principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
+        if (principal instanceof UserDetails userDetails) {
             Username = userDetails.getUsername();
         } else {
             Username = principal.toString();
@@ -81,7 +80,6 @@ public class LoginController {
 
         // 機器人判斷
         if (!ZeroTools.recaptcha(token)) {
-            System.out.println("errors.put(recaptcha, 需要驗證)");
             errors.put("recaptcha", "需要驗證");
         }
 
@@ -108,7 +106,6 @@ public class LoginController {
 
             return "redirect:/member/registerSuccess.jsp";
         }
-        System.out.println("發生錯誤,返回");
         return "/member/register";
     }
 
@@ -121,9 +118,9 @@ public class LoginController {
         // 驗證 補session user
         if (authentication != null) {
             System.out.println("有authentication");
-            Optional<MemberBean> mBean = ls.getMemberByEmail(authentication.getName());
-            if (mBean.isPresent()) {
-                session.setAttribute(MemberBean.SESSIONID, mBean);
+            Optional<MemberBean> op = ls.getMemberByEmail(authentication.getName());
+            if (op.isPresent()) {
+                session.setAttribute(MemberBean.SESSIONID, op.get());
                 return true;
             } else {
                 return false;
@@ -146,24 +143,17 @@ public class LoginController {
 
         //我不是機器人檢查
         if (ZeroTools.recaptcha(recaptcha)) {
-            System.out.println("任鄭成功");
             Optional<MemberBean> op = ls.getMemberByEmail(email);
-
             if (op.isPresent()) {
                 MemberBean bean = op.get();
-                System.out.println(bean);
                 String uuid = ZeroTools.getUUID();
-
-
-// 郵件格式判斷
+                // 郵件格式判斷
                 if (bean.getEmail() == null || bean.getEmail().length() == 0) {
                     errors.put("email", "Email錯誤");
                 }
                 if (!bean.getEmail().contains("@"))
                     errors.put("email", "Email錯誤");
-                System.out.println("errors");
-                System.out.println(errors);
-                if (errors != null && !errors.isEmpty())
+                if ( !errors.isEmpty())
                     return "/member/forget";
 
                 // 儲存認證碼?
@@ -180,14 +170,10 @@ public class LoginController {
 //            zTools.mail(bean.getEmail(), text, Subject, maillist);
                 return "redirect:/member/forgetSend.jsp";
             }
-            System.out.println("查不到這個Email");
             errors.put("email", "查不到這個Email");
         }
-        System.out.println("XXXXXXXX");
         errors.put("recaptcha", "認證未過");
-        System.out.println(errors);
         return "/member/forget";
-
     }
 
 
@@ -210,7 +196,6 @@ public class LoginController {
             ls.saveMember(mBean);
             return "修改成功,請用新密碼登入";
         }
-
         return "錯誤,請重新申請";
     }
 
@@ -243,7 +228,6 @@ public class LoginController {
         model.addAttribute("errors", errors);
         // 機器人判斷
         if (!ZeroTools.recaptcha(token)) {
-            System.out.println("errors.put(recaptcha, 需要驗證)");
             errors.put("recaptcha", "需要驗證");
         }
         if (!ls.existsMemberByEnail(email)) errors.put("email", "未找到Email");
@@ -265,7 +249,5 @@ public class LoginController {
             return "redirect:/member/registerSuccess.jsp";
         }
         return "/member/reSend";
-
     }
-
 }

@@ -29,6 +29,8 @@ public class MemberService {
     ArticleThumbsupRepository atr;
     @Autowired
     MemberRepository mr;
+    @Autowired
+    ArticleService as;
 
     public Map<String, Object> init(MemberBean member) {
         Map<String, Object> result = new HashMap<>();
@@ -60,35 +62,49 @@ public class MemberService {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的回復
-    public Map<String, Object> myReply(MemberBean member,Integer page ,Integer size) {
+    public Map<String, Object> myReply(MemberBean member, Integer page, Integer size) {
         List<ArticleReplyBean> arList = arr.findByMemberid(member.getMemberid());
         List<ArticleBean> articleList = new ArrayList<>();
-        //
+        //取得回復過的Articleid列表
         Set<String> articleidList = new HashSet<>();
-        arList.forEach(e -> articleidList.add(e.getArticleid()) );
-        //
+        arList.forEach(e -> articleidList.add(e.getArticleid()));
+        //用Articleid列表 取得文章列表
         articleidList.forEach(e -> {
             Optional<ArticleBean> op = ar.findById(e);
             op.ifPresent(articleList::add);
         });
-        //
+        //分頁過濾
         List<ArticleBean> aaa = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         articleList.forEach(e -> {
-            if(page *size <= i.get() && i.get() < page*size +size ){
+            if (page * size <= i.get() && i.get() < page * size + size) {
                 aaa.add(e);
             }
-            i.getAndIncrement();
+            i.getAndIncrement();//i++
         });
-        //
+        //排序
         List<ArticleBean> list = aaa.stream()
                 .sorted(Comparator
                         .comparing(ArticleBean::getCreatetime)
                         .reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
         Map<String, Object> result = new HashMap<>();
-        result.put("list",list);
-        result.put("total",articleList.size());
+
+        //取 未看 回復數
+        List<Map<String, Object>> a = new ArrayList();
+        if (member != null) {
+            list.forEach(e -> {
+                Map<String, Object> artlcle = new HashMap<>();
+                Integer n = as.getWatchCount(member.getMemberid(), e.getArticleid());
+                artlcle.put("bean", e);
+                artlcle.put("watch",n);
+                a.add(artlcle);
+            });
+        }
+        //a = { "bean" : articleBean , "watch" : i }
+
+        result.put("list", a);
+        result.put("total", articleList.size());
         return result;
     }
 }
