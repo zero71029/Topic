@@ -28,10 +28,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws AuthenticationException {
-
         System.out.println(request);
         String response = request.getParameter("g-recaptcha-response");
-
         if (ZeroTools.recaptcha(response)) {
             Optional<MemberBean> op = mr.findByEmail(username);
             if (op.isPresent()) {
@@ -48,8 +46,8 @@ public class UserService implements UserDetailsService {
         } else {
             request.setAttribute("recaptcha", "認證錯誤");
         }
-        return null;
-
+//        return null;
+        return new User("null","null",AuthorityUtils.commaSeparatedStringToAuthorityList(""));
     }
 
 

@@ -50,19 +50,20 @@
                                 <th scope="col">回復數</th>
                                 <th scope="col">狀態</th>
                             </tr>
-                            <tr v-for="(s, index) in list" :key="index" >
+                            <tr v-for="(s, index) in list" :key="index">
                                 <th scope="row">{{index+1}}</th>
-                                <td> <a :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">
-                                        <div style="width: 100%;height: 80%;">{{s.bean.name}}
-                                            <span v-if="s.watch >0 "
-                                                style="background-color: red; border-radius: 25px; display: inline-block;width: 25px; text-align: center;color: #fff;">{{s.watch}}
-                                            </span>
-
-                                        </div>
-                                    </a> </td>
+                                <td>
+                                    <a :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">
+                                        <div style="width: 100%;height: 80%;">{{s.bean.name}} </div>
+                                    </a>
+                                </td>
                                 <td>{{s.bean.createtime}}</td>
                                 <td>{{s.bean.replytime}}</td>
-                                <td>{{s.bean.replylist.length}}</td>
+                                <td>{{s.bean.replylist.length}}
+                                    <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
+                                        NEW {{ s.watch }}
+                                    </el-tag>
+                                </td>
                                 <td :class="s.allow">{{s.bean.state}}</td>
                             </tr>
                         </table>

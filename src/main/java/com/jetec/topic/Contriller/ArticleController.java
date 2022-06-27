@@ -6,7 +6,6 @@ import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

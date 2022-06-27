@@ -3,19 +3,19 @@
     <html lang="zh-TW">
 
     <head>
+
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>發表成功</title>
+        <title>頁面錯誤</title>
     </head>
 
+
     <body>
-        <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
-        <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h1>發表成功</h1>
+                    <h1>&nbsp;</h1>
                 </div>
             </div>
             <div class="row">
@@ -25,11 +25,6 @@
                 <jsp:include page="/widget/rightTool.jsp"></jsp:include>
             </div>
             <!-- 中間主體 -->
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1></h1>
-                </div>
-            </div>
             <div class="row ">
                 <div class="col-lg-2 "></div>
                 <div class="col-lg-4 ">
@@ -39,7 +34,7 @@
                     <div class="row ">
                         <div class="col-lg-2 "></div>
                         <div class="col-lg-10 ">
-                            <img src="${pageContext.request.contextPath}/images/page-08.png"
+                            <img src="${pageContext.request.contextPath}/images/page-10.png"
                                 style="max-width: 100%; text-align: center;">
                         </div>
                     </div>
@@ -48,10 +43,10 @@
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
-                    <img src="${pageContext.request.contextPath}/images/page-09.png" style="max-width: 90%;"><br><br>
-                    <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">發表成功,請稍等我們審核!</div>
+                    <img src="${pageContext.request.contextPath}/images/page-05.png" style="max-width: 90%;"><br><br>
+                    <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">別擔心,我們只是更改了該頁面連結!</div>
                     <div class="row" style="font-size: 20px;color: #333;line-height:40px">
-                        <p>你有以下選擇:</p>
+                        <p>下面的連結可能對你有幫助:</p>
                     </div>
                     <div style="font-size: 18px;color: #333;line-height:40px">
                         <ul>
@@ -70,34 +65,5 @@
             </div>
         </div>
     </body>
-    <script>
-    // var vm = new Vue({
-    //     el: ".app",
-    //     data() {
-    //         return {
-
-    //         }
-    //     },
-    //     created() {
-    //         $.ajax({
-    //             url: '${pageContext.request.contextPath}/article/detailInit/${article.articleid}',
-    //             type: 'POST',
-    //             async: false,//同步請求
-    //             cache: false,//不快取頁面
-    //             success: response => {
-    //                 this.thumbsupNum = response.thumbsupNum;
-    //                 this.hasThumbsup = response.hasThumbsup;
-    //                 this.replylist = response.replylist;
-    //             },
-    //             error: function (returndata) {
-    //                 console.log(returndata);
-    //             }
-    //         });
-    //     },
-    //     methods: {
-
-    //     },
-    // })
-    </script>
 
     </html>

@@ -43,16 +43,22 @@ public class AppsAuthenticationFailureHandler implements AuthenticationFailureHa
         System.out.println(username);
         System.out.println(password);
         Optional<MemberBean> op = mr.findByEmail(username);
-        MemberBean memberBean = op.get();
         Map<String, String> error = new HashMap<>();
-        if (memberBean == null) {
+
+
+        op.ifPresentOrElse(bean -> {
+            if ( !passwordEncoder.matches(password,bean.getPassword())){
+                System.out.println("密碼錯誤");
+                error.put("pass","密碼錯誤") ;
+            }
+        },()->{
             System.out.println("找不到使用者");
             error.put("user","找不到使用者") ;
-        } else if ( !passwordEncoder .matches(password,memberBean.getPassword())){
-            System.out.println("密碼錯誤");
-            error.put("pass","密碼錯誤") ;
+        });
 
-        }
+
+
+
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("error", error);
         request.getRequestDispatcher("/member/login.jsp").forward(request, response);

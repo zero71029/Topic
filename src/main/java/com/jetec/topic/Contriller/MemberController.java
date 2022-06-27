@@ -100,4 +100,15 @@ public class MemberController {
         System.out.println(bean);
         return result;
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //test
+//    @RequestMapping("/XXX")
+//    @ResponseBody
+//    public Map<String, Object> cccc() {
+//        System.out.println("*****xxxxxxxx*****");
+//        MemberBean member = new MemberBean();
+//        if(member.getMemberid().equals("dddd"))
+//        System.out.println(member.getMemberid());
+//        return null;
+//    }
 }

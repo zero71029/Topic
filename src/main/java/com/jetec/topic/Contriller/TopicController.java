@@ -1,8 +1,10 @@
 package com.jetec.topic.Contriller;
 
-import com.jetec.topic.model.*;
+import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.ArticleContentBean;
+import com.jetec.topic.model.ArticleThumbsupBean;
+import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,15 +44,15 @@ public class TopicController {
         List<ArticleBean> list = p.getContent();
         MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         List<Map<String, Object>> a = new ArrayList();
-        if (mBean != null) {
-            list.forEach(e -> {
-                Map<String, Object> artlcle = new HashMap<>();
+        list.forEach(e -> {
+            Map<String, Object> artlcle = new HashMap<>();
+            if (mBean != null) {
                 Integer i = as.getWatchCount(mBean.getMemberid(), e.getArticleid());
-                artlcle.put("bean", e);
                 artlcle.put("watch", i);
-                a.add(artlcle);
-            });
-        }
+            }
+            artlcle.put("bean", e);
+            a.add(artlcle);
+        });
         //a = { "bean" : articleBean , "watch" : i }
         result.put("list", a);
         result.put("total", p.getTotalElements());
@@ -66,8 +68,8 @@ public class TopicController {
         model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
         model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
         //
-        JSONArray a = new JSONArray(as.findThumbsup(articleid));
-        model.addAttribute(ArticleThumbsupBean.THUMBSUPID, a);
+
+        model.addAttribute(ArticleThumbsupBean.THUMBSUPID, as.findThumbsup(articleid));
         //存觀看時間
         MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
         new Thread(() -> {

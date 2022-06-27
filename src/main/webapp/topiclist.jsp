@@ -60,27 +60,27 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">主題</th>
-                                       
+
                                             <th scope="col" style="width: 150px;">發布時間</th>
                                             <th scope="col" style="width: 150px;">最後回覆</th>
-                                            <th scope="col" style="width: 70px;">回復數</th>
+                                            <th scope="col" style="width: 90px;">回復數</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         <tr v-for="(s, index) in list" :key="index" class="article">
-                                            <td>                                                   
-                                                <a  :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">{{s.bean.name}}
-                                                    <span 
-                                                    v-if="s.watch >0 "
-                                                    style="background-color: red; border-radius: 25px; display: inline-block;width: 25px; text-align: center;color: #fff;" >{{s.watch}}  </span>
+                                            <td>
+                                                <a
+                                                    :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">{{s.bean.name}}
                                                 </a>
-                                                    
                                             </td>
-                                       
                                             <td>{{s.bean.createtime}}</td>
                                             <td>{{s.bean.replytime}}</td>
-                                            <td>{{s.bean.replylist.length}}</td>
+                                            <td >{{s.bean.replylist.length}}
+                                                <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
+                                                    NEW {{ s.watch }}
+                                                </el-tag>
+                                            </td>
                                         </tr>
 
                                     </tbody>

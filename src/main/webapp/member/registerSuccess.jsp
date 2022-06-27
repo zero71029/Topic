@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  %>
     <!DOCTYPE html>
     <html lang="zh-TW">
 
@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h1>註冊成功</h1>
+                    <h1>註冊成功</h1> 
                 </div>
             </div>
             <!-- 抬頭分類 -->
@@ -29,10 +29,43 @@
             </div>
             <!-- 中間主體 -->
             <div class="row">
-                <div class="col-lg-12 text-center" style="background-color: white; --bs-bg-opacity: 1;">
-                    <h1>註冊成功 我們已經寄了認證信給你,請查收你的郵箱</h1>
+                <div class="col-lg-12 text-center">
+                    <h1></h1>
                 </div>
             </div>
+            <div class="row ">
+                <div class="col-lg-2 "></div>
+                <div class="col-lg-4 ">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div class="row ">
+                        <div class="col-lg-2 "></div>
+                        <div class="col-lg-10 ">
+                            <img src="${pageContext.request.contextPath}/images/page-08.png"
+                                style="max-width: 100%; text-align: center;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <img src="${pageContext.request.contextPath}/images/page-09.png" style="max-width: 90%;"><br><br>
+                    <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">註冊成功 我們已經寄了認證信給你
+                       <br> 請查收你的郵箱</div>
+
+                    <div style="font-size: 18px;color: #333;line-height:40px">
+                        <ul>
+                            <li><a href="/topic/index" tabindex="-1">首頁</a></li>
+                            <li><a href="/topic/topiclist.jsp?nav=sensor" tabindex="-1">感測器</a></li>
+                            <li><a href="/topic/topiclist.jsp?nav=apparatus" tabindex="-1">儀器儀表</a></li>
+                            <li><a href="/topic/topiclist.jsp?nav=Netcom" tabindex="-1">網通裝置</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h1></h1>

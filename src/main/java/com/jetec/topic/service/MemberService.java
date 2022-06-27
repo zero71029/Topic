@@ -102,7 +102,6 @@ public class MemberService {
             });
         }
         //a = { "bean" : articleBean , "watch" : i }
-
         result.put("list", a);
         result.put("total", articleList.size());
         return result;
