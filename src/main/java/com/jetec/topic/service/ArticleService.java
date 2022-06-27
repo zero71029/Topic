@@ -8,13 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,7 +33,8 @@ public class ArticleService {
     ArticleContentRepository acr;
     @Autowired
     WatchRepository wr;
-
+    @Autowired
+    PermitRepository pr;
     public ArticleBean save(ArticleBean articleBean) {
         return ar.save(articleBean);
     }
@@ -132,8 +135,17 @@ public class ArticleService {
         Integer replyNum = arr.countByMemberidAndState(memberid, "state");
         integral = integral + replyNum;
         //儲存
-        mbean.setIntegral(integral);
         mr.save(mbean);
+        //
+        mbean.setIntegral(integral);
+        int level = 1;
+        if( integral > 1000)level = 2;
+        if( integral > 10000)level = 3;
+        if( integral > 30000)level = 4;
+        if( integral > 90000)level = 5;
+        if(!(pr.existsByMemberidAndLevel(memberid,level))){
+            pr.save(new PermitBean(ZeroTools.getUUID(),memberid,level));
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

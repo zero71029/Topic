@@ -9,6 +9,7 @@ import com.jetec.topic.service.ArticleService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,8 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //預覽
     @RequestMapping("/preview")
+    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
+
     public String Signout(Model model, ArticleBean articleBean,@RequestParam("content")String content) {
         System.out.println("*****預覽*****");
         articleBean.setCreatetime(ZeroTools.getTime(new Date()));
@@ -47,6 +50,8 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //發布文章
     @RequestMapping("/save")
+    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
+
     public String save(Model model, ArticleBean articleBean,@RequestParam("content")String content , HttpSession session) {
         System.out.println("*****發布文章*****");
 
@@ -108,6 +113,8 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //文章回復 儲存
     @RequestMapping(path = {"/saveReply"})
+    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
+
     public String saveReply(  ArticleReplyBean arBean) {
         System.out.println("*****文章回復儲存*****");
         arBean.setReplyid(ZeroTools.getUUID());
@@ -125,6 +132,8 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //儲存留言
     @RequestMapping(path = {"/savemessage"})
+    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
+
     @ResponseBody
     public List<ArticleReplyBean> savemessage(  ArticleReplyBean arBean,@RequestParam("article")String article) {
         System.out.println("*****儲存留言*****");

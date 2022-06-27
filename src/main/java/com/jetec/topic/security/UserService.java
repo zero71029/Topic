@@ -49,6 +49,4 @@ public class UserService implements UserDetailsService {
 //        return null;
         return new User("null","null",AuthorityUtils.commaSeparatedStringToAuthorityList(""));
     }
-
-
 }

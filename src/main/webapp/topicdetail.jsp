@@ -158,11 +158,6 @@
                                                             <h3 id="articlename">${article.name}</h3>
                                                             <p>${article.createtime}
                                                                 <span style="float: right;">
-                                                                    <c:if test="${article.memberid == member.memberid}">
-                                                                        <a href="${pageContext.request.contextPath}/article/publish.jsp?nav=sensor&id=${article.articleid}"><i class="bi bi-pencil-square">修改</i></a>
-                                                                        &nbsp;|&nbsp;
-                                                                    </c:if>
-                                                                    
 
 
                                                                     <i class="bi bi-hand-thumbs-up icon  main"
@@ -177,6 +172,12 @@
                                                                     <i class="bi bi-share icon share"
                                                                         @click="dialogVisible = true">分享
                                                                     </i>
+                                                                    <c:if test="${article.memberid == member.memberid}">
+                                                                        &nbsp;|&nbsp; <a
+                                                                            href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
+                                                                                class="bi bi-pencil-square">修改</i></a>
+                                                                        
+                                                                    </c:if>
                                                                 </span>
                                                             </p>
                                                             <hr>

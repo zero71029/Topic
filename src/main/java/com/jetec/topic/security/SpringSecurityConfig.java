@@ -59,7 +59,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(appsAuthenticationFailureHandler);
 
         // 用戶沒有權限處理
-        http.exceptionHandling().accessDeniedPage("/AuthorityError.jsp");
+        http.exceptionHandling().accessDeniedPage("/error/error.jsp");
         // 權限配置
         http.authorizeRequests();
         // 登入頁面放行

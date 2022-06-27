@@ -60,14 +60,12 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">主題</th>
-
                                             <th scope="col" style="width: 150px;">發布時間</th>
                                             <th scope="col" style="width: 150px;">最後回覆</th>
                                             <th scope="col" style="width: 90px;">回復數</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <tr v-for="(s, index) in list" :key="index" class="article">
                                             <td>
                                                 <a
@@ -82,7 +80,6 @@
                                                 </el-tag>
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                                 <p style="text-align: center;">

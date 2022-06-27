@@ -6,6 +6,7 @@ import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.BackstageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/backstage")
+@PreAuthorize(" hasAuthority('9')")
+
 public class BackstageController {
     @Autowired
     BackstageService BS;
