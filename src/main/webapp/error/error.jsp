@@ -33,9 +33,9 @@
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
                 <div class="row ">
-                    <div class="col-lg-2 "></div>
-                    <div class="col-lg-10 ">
-                        <img src="${pageContext.request.contextPath}/images/page-10.png"
+                    <div class="col-lg-3 "></div>
+                    <div class="col-lg-8 ">
+                        <img src="${pageContext.request.contextPath}/images/page-04.png"
                             style="max-width: 100%; text-align: center;">
                     </div>
                 </div>
@@ -44,17 +44,17 @@
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
-                <img src="${pageContext.request.contextPath}/images/page-05.png" style="max-width: 90%;"><br><br>
+                <img src="${pageContext.request.contextPath}/images/page-03.png" style="width:  400px;"><br><br>
                 <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">抱歉!權限錯誤</div>
                 <div class="row" style="font-size: 20px;color: #333;line-height:40px">
-                    <p>下面的連結可能對你有幫助:</p>
+                    <p>還未登入嗎?下面的連結可能對你有幫助:</p>
                 </div>
                 <div   style="font-size: 18px;color: #333;line-height:40px">
                     <ul>
                         <li><a href="${pageContext.request.contextPath}/index" tabindex="-1">首頁</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/login.jsp" tabindex="-1">登入</a></li>
                         <li><a href="${pageContext.request.contextPath}/member/register.jsp" tabindex="-1">註冊</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/reSend.jsp" tabindex="-1">重寄認證信</a></li>
-                  
+                        <li><a href="${pageContext.request.contextPath}/member/reSend.jsp" tabindex="-1">重寄認證信</a></li>                  
                     </ul>
                 </div>
             </div>

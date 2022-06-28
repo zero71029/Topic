@@ -149,7 +149,8 @@
                                                         data-href="https://www.your-domain.com/your-page.html"
                                                         data-layout="button_count">
                                                     </div> -->
-                                                    <img :src="level">
+                                                    <img :src="level" style="width: 60px;">
+                                                    
                                                 </div>
                                                 <!-- 主文 -->
                                                 <div class="col-lg-9 ">
@@ -201,7 +202,8 @@
                                                             style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.num+1}}樓</span><br>
                                                         <span style="color: #379cf4;">{{s.membername}}</span><br>
                                                         積分:{{s.member.integral}} <br>
-                                                        <img :src="s.level" alt="">
+
+                                                        <img :src="s.level" style="width: 60px;">
 
                                                     </div>
                                                     <div class="col-lg-9 ">

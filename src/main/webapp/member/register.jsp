@@ -1338,7 +1338,7 @@
                         var scrollTop = $(this).scrollTop();
                         var scrollHeight = $(this).prop("scrollHeight");
                         var windowHeight = $(this).innerHeight();
-                        if (Math.round(scrollTop + windowHeight) >= scrollHeight) {
+                        if (Math.round(scrollTop + windowHeight) >= scrollHeight*0.9) {
                             $('#tos').attr('disabled', false);
                         }
                     });
@@ -1346,7 +1346,7 @@
                         var scrollTop = $(this).scrollTop();
                         var scrollHeight = $(this).prop("scrollHeight");
                         var windowHeight = $(this).innerHeight();
-                        if (Math.round(scrollTop + windowHeight) >= scrollHeight) {
+                        if (Math.round(scrollTop + windowHeight) >= scrollHeight*0.9) {
                             $('#forum_rule').attr('disabled', false);
                         }
                     });
@@ -1354,7 +1354,7 @@
                         var scrollTop = Math.round($(this).scrollTop() + 1);
                         var scrollHeight = $(this).prop("scrollHeight");
                         var windowHeight = $(this).innerHeight();
-                        if (Math.round(scrollTop + windowHeight) >= scrollHeight) {
+                        if (Math.round(scrollTop + windowHeight) >= scrollHeight*0.9) {
                             $('#personal_information').attr('disabled', false);
                         }
                     });

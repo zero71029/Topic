@@ -44,16 +44,7 @@
                         <div class="row ">
                             <div class="col-lg-12">&nbsp;</div>
                         </div>
-                        <div class="row ">
-                            <div class="col-lg-12 text-end">
-                                <c:if test="${not empty member}">
-                                    <button type="button" class="btn btn-primary" id="publish"
-                                        onclick="window.open('${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}')">
-                                        發布文章
-                                    </button>
-                                </c:if>
-                            </div>
-                        </div>
+
                         <div class="row ">
                             <div class="col-lg-10">
                                 <table class="table">
@@ -93,8 +84,8 @@
                             <!-- 右邊廣告 -->
                             <div class="col-lg-2">
                                 <div class="advertise">
-                                    <el-carousel trigger="click" height="500px">
-                                        <el-carousel-item v-for="( s, index) in advertise" :key="index" :interval="5000">
+                                    <el-carousel trigger="click" height="500px" :interval="15000">
+                                        <el-carousel-item v-for="( s, index) in advertise" :key="index" >
                                             <a :href="s.url" target="_blank"><img :src="'${pageContext.request.contextPath}/file/'+s.img" :alt="s.name"></a>                
                                         </el-carousel-item>
                                     </el-carousel>
@@ -132,6 +123,7 @@
                         total: 400,
                         list: [],
                         advertise:[],
+                        
                     }
                 },
                 created() {

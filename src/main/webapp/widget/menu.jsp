@@ -38,7 +38,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active"
+                            <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor">感測器</a>
                         </li>
                         <li class="nav-item">
@@ -61,6 +61,22 @@
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=application">應用</a>
                         </li>
+
+                        <c:if test="${not empty member}">
+                           
+                                <c:if test="${pageContext.request.requestURI == '/topic/topiclist.jsp'}">
+                                <li class="nav-item">
+                                <li class="nav-item" style="background-color: blue;border-radius: 4px;">
+                                    <a class="nav-link" style="color: white;" 
+                                        href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">發布文章
+                                        
+                                    </a>
+                                </li>
+                                </li>
+                            </c:if>
+                        </c:if>
+
+
 
                     </ul>
                     <form class="d-flex" method="get" action="${pageContext.request.contextPath}/search.jsp">

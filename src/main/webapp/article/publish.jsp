@@ -4,6 +4,7 @@
         <html lang="zh-TW">
 
         <head>
+
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,12 +53,13 @@
                                 <form action="${pageContext.request.contextPath}/article/save" method="post"
                                     id="articleform">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
-                                    <input type="hidden" name="articlegroup" value="${param.nav}">
                                     <input type="hidden" name="articleid" v-model="bean.articleid">
                                     <input type="hidden" name="createtime" v-model="bean.createtime">
                                     <input type="hidden" name="membername" v-model="bean.membername">
                                     <input type="hidden" name="replytime" v-model="bean.replytime">
                                     <input type="hidden" name="state" value="未驗證">
+
+
                                     <div class="mb-3">
                                         <label class="form-label"> 主題 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
@@ -65,6 +67,22 @@
                                         <input type="text" class="form-control" name="name" id="name"
                                             v-model="bean.name">
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label"> 主題 <span style="color: red;">*</span><span
+                                                style="color: red;">${errors.username}</span>
+                                        </label>
+                                        <select class="form-select" name="articlegroup" v-model="bean.articlegroup">
+                                            <option value="sensor">感測器</option>
+                                            <option value="apparatus">儀器儀表</option>
+                                            <option value="Netcom">網通裝置</option>
+                                            <option value="software">軟體配件</option>
+                                            <option value="controlbox">控制箱</option>
+                                            <option value="application">應用</option>
+                                        </select>
+                                    </div>
+
+
 
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">內容</label>
@@ -121,6 +139,7 @@
             </div>
 
         </body>
+
         <script>
             tinymce.init({
                 selector: 'textarea',  // change this value according to your HTML
@@ -146,26 +165,32 @@
         </script>
 
         <script>
+            const url = new URL(location.href);
+            const id = url.searchParams.get("id");
+            const nav = url.searchParams.get("nav");
             var vm = new Vue({
                 el: ".app",
                 data() {
                     return {
+                        nav:nav,
                         imgVisible: false,
                         bean: {
                             name: "",
                             content: "",
-                            agree: false
+                            agree: false,
+                            articlegroup: "",
+                            
                         },
                     }
                 },
                 created() {
-                    const url = new URL(location.href);
-                    const id = url.searchParams.get("id");
+
+                    this.bean.articlegroup = nav;
                     console.log(id);
                     if (id == null || id == "") {
-                    }else   {
+                    } else {
                         $.ajax({
-                            url: '${pageContext.request.contextPath}/article/getContent/'+id,
+                            url: '${pageContext.request.contextPath}/article/getContent/' + id,
                             type: 'POST',
                             async: false,//同步請求
                             cache: false,//不快取頁面
@@ -187,7 +212,7 @@
                         cache: false,//不快取頁面
                         success: response => {
                             this.advertise = response;
-                           
+
                         },
                         error: function (returndata) {
                             console.log(returndata);
