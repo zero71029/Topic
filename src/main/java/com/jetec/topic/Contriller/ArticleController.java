@@ -28,7 +28,6 @@ import java.util.Map;
 public class ArticleController {
     final
     ArticleService as;
-
     public ArticleController(ArticleService as) {
         this.as = as;
     }
@@ -38,7 +37,6 @@ public class ArticleController {
 //預覽
     @RequestMapping("/preview")
     @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
-
     public String Signout(Model model, ArticleBean articleBean,@RequestParam("content")String content) {
         System.out.println("*****預覽*****");
         articleBean.setCreatetime(ZeroTools.getTime(new Date()));
@@ -51,10 +49,8 @@ public class ArticleController {
 //發布文章
     @RequestMapping("/save")
     @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
-
     public String save(Model model, ArticleBean articleBean,@RequestParam("content")String content , HttpSession session) {
         System.out.println("*****發布文章*****");
-
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
             articleBean.setArticleid(ZeroTools.getUUID());
             articleBean.setCreatetime(ZeroTools.getTime(new Date()));
@@ -66,15 +62,11 @@ public class ArticleController {
             new Thread(() -> as.Integral(memberBean.getMemberid())).start();
         }
        ArticleBean save =    as.save(articleBean);
-
         if(save != null){
             ArticleContentBean acBean = new ArticleContentBean(save.getArticleid(),content);
             as.saveArticleContent(acBean) ;
         }
-
-
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
-
         return "redirect:/article/success.jsp";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

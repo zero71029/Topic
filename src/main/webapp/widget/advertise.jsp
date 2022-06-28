@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<a href="">
-    <div style=" 
-height: 700px;background-color:blue; top: 47px;position: relative;">xxxxxxx</div>
-</a>
+    <div class="advertise">
+        <el-carousel trigger="click" height="500px">
+            <el-carousel-item v-for="( s, index) in advertise" :key="index" :interval="5000">
+                <a :href="s.url" target="_blank"><img :src="'${pageContext.request.contextPath}/file/'+s.img" :alt="s.name"></a>                
+            </el-carousel-item>
+        </el-carousel>
+    </div>

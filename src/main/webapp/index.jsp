@@ -14,7 +14,15 @@
 
             <!-- 引入 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
-
+            <!-- 引入element-ui样式 -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/js/element-ui.css">
+            <!-- 引入element-ui组件库 -->
+            <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
+            <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
+            <meta property="og:locale" content="zh_TW">
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="${article.name}" />
+            <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
 
         </head>
 
@@ -218,6 +226,7 @@
                         software: [],
                         controlbox: [],
                         application: [],
+                        advertise:[],
                     }
                 },
                 created() {
@@ -256,6 +265,19 @@
                             this.application.forEach(e => {
                                 this.changGrop(e);
                             });
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                        type: 'get',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            this.advertise = response;
+                           
                         },
                         error: function (returndata) {
                             console.log(returndata);

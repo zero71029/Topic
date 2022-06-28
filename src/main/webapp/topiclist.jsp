@@ -92,11 +92,14 @@
                             </div>
                             <!-- 右邊廣告 -->
                             <div class="col-lg-2">
-                                <a href="">
-                                    <div style="
-                                height: 700px;background-color: blue;    top: 47px;position: relative;">xxxxxxx
-                                    </div>
-                                </a>
+                                <div class="advertise">
+                                    <el-carousel trigger="click" height="500px">
+                                        <el-carousel-item v-for="( s, index) in advertise" :key="index" :interval="5000">
+                                            <a :href="s.url" target="_blank"><img :src="'${pageContext.request.contextPath}/file/'+s.img" :alt="s.name"></a>                
+                                        </el-carousel-item>
+                                    </el-carousel>
+                                </div>
+                            
                             </div>
                         </div>
                         <div class="row ">
@@ -128,6 +131,7 @@
                         pageSize: 10,
                         total: 400,
                         list: [],
+                        advertise:[],
                     }
                 },
                 created() {
@@ -139,6 +143,19 @@
                         success: response => {
                             this.list = response.list;
                             this.total = response.total;
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                        type: 'get',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            this.advertise = response;
+                           
                         },
                         error: function (returndata) {
                             console.log(returndata);

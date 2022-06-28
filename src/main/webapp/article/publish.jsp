@@ -163,7 +163,6 @@
                     const id = url.searchParams.get("id");
                     console.log(id);
                     if (id == null || id == "") {
-
                     }else   {
                         $.ajax({
                             url: '${pageContext.request.contextPath}/article/getContent/'+id,
@@ -181,6 +180,19 @@
                         });
 
                     }
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                        type: 'get',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            this.advertise = response;
+                           
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
 
                 },
                 methods: {

@@ -165,6 +165,19 @@
                         case "apparatus": this.group = "儀器儀表";
                             break;
                     }
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                        type: 'get',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            this.advertise = response;
+                           
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
                     
                 }, 
                 methods: {

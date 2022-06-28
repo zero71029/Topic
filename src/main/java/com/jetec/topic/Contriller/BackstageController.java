@@ -1,36 +1,38 @@
 package com.jetec.topic.Contriller;
 
-import com.jetec.topic.model.ArticleBean;
-import com.jetec.topic.model.ArticleContentBean;
-import com.jetec.topic.model.ArticleReplyBean;
-import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.Tools.ZeroTools;
+import com.jetec.topic.model.*;
 import com.jetec.topic.service.BackstageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/backstage")
-@PreAuthorize(" hasAuthority('9')")
+//@PreAuthorize(" hasAuthority('aa') OR hasAuthority('9')")
 
 public class BackstageController {
     @Autowired
     BackstageService BS;
 
 
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //初始化
     @RequestMapping("/init")
     @ResponseBody
-    public Map<String , Object> init(@RequestParam("page")Integer page,@RequestParam("pageSize")Integer size) {
+    public Map<String , Object> init(@RequestParam("page")Integer page, @RequestParam("pageSize")Integer size) {
         page--;
         System.out.println("初始化");
         Map<String , Object> result = BS.init(page,size);
@@ -117,4 +119,73 @@ public class BackstageController {
         }
         return null;
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //刪除廣告
+    @RequestMapping("/deladvertise")
+    @ResponseBody
+    public List<AdvertiseBean> deladvertise(AdvertiseBean adBean) {
+        System.out.println("刪除 廣告");
+        System.out.println(adBean);
+        BS.deladvertise(adBean);
+        return BS.findAll();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //新增廣告
+    @RequestMapping("/addadvertise")
+    @ResponseBody
+    public List<AdvertiseBean> addadvertise(AdvertiseBean adBean) {
+        System.out.println("新增/修改 廣告");
+        System.out.println(adBean);
+         BS.save(adBean);
+        return BS.findAll();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //廣告初始化
+    @RequestMapping("/addadverinit")
+    @ResponseBody
+    public List<AdvertiseBean> addadverinit() {
+        System.out.println("廣告初始化");
+        return BS.findAll();
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//上傳附件
+    @RequestMapping("/upfile")
+    @ResponseBody
+    public String upFile(MultipartHttpServletRequest multipartRequest, HttpSession session) {
+        System.out.println("*****上傳附件*****");
+        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+        String uuid = ZeroTools.getUUID();
+
+        System.out.println("fileMap " + fileMap);//圖片儲存
+        try {
+            //2. 儲存圖片到資料夾
+            if (fileMap.get("file") != null) {//讀取檔眳
+                //讀取檔名
+                System.out.println(fileMap.get("file").getOriginalFilename());
+                String filename = fileMap.get("file").getOriginalFilename();
+
+                //讀取副檔名
+                String lastname = fileMap.get("file").getOriginalFilename().substring(fileMap.get("file").getOriginalFilename().indexOf("."));
+                System.out.println(lastname);
+
+                //檔案輸出
+                String path2 = "C:/CRMfile/" + uuid + lastname;
+                System.out.println("檔案輸出到" + path2);
+                fileMap.get("file").transferTo(new File(path2));
+                System.out.println("輸出成功");
+                //3. 儲存檔案名稱到資料庫
+                MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+//                FileBean fileBean = new FileBean(ZeroTools.getUUID(),memberBean.getMemberid(),uuid+lastname,ZeroTools.getTime(new Date()));
+//                FileBean save =  ufs.save(fileBean);
+
+                return uuid+lastname;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+
 }

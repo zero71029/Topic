@@ -38,9 +38,10 @@ public class UserService implements UserDetailsService {
                 StringBuffer permit = new StringBuffer();
                 permitList.forEach(e-> {
                     permit.append(e.getLevel());
-                    permit.append(" ,");
+                    permit.append(",");
                 });
                 permit.append("11");
+                System.out.println(permit.toString());
                 return new User(username, op.get().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(permit.toString()));
             }
         } else {

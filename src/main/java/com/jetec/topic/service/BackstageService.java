@@ -31,6 +31,8 @@ public class BackstageService {
     ArticleContentRepository acr;
     @Autowired
     PermitRepository pr;
+    @Autowired
+    AdvertiseRepository adr;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //初始化
@@ -127,5 +129,22 @@ public class BackstageService {
             PermitBean pBean = pr.findByMemberidAndLevel(memberid, i);
             pr.delete(pBean);
         }
+    }
+    //新增廣告
+    public AdvertiseBean save(AdvertiseBean adBean) {
+        if (adBean.getAdvertiseid() == null) {
+            adBean.setAdvertiseid(ZeroTools.getUUID());
+        }
+        adBean.setCreatetime(String.valueOf(LocalDate.now()));
+        return  adr.save(adBean);
+    }
+
+    public List<AdvertiseBean> findAll() {
+        return  adr.findAll();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //刪除廣告
+    public void deladvertise(AdvertiseBean adBean) {
+        adr.delete(adBean);
     }
 }

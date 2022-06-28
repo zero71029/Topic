@@ -176,7 +176,7 @@
                                                                         &nbsp;|&nbsp; <a
                                                                             href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
                                                                                 class="bi bi-pencil-square">修改</i></a>
-                                                                        
+
                                                                     </c:if>
                                                                 </span>
                                                             </p>
@@ -303,6 +303,7 @@
                             handthumbs: "bi bi-hand-thumbs-up icon",
                             text: "",
                             integral: '${article.member.integral}',
+                            advertise: [],
 
                             level: "${pageContext.request.contextPath}/images/小青銅.png",
                         }
@@ -370,6 +371,23 @@
                         if (this.hasThumbsup) {
                             $(".main").css("color", "#0d6efd")
                         }
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                            type: 'get',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.advertise = response;
+
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+
+
+
+
 
 
                     }, mounted() {
