@@ -85,7 +85,7 @@
                             <div class="col-lg-2">
                                 <div class="advertise">
                                     <el-carousel trigger="click" height="500px" :interval="15000">
-                                        <el-carousel-item v-for="( s, index) in advertise" :key="index" >
+                                        <el-carousel-item v-for="( s, index) in rigthAdvertise" :key="index" >
                                             <a :href="s.url" target="_blank"><img :src="'${pageContext.request.contextPath}/file/'+s.img" :alt="s.name"></a>                
                                         </el-carousel-item>
                                     </el-carousel>
@@ -122,7 +122,7 @@
                         pageSize: 10,
                         total: 400,
                         list: [],
-                        advertise:[],
+                        rigthAdvertise:[],
                         
                     }
                 },
@@ -141,12 +141,12 @@
                         }
                     });
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                        url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
                         type: 'get',
                         async: false,//同步請求
                         cache: false,//不快取頁面
                         success: response => {
-                            this.advertise = response;
+                            this.rigthAdvertise = response;
                            
                         },
                         error: function (returndata) {

@@ -14,17 +14,29 @@ public class AdvertiseBean {
     private String name;
     private String url;
     private String img;
+    @Column(columnDefinition = "CHAR(1)")
+    private String location;
     @Column(columnDefinition = "CHAR(10)")
     private String createtime;
 
     public AdvertiseBean() {
     }
 
-    public AdvertiseBean(String advertiseid, String name, String url, String createtime) {
+
+    public AdvertiseBean(String advertiseid, String name, String url, String location, String createtime) {
         this.advertiseid = advertiseid;
         this.name = name;
         this.url = url;
+        this.location = location;
         this.createtime = createtime;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getAdvertiseid() {
@@ -74,6 +86,7 @@ public class AdvertiseBean {
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
                 ", img='" + img + '\'' +
+                ", location='" + location + '\'' +
                 ", createtime='" + createtime + '\'' +
                 '}';
     }

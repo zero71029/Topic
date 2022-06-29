@@ -23,4 +23,5 @@ public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean,S
 
     Integer countByArticleidAndCreatetimeGreaterThan(String articleid, String time);
 
+    Integer countByArticleid(String articleid);
 }

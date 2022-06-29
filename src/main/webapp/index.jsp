@@ -226,7 +226,7 @@
                         software: [],
                         controlbox: [],
                         application: [],
-                        advertise:[],
+                        rigthAdvertise: [],
                     }
                 },
                 created() {
@@ -271,13 +271,12 @@
                         }
                     });
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                        url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
                         type: 'get',
                         async: false,//同步請求
                         cache: false,//不快取頁面
                         success: response => {
-                            this.advertise = response;
-                           
+                            this.rigthAdvertise = response;
                         },
                         error: function (returndata) {
                             console.log(returndata);

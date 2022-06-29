@@ -22,6 +22,7 @@
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
                 <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
+
             </head>
 
             <body>
@@ -95,39 +96,7 @@
                                 <el-button type="primary" @click="dialogVisible = false">取 消</el-button>
                             </span>
                         </el-dialog>
-                        <el-dialog title="還未登入" :visible.sync="loginVisible" width="30%">
-                            <form action="${pageContext.request.contextPath}/login" method="post" id="loginform">
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label">電子郵件</label>
-                                    <input type="email" class="form-control" id="username" name="username"
-                                        value="AAA@AAA.com">
-                                </div>
-                                <br>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label">登入密碼</label>
-                                    <input type="text" class="form-control" id="password" name="password" value="AAA">
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12 ">
-                                        <input class="form-check-input" type="checkbox" id="remember-me"
-                                            name='remember-me'>
-                                        <label class="form-check-label" for="remember-me">記住我</label>
-                                        <a href="" style="float:right">忘記密碼</a>
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="row">
-                                    <div class="col-lg-12 ">
-                                        <span style="color: #AAA;">還不是會員嗎?</span>
-                                        <a href="${pageContext.request.contextPath}/member/register.jsp">立刻註冊新帳號</a>
-                                        <button style="float:right" class="btn btn-primary" type="button"
-                                            @click="login">登入
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </el-dialog>
+
                         <!--  -->
                         <div class="col-lg-12 ">
                             <div class="row">
@@ -150,7 +119,7 @@
                                                         data-layout="button_count">
                                                     </div> -->
                                                     <img :src="level" style="width: 60px;">
-                                                    
+
                                                 </div>
                                                 <!-- 主文 -->
                                                 <div class="col-lg-9 ">
@@ -160,29 +129,47 @@
                                                             <p>${article.createtime}
                                                                 <span style="float: right;">
 
-
-                                                                    <i class="bi bi-hand-thumbs-up icon  main"
-                                                                        @click="clickThumbsup">讚
-                                                                        {{thumbsupNum}}
-                                                                    </i>
-                                                                    &nbsp;|&nbsp;
-                                                                    <i class="bi bi-chat-left-text icon"
-                                                                        @click="clickReply">回復
-                                                                    </i>
-                                                                    &nbsp; |&nbsp;
-                                                                    <i class="bi bi-share icon share"
-                                                                        @click="dialogVisible = true">分享
-                                                                    </i>
-                                                                    <c:if test="${article.memberid == member.memberid}">
-                                                                        &nbsp;|&nbsp; <a
-                                                                            href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
-                                                                                class="bi bi-pencil-square">修改</i></a>
+                                                                    <c:if test="${not empty member.memberid}">
+                                                                        <i class="bi bi-hand-thumbs-up icon  main"
+                                                                            @click="clickThumbsup">讚
+                                                                            {{thumbsupNum}}
+                                                                        </i>
+                                                                        &nbsp; | &nbsp;
+                                                                        <i class="bi bi-chat-left-text icon"
+                                                                            @click="clickReply">回復
+                                                                        </i>
+                                                                        &nbsp; | &nbsp;
 
                                                                     </c:if>
+                                                                    <c:if test="${article.memberid == member.memberid}">
+                                                                        <a
+                                                                            href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
+                                                                                class="bi bi-pencil-square">修改</i></a>
+                                                                        &nbsp;|
+                                                                    </c:if>
+                                                                    &nbsp;
+                                                                    <el-dropdown>
+                                                                        <span class="el-dropdown-link">
+                                                                            <!-- 下拉 -->
+                                                                            <i class="el-icon-s-tools"
+                                                                                style="font-size: 18px;"></i>
+                                                                        </span>
+                                                                        <el-dropdown-menu slot="dropdown">
+                                                                            <el-dropdown-item>
+                                                                                <i class="bi bi-share icon share"
+                                                                                    @click="dialogVisible = true">&nbsp;分享
+                                                                                </i>
+                                                                            </el-dropdown-item>
+                                                                            <el-dropdown-item>
+                                                                                <i class="bi bi-exclamation-circle"
+                                                                                @click="response(${article.articleid})">&nbsp;回報</i>
+                                                                            </el-dropdown-item>
+                                                                        </el-dropdown-menu>
+                                                                    </el-dropdown>
                                                                 </span>
                                                             </p>
                                                             <hr>
-                                                            <div id="content">
+                                                            <div id="content" style="min-height: 150px;">
                                                                 ${article_content.content}
                                                             </div>
                                                         </div>
@@ -208,15 +195,43 @@
                                                     </div>
                                                     <div class="col-lg-9 ">
                                                         <div class="row">
-                                                            <div class="col-lg-12 text-break" v-html="s.content"></div>
+                                                            <div class="col-lg-12 text-break" v-html="s.content"
+                                                                style="min-height: 100px;"></div>
                                                             <p>{{s.createtime}}<span style="float: right;">
+                                                                    <c:if test="${not empty member.memberid}"></c:if>
                                                                     <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
                                                                         @click="replyClickThumbsup(s)">讚
                                                                         {{s.thumbsupNum}}</i>
                                                                     &nbsp; | &nbsp;<i @click="message(s)"
                                                                         class="bi bi-chat-text icon">留言</i>
-                                                                    &nbsp; |&nbsp; <i class="bi bi-share icon share"
-                                                                        @click="dialogVisible = true">分享</i></span>
+                                                                    &nbsp; | &nbsp;
+                                                                    <c:if test="${article.memberid == member.memberid}">
+                                                                        <a
+                                                                            :href="'${pageContext.request.contextPath}/reply/'+s.replyid"><i
+                                                                                class="bi bi-pencil-square">修改</i></a>
+                                                                        &nbsp;|
+                                                                    </c:if>
+                                                                    &nbsp;
+                                                                    <el-dropdown>
+                                                                        <span class="el-dropdown-link">
+                                                                            <!-- 下拉 -->
+                                                                            <i class="el-icon-s-tools"
+                                                                                style="font-size: 18px;"></i>
+                                                                        </span>
+                                                                        <el-dropdown-menu slot="dropdown">
+                                                                            <el-dropdown-item>
+                                                                                <i class="bi bi-share icon share"
+                                                                                    @click="dialogVisible = true">&nbsp;分享
+                                                                                </i>
+                                                                            </el-dropdown-item>
+                                                                            <el-dropdown-item>
+                                                                                <i class="bi bi-exclamation-circle"
+                                                                                    @click="response(s.replyid)"> 回報
+                                                                                </i>
+                                                                            </el-dropdown-item>
+                                                                        </el-dropdown-menu>
+                                                                    </el-dropdown>
+                                                                </span>
                                                             </p>
                                                         </div>
                                                         <div class="row align-items-center" style="height: 50px;"
@@ -273,6 +288,9 @@
                     </div>
                 </div>
 
+
+
+                <a href=""></a>
             </body>
             <script>
                 var aaa = document.createElement("meta");
@@ -296,7 +314,7 @@
                     el: ".app",
                     data() {
                         return {
-                            loginVisible: false,
+
                             dialogVisible: false,
                             thumbsupNum: 0,
                             hasThumbsup: false,
@@ -305,7 +323,7 @@
                             handthumbs: "bi bi-hand-thumbs-up icon",
                             text: "",
                             integral: '${article.member.integral}',
-                            advertise: [],
+                            rigthAdvertise: [],
 
                             level: "${pageContext.request.contextPath}/images/小青銅.png",
                         }
@@ -351,10 +369,7 @@
                                     reply.isthumbs = true;
                                 }
                             })
-
-
                             reply.level = '${pageContext.request.contextPath}/images/小青銅.png';
-
                             if (reply.member.integral >= 90000) {
                                 reply.level = '${pageContext.request.contextPath}/images/小傳奇.png';
                             } else if (reply.member.integral >= 30000) {
@@ -374,32 +389,29 @@
                             $(".main").css("color", "#0d6efd")
                         }
                         $.ajax({
-                            url: '${pageContext.request.contextPath}/backstage/addadverinit',
+                            url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
                             type: 'get',
                             async: false,//同步請求
                             cache: false,//不快取頁面
                             success: response => {
-                                this.advertise = response;
+                                this.rigthAdvertise = response;
 
                             },
                             error: function (returndata) {
                                 console.log(returndata);
                             }
                         });
-
-
-
-
-
-
                     }, mounted() {
 
                     },
                     methods: {
+                        response(replyid){
+                            console.log(replyid);
+                        },
                         //回復文章點讚
                         replyClickThumbsup(replyBean) {
                             if ('${member.name}' == '') {
-                                this.loginVisible = true;
+                                window.open("${pageContext.request.contextPath}/member/login.jsp");
                             } else {
                                 $.ajax({
                                     url: '${pageContext.request.contextPath}/article/thumbsup/' + replyBean.replyid,
@@ -424,7 +436,7 @@
                         //主文章點讚
                         clickThumbsup() {
                             if ('${member.name}' == '') {
-                                this.loginVisible = true;
+                                window.open("${pageContext.request.contextPath}/member/login.jsp");
                             } else {
                                 $.ajax({
                                     url: '${pageContext.request.contextPath}/article/thumbsup/' + id,
@@ -499,7 +511,7 @@
                         },
                         clickReply() {
                             if ('${member.name}' == '') {
-                                this.loginVisible = true;
+                                window.open("${pageContext.request.contextPath}/member/login.jsp");
                             } else {
                                 location.href = '${pageContext.request.contextPath}/reply/${article.articleid}';
                             }
