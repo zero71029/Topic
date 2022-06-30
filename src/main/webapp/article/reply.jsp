@@ -7,7 +7,9 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>發布文章</title>
+            <title>回復文章</title>
+            <!-- 禁止SEO -->
+            <meta name="robots" content="noindex">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/init.css">
             <!-- 引入样式 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
@@ -16,8 +18,6 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="//unpkg.com/element-ui/lib/umd/locale/zh-TW.js"></script>
-
-
             <script src="${pageContext.request.contextPath}/tinymce/js/tinymce.min.js"></script>
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
@@ -100,13 +100,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-
-                </div>
-            </div>
-            </div>
-
         </body>
         <script>
             tinymce.init({

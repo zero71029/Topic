@@ -106,11 +106,17 @@ public class ArticleController {
 
     public String saveReply(ArticleReplyBean arBean) {
         System.out.println("*****文章回復儲存*****");
-        arBean.setReplyid(ZeroTools.getUUID());
-        arBean.setCreatetime(ZeroTools.getTime(new Date()));
-        Integer num = as.getArticleNum(arBean.getArticleid());
-        arBean.setNum(num + 1);
+        System.out.println(arBean);
+        if(arBean.getReplyid() == null ||  arBean.getReplyid().isEmpty()){
+            arBean.setReplyid(ZeroTools.getUUID());
+            arBean.setCreatetime(ZeroTools.getTime(new Date()));
+            Integer num = as.getArticleNum(arBean.getArticleid());
+            arBean.setNum(num + 1);
+        }
+
         ArticleReplyBean save = as.saveArticleReply(arBean);
+
+        //計算積分
         new Thread(() -> as.Integral(save.getMemberid())).start();
         new Thread(() -> {
             ArticleBean abean = as.findById(save.getArticleid());
@@ -199,12 +205,5 @@ public class ArticleController {
 
         return "/article/return";
     }
-
-
-
-
-
-
-
 
 }

@@ -141,7 +141,7 @@ public class BackstageController {
         System.out.println("刪除 廣告");
         System.out.println(adBean);
         BS.deladvertise(adBean);
-        return BS.findAll();
+        return BS.findAdvertiseByLocation(adBean.getLocation());
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +150,7 @@ public class BackstageController {
     @ResponseBody
     public List<AdvertiseBean> addadvertise(AdvertiseBean adBean) {
         System.out.println("新增/修改 廣告");
+
         System.out.println(adBean);
         BS.save(adBean);
         return BS.findAdvertiseByLocation(adBean.getLocation());
@@ -161,7 +162,6 @@ public class BackstageController {
     @ResponseBody
     public List<AdvertiseBean> advertiseinit(@RequestParam("location") String location) {
         System.out.println("廣告初始化");
-        System.out.println(location);
         return BS.findAdvertiseByLocation(location);
     }
 

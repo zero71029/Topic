@@ -202,4 +202,12 @@ public class ArticleService {
     public void saveArticleReturn(ArticleReturnBean articleReturnBean) {
         articleReturnRepository.save(articleReturnBean);
     }
+
+    public boolean hasReply(String replyid) {
+        return arr.existsById(replyid);
+    }
+
+    public ArticleReplyBean findReplyById(String replyid) {
+        return  arr.getById(replyid);
+    }
 }

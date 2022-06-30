@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,5 +80,39 @@ public class TopicController {
         }).start();
         return "/topicdetail";
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //修改回復文章
+    @RequestMapping("/revise-reply/{replyid}")
+    public String reply(@PathVariable("replyid") String replyid, Model model, HttpSession session) {
+        System.out.println("=====修改回復文章=====");
+        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        if(as.hasReply(replyid)){
+            model.addAttribute(ArticleBean.SESSIONID,as.findReplyById(replyid));
+            return "/article/revisereply";
+        }
+        if(memberBean == null){
+            model.addAttribute("error","未登入");
+            return "/error/error";
+        }
+        model.addAttribute("error","文章不存在");
+        return "/error/error";
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //文章回復
+    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
+    @RequestMapping(path = {"/reply/{articleid}"})
+    public String reply(HttpSession session, @PathVariable("articleid")String articleid,Model model) {
+        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        if(as.hasArticle(articleid)){
+            model.addAttribute(ArticleBean.SESSIONID,as.findById(articleid));
+        }else {
+            model.addAttribute("error","文章不存在");
+            return "/error/error";
+        }
+        if(memberBean == null){
+            model.addAttribute("error","未登入");
+            return "/error/error";
+        }
+        return "/article/reply";
+    }
 }

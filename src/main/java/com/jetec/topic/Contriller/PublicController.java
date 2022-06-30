@@ -25,24 +25,7 @@ public class PublicController {
     public String index() {
         return "/index";
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //進入文章回復
-    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
-    @RequestMapping(path = {"/reply/{articleid}"})
-    public String reply(HttpSession session, @PathVariable("articleid")String articleid,Model model) {
-        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        if(as.hasArticle(articleid)){
-            model.addAttribute(ArticleBean.SESSIONID,as.findById(articleid));
-        }else {
-            model.addAttribute("error","文章不存在");
-            return "/error";
-        }
-        if(memberBean == null){
-            model.addAttribute("error","未登入");
-            return "/error";
-        }
-        return "/article/reply";
-    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //首頁
     @RequestMapping("/init")
@@ -55,6 +38,6 @@ public class PublicController {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //首頁
-    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail","/Backstage","/b"})
+    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail","/Backstage","/b","advertiseList"})
     public String articleList() {  return "/Backstage/index";    }
 }

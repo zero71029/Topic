@@ -8,9 +8,6 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>久德討論版</title>
-            <!-- <script src="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script> -->
-            <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery-ui-1.13.0.custom/jquery-ui.min.css"> -->
-
 
             <!-- 引入 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
@@ -23,7 +20,6 @@
             <meta property="og:type" content="website" />
             <meta property="og:title" content="${article.name}" />
             <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
-
         </head>
 
         <body>

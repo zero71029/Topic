@@ -175,9 +175,7 @@ public class BackstageService {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //刪除廣告
-    public void deladvertise(AdvertiseBean adBean) {
-        adr.delete(adBean);
-    }
+    public void deladvertise(AdvertiseBean adBean) {adr.delete(adBean);}
 
     //存觀看時間 system
     public void saveWatchTime(String memberid, String articleid) {

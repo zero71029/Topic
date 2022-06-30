@@ -4,15 +4,11 @@
         <html lang="zh-TW">
 
         <head>
-
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>發布文章</title>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/init.css">
-            <!-- 禁止SEO -->
-            <meta name="robots" content="noindex">
-
             <!-- 引入样式 vue-->
             <script src="${pageContext.request.contextPath}/js/vue.min.js"></script>
             <!-- 引入element-ui样式 -->
@@ -20,22 +16,20 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="//unpkg.com/element-ui/lib/umd/locale/zh-TW.js"></script>
-
-            <!-- tinymce -->
             <script src="${pageContext.request.contextPath}/tinymce/js/tinymce.min.js"></script>
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
             </script>
 
         </head>
-
+ 
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
             <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1>發布文章</h1>
+                        <h1>回復文章</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -53,61 +47,32 @@
                             <div class="col-lg-10">
                                 <form action="${pageContext.request.contextPath}/article/save" method="post"
                                     id="articleform">
+                                    <input type="hidden" name="replyid" value="${article.replyid}">
                                     <input type="hidden" name="memberid" value="${member.memberid}">
-                                    <input type="hidden" name="articleid" v-model="bean.articleid">
-                                    <input type="hidden" name="createtime" v-model="bean.createtime">
-                                    <input type="hidden" name="membername" v-model="bean.membername">
-                                    <input type="hidden" name="replytime" v-model="bean.replytime">
-                                    <input type="hidden" name="state" value="未驗證">
-
-
+                                    <input type="hidden" name="membername" value="${member.name}">
+                                    <input type="hidden" name="articleid" value="${article.articleid}">
+                                    <input type="hidden" name="createtime" value="${article.createtime}">
                                     <div class="mb-3">
-                                        <label class="form-label"> 主題 <span style="color: red;">*</span><span
-                                                style="color: red;">${errors.username}</span>
-                                        </label>
-                                        <input type="text" class="form-control" name="name" id="name"
-                                            v-model="bean.name">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label"> 主題 <span style="color: red;">*</span><span
-                                                style="color: red;">${errors.username}</span>
-                                        </label>
-                                        <select class="form-select" name="articlegroup" v-model="bean.articlegroup">
-                                            <option value="sensor">感測器</option>
-                                            <option value="apparatus">儀器儀表</option>
-                                            <option value="Netcom">網通裝置</option>
-                                            <option value="software">軟體配件</option>
-                                            <option value="controlbox">控制箱</option>
-                                            <option value="application">應用</option>
-                                        </select>
-                                    </div>
 
 
+                                        <textarea class="form-control" name="content" v-model="bean.content"></textarea>
 
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlTextarea1" class="form-label">內容</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" name="content"
-                                            v-model="bean.content"></textarea>
+
                                     </div>
                                     <br>
                                     <div class="form-check checkbox">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            我已經閱讀並同意遵守 <a
-                                                href="${pageContext.request.contextPath}/detail/22302ed22b7642708a397063ce0f1010"
-                                                target="_blank">討論區規則</a> 與<a
-                                                href="${pageContext.request.contextPath}/detail/162a4c5c62b646639af82accdf25527f"
-                                                target="_blank">本站服務條款</a>
+                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
+                                                target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
                                         </label>
                                     </div>
                                     <br>
 
                                     <div class="mb-3 text-end">
                                         <button type="button" class="btn btn-primary" @click="preview">預覽</button>
-                                        <button type="button" class="btn btn-primary" @click="submitForm"
-                                            id="sub">提交</button>
+                                        <button type="button" class="btn btn-primary" @click="submitForm">提交</button>
                                     </div>
                                 </form>
                             </div>
@@ -136,16 +101,16 @@
                 </div>
             </div>
 
-        </body>
+           
 
+        </body>
         <script>
             tinymce.init({
                 selector: 'textarea',  // change this value according to your HTML
                 plugins: ["autosave preview code link media hr charmap emoticons"],
                 toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink selectiveDateButton media |   preview code',
-
                 language: 'zh_TW',
-                height: '800',
+                height: '500',
                 //自訂義按鈕
                 setup: (editor) => {
                     //定義新icon
@@ -163,45 +128,22 @@
         </script>
 
         <script>
-            const url = new URL(location.href);
-            const id = url.searchParams.get("id");
-            const nav = url.searchParams.get("nav");
             var vm = new Vue({
                 el: ".app",
                 data() {
                     return {
-                        nav: nav,
                         imgVisible: false,
                         bean: {
                             name: "",
                             content: "",
                             agree: false,
-                            articlegroup: "",
-
+                          
                         },
+                        group: ""
                     }
                 },
                 created() {
-
-                    this.bean.articlegroup = nav;
-                    console.log(id);
-                    if (id == null || id == "") {
-                    } else {
-                        $.ajax({
-                            url: '${pageContext.request.contextPath}/article/getContent/' + id,
-                            type: 'POST',
-                            async: false,//同步請求
-                            cache: false,//不快取頁面
-                            success: response => {
-                                this.bean = response.article;
-                                this.bean.content = response.article_content.content;
-                            },
-                            error: function (returndata) {
-                                console.log(returndata);
-                            }
-                        });
-
-                    }
+                    this.bean.content =`${article.content}`
                     $.ajax({
                         url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
                         type: 'get',
@@ -209,7 +151,6 @@
                         cache: false,//不快取頁面
                         success: response => {
                             this.rigthAdvertise = response;
-
                         },
                         error: function (returndata) {
                             console.log(returndata);
@@ -220,12 +161,11 @@
                 methods: {
                     //上傳成功
                     upSuccess(response, file, fileList) {
-                        console.log(response);
-                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto; width: 50%;" ></p><p>&nbsp;</p>`;
+                       
+                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto; width: 50%;"></p><p>&nbsp;</p>`;
                         console.log(img);
                         this.imgVisible = false;
                         tinymce.activeEditor.execCommand('mceInsertContent', false, img);
-
                     },
                     //上傳檢查
                     beforeAvatarUpload(file) {
@@ -256,13 +196,7 @@
                         } else {
                             $(".checkbox").css("border", "0px ");
                         }
-                        if (this.bean.name.length <= 0) {
-                            isok = false
-                            this.$message.error('沒有主題');
-                            $("#name").css("border", "1px red solid");
-                        } else {
-                            $("#name").css("border", "1px solid #ced4da");
-                        }
+
                         if (tinyMCE.activeEditor.getContent().length <= 0) {
                             isok = false
                             this.$message.error('沒有內容');
@@ -272,16 +206,13 @@
                         }
                         if (isok) {
                             $("#articleform").attr("target", "");
-                            $("#articleform").attr("action", "${pageContext.request.contextPath}/article/save");
+                            $("#articleform").attr("action", "${pageContext.request.contextPath}/article/saveReply");
                             $("#articleform").submit();
                         }
                     }
                 },
             })
         </script>
-
-
-
         <style>
             .el-upload {
                 width: 100%;
@@ -296,6 +227,5 @@
                 height: auto;
             }
         </style>
-
 
         </html>

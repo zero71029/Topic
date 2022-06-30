@@ -22,6 +22,8 @@
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
                 <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
+                <!-- 禁止SEO -->
+                <meta name="robots" content="noindex">
 
             </head>
 
@@ -108,6 +110,11 @@
                                         <!-- 中間主體 -->
                                         <div class="col-lg-10">
                                             <div class="row ">
+                                                <c:if test="${not empty member.memberid}">
+                                                    <p style="text-align: right;"> <button type="button" class="btn btn-success"
+                                                            @click="clickReply">回復</button>
+                                                    </p>
+                                                </c:if>
                                                 <div class="col-lg-3 text-center">
                                                     <span
                                                         style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
@@ -128,16 +135,11 @@
                                                             <h3 id="articlename">${article.name}</h3>
                                                             <p>${article.createtime}
                                                                 <span style="float: right;">
-
                                                                     <c:if test="${not empty member.memberid}">
                                                                         <i class="bi bi-hand-thumbs-up icon  main"
                                                                             @click="clickThumbsup">讚
                                                                             {{thumbsupNum}}
-                                                                        </i>
-                                                                        &nbsp; | &nbsp;
-                                                                        <i class="bi bi-chat-left-text icon"
-                                                                            @click="clickReply">回復
-                                                                        </i>
+                                                                        </i>                                 
                                                                         &nbsp; | &nbsp;
 
                                                                     </c:if>
@@ -208,7 +210,7 @@
                                                                     </c:if>
                                                                     <c:if test="${article.memberid == member.memberid}">
                                                                         <a
-                                                                            :href="'${pageContext.request.contextPath}/reply/'+s.replyid"><i
+                                                                            :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
                                                                                 class="bi bi-pencil-square">修改</i></a>
                                                                         &nbsp;|
                                                                     </c:if>
@@ -273,17 +275,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            &nbsp;
-                        </div>
-                    </div>
-
                 </div>
-
-
-
-                <a href=""></a>
             </body>
             <script>
                 // SEO
