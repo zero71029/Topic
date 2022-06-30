@@ -16,8 +16,8 @@ public class ErrorConfigurar implements ErrorPageRegistrar {
 
         ErrorPage[] errorPages = new ErrorPage[3];
         errorPages[0] = new ErrorPage(HttpStatus.NOT_FOUND, "/error/error404.jsp");
-        errorPages[1] = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/error404.jsp");
-        errorPages[2] = new ErrorPage("/error/error404.jsp");
+        errorPages[1] = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/error500.jsp");
+        errorPages[2] = new ErrorPage("/error/error500.jsp");
         registry.addErrorPages(errorPages);
     }
 }

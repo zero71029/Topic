@@ -193,17 +193,20 @@ public class ArticleController {
         System.out.println("*****儲存回報*****");
         //將人轉成 舉報人
         MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        articleReturnBean.setMembername(mBean.getName());
+        articleReturnBean.setMemberid(mBean.getMemberid());
+        articleReturnBean.setReturnid(ZeroTools.getUUID());
+        articleReturnBean.setState("未處裡");
         if(mBean == null){
             articleReturnBean.setMemberid("");
             articleReturnBean.setMembername("路人");
             as.saveArticleReturn(articleReturnBean);
-            return "/article/return";
+            return "redirect:/article/returnSuccess.jsp";
         }
         articleReturnBean.setMemberid(mBean.getMemberid());
         articleReturnBean.setMembername(mBean.getName());
         as.saveArticleReturn(articleReturnBean);
-
-        return "/article/return";
+        return "redirect:/article/returnSuccess.jsp";
     }
 
 }

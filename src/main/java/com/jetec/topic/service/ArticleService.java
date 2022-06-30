@@ -93,8 +93,7 @@ public class ArticleService {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //取得文章回復
     public List<ArticleReplyBean> getReplyList(String articleid) {
-
-        return arr.findByArticleid(articleid, Sort.by(Sort.Direction.ASC, "num"));
+        return arr.findByArticleid(articleid, Sort.by(Sort.Direction.ASC, "createtime"));
     }
 
     //取得有幾筆回復

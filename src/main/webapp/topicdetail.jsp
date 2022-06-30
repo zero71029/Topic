@@ -98,7 +98,6 @@
                                 <el-button type="primary" @click="dialogVisible = false">取 消</el-button>
                             </span>
                         </el-dialog>
-
                         <!--  -->
                         <div class="col-lg-12 ">
                             <div class="row">
@@ -111,8 +110,8 @@
                                         <div class="col-lg-10">
                                             <div class="row ">
                                                 <c:if test="${not empty member.memberid}">
-                                                    <p style="text-align: right;"> <button type="button" class="btn btn-success"
-                                                            @click="clickReply">回復</button>
+                                                    <p style="text-align: right;"> <button type="button"
+                                                            class="btn btn-success" @click="clickReply">回復</button>
                                                     </p>
                                                 </c:if>
                                                 <div class="col-lg-3 text-center">
@@ -139,7 +138,7 @@
                                                                         <i class="bi bi-hand-thumbs-up icon  main"
                                                                             @click="clickThumbsup">讚
                                                                             {{thumbsupNum}}
-                                                                        </i>                                 
+                                                                        </i>
                                                                         &nbsp; | &nbsp;
 
                                                                     </c:if>
@@ -199,6 +198,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-12 text-break" v-html="s.content"
                                                                 style="min-height: 100px;"></div>
+
                                                             <p>{{s.createtime}}<span style="float: right;">
                                                                     <c:if test="${not empty member.memberid}">
                                                                         <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
@@ -208,12 +208,14 @@
                                                                             class="bi bi-chat-text icon">留言</i>
                                                                         &nbsp; | &nbsp;
                                                                     </c:if>
-                                                                    <c:if test="${article.memberid == member.memberid}">
-                                                                        <a
-                                                                            :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
-                                                                                class="bi bi-pencil-square">修改</i></a>
-                                                                        &nbsp;|
-                                                                    </c:if>
+
+                                                                    <a v-show="'${member.memberid}' == s.memberid"
+                                                                        :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
+                                                                            class="bi bi-pencil-square">修改</i></a>
+                                                                    <span  v-show="'${member.memberid}' == s.memberid">
+                                                                        &nbsp; |
+                                                                    </span>
+
                                                                     &nbsp;
                                                                     <el-dropdown @command="handleCommand">
                                                                         <span class="el-dropdown-link">
@@ -263,6 +265,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <c:if test="${not empty member.memberid}">
+                                                <p style="text-align: right;"> <button type="button"
+                                                        class="btn btn-success" @click="clickReply">回復</button>
+                                                </p>
+                                            </c:if>
                                         </div>
                                         <!-- 右邊廣告 -->
                                         <div class="col-lg-2">
