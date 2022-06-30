@@ -35,6 +35,9 @@ public class ArticleService {
     WatchRepository wr;
     @Autowired
     PermitRepository pr;
+    @Autowired
+    ArticleReturnRepository articleReturnRepository;
+
     public ArticleBean save(ArticleBean articleBean) {
         return ar.save(articleBean);
     }
@@ -189,5 +192,14 @@ public class ArticleService {
         } else {
             return 0;
         }
+    }
+    //取得回復文章
+    public Optional<ArticleReplyBean> getReplyByReplyid(String replyid) {
+        return arr.findById(replyid);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //儲存回報
+    public void saveArticleReturn(ArticleReturnBean articleReturnBean) {
+        articleReturnRepository.save(articleReturnBean);
     }
 }

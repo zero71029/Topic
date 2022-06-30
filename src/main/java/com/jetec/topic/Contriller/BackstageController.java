@@ -159,7 +159,7 @@ public class BackstageController {
     //廣告初始化
     @RequestMapping("/advertiseinit")
     @ResponseBody
-    public List<AdvertiseBean> advertiseinit(@RequestParam("location")String location) {
+    public List<AdvertiseBean> advertiseinit(@RequestParam("location") String location) {
         System.out.println("廣告初始化");
         System.out.println(location);
         return BS.findAdvertiseByLocation(location);

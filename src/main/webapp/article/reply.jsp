@@ -113,7 +113,7 @@
                 selector: 'textarea',  // change this value according to your HTML
                 plugins: ["autosave preview code link media hr charmap emoticons"],
                 toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink selectiveDateButton media |   preview code',
-              
+
                 language: 'zh_TW',
                 height: '800',
                 //自訂義按鈕
@@ -149,7 +149,6 @@
                     }
                 },
                 created() {
-
                     switch (this.bean.articlegroup) {
                         case 'controlbox':
                             this.group = "控制箱";
@@ -172,19 +171,19 @@
                         cache: false,//不快取頁面
                         success: response => {
                             this.rigthAdvertise = response;
-                           
+
                         },
                         error: function (returndata) {
                             console.log(returndata);
                         }
                     });
-                    
-                }, 
+
+                },
                 methods: {
                     //上傳成功
                     upSuccess(response, file, fileList) {
                         console.log(response);
-                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto;"></p><p>&nbsp;</p>`;
+                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto; width: 50%;"></p><p>&nbsp;</p>`;
                         console.log(img);
                         this.imgVisible = false;
                         tinymce.activeEditor.execCommand('mceInsertContent', false, img);
@@ -236,9 +235,6 @@
                 },
             })
         </script>
-
-
-
         <style>
             .el-upload {
                 width: 100%;
@@ -253,6 +249,5 @@
                 height: auto;
             }
         </style>
-
 
         </html>

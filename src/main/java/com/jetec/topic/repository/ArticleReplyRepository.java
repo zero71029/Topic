@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean,String> {
+public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean, String> {
 
     List<ArticleReplyBean> findByArticleid(String articleid, Sort num);
 
 
-    @Query( value = "SELECT  count(*)  from article_reply where articleid = ?1 ", nativeQuery = true)
+    @Query(value = "SELECT  count(*)  from article_reply where articleid = ?1 ", nativeQuery = true)
     Integer getArticleNum(String articleid);
 
     Integer countByMemberid(String memberid);

@@ -94,8 +94,8 @@
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
-                                                target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
+                                            我已經閱讀並同意遵守 <a href="${pageContext.request.contextPath}/detail/22302ed22b7642708a397063ce0f1010" target="_blank">討論區規則</a> 與<a href="${pageContext.request.contextPath}/detail/162a4c5c62b646639af82accdf25527f"
+                                                target="_blank">本站服務條款</a>
                                         </label>
                                     </div>
                                     <br>
@@ -223,7 +223,7 @@
                     //上傳成功
                     upSuccess(response, file, fileList) {
                         console.log(response);
-                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto;"></p><p>&nbsp;</p>`;
+                        const img = `<p><img src="${pageContext.request.contextPath}/file/` + response + `"  style="max-width: 100%; height: auto; width: 50%;" ></p><p>&nbsp;</p>`;
                         console.log(img);
                         this.imgVisible = false;
                         tinymce.activeEditor.execCommand('mceInsertContent', false, img);

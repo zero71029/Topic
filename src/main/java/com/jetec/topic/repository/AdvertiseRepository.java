@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AdvertiseRepository extends JpaRepository<AdvertiseBean,String> {
+public interface AdvertiseRepository extends JpaRepository<AdvertiseBean, String> {
     List<AdvertiseBean> findByLocation(String location);
 }

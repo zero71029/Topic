@@ -1,39 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Don't use this in production: -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="text/babel">
-    
-      function MyApp() {
-        return <h1>Hello, world!</h1>;
-      }
-
-      const container = document.getElementById('root');
-      const root = ReactDOM.createRoot(container);
-      root.render(<MyApp />);
-
-    </script>
-    <!--
-      Note: this page is a great way to try React but it's not suitable for production.
-      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
-
-      Read this section for a production-ready setup with JSX:
-      https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
-
-      In a larger project, you can use an integrated toolchain that includes JSX instead:
-      https://reactjs.org/docs/create-a-new-react-app.html
-
-      You can also use React without JSX, in which case you can remove Babel:
-      https://reactjs.org/docs/react-without-jsx.html
-    -->
-  </body>
-</html>
+<html><body>
+  <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
+    <p style="text-align: center;"> <img src="https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
+        style="width: 300px;"></p>
+    <p>%s 您好</p>
+    <p>這是管理者介面重設密碼通知信，要求變更久德討論版中 帳號 的管理者密碼，若不是您本人申請，請忽略此封信件。</p><br>
+    <p>如果您有重置密碼需求，請於申請後24小時內點選下方連結，並輸入新的密碼完成變更。
+      若超過時間請重新申請重複申請以最新的信件為準。</p>
+    <p style="text-align: center;"> <a href="http://192.168.11.100:8080/topic/member/reset.jsp?id=%s" target="_blank">
+        重置密碼</a></p>
+    <br><br><br>
+    <p>謝謝您</p>
+    <p>久德電子有限公司敬上</p><br>
+    <p>注意：該封郵件是由系統自動寄送的通知信，請不要直接回覆此信。
+      若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
+  </div>
+</body></html>

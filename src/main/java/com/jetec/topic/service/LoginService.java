@@ -116,4 +116,8 @@ public class LoginService {
             }
         });
     }
+
+    public MemberBean findMemberById(String auth) {
+        return mr.getById(auth);
+    }
 }

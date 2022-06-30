@@ -96,9 +96,30 @@ public class LoginController {
             ls.savePermit(uuid, save.getMemberid(), 0);
 
             //寄認證信
-            String text = "<html><body><p><a href='http://192.168.11.100:8080/topic/Certification?id=" + uuid + "'>點擊認證</a></p></body></html>";
-            String Subject = "久德討論版認證信";// 主題
+
+
+            String text = """
+                    <html><body>
+                      <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
+                        <p style="text-align: center;"> <img src="https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
+                            style="width: 300px;"></p>
+                        <p>%s 您好</p>
+                        <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
+                        <a href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank">
+                        <button   %s >驗證您的Email並訂閱久德最新消息</button> </a>
+                        <p style="text-align: center;"><a href="http://192.168.11.100:8080/topic/Certification?id=%s">驗證您的Email</a></p>
+                        <br><br><br>
+                        <p>謝謝您</p>
+                        <p>久德電子有限公司敬上</p><br>
+                        <p>注意：該封郵件是由系統自動寄送的通知信，請不要直接回覆此信。
+                          若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
+                      </div>
+                    </body></html>
+                    """.formatted(save.getName(), save.getEmail(), uuid, "style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;'", uuid);
+            System.out.println(text);
+            String Subject = "請在久德討論版認證您的Email";// 主題
             try {
+                System.out.println(text);
                 mailTool.sendlineMail(save.getEmail(), Subject, text);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -151,17 +172,36 @@ public class LoginController {
                 if (bean.getEmail() == null || bean.getEmail().length() == 0) {
                     errors.put("email", "Email錯誤");
                 }
-                if (!bean.getEmail().contains("@"))
-                    errors.put("email", "Email錯誤");
-                if ( !errors.isEmpty())
-                    return "/member/forget";
+                if (!bean.getEmail().contains("@")) errors.put("email", "Email錯誤");
+                if (!errors.isEmpty()) return "/member/forget";
 
                 // 儲存認證碼?
                 ls.saveAuthorize(uuid, bean.getMemberid());
 
                 // 寄發郵件
-                String text = "<html><body><p><a href='http://192.168.11.100:8080/topic/member/reset.jsp?id=" + uuid + "'>從新設定密碼</a></p></body></html>";
-                String Subject = "從新設定密碼";// 主題
+
+
+                String text = """
+                          <html><body>
+                            <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
+                              <p style="text-align: center;"> <img src="https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
+                                  style="width: 300px;"></p>
+                              <p>%s 您好</p>
+                              <p>這是管理者介面重設密碼通知信，要求變更久德討論版中 帳號 的管理者密碼，若不是您本人申請，請忽略此封信件。</p><br>
+                              <p>如果您有重置密碼需求，請於申請後24小時內點選下方連結，並輸入新的密碼完成變更。
+                                若超過時間請重新申請重複申請以最新的信件為準。</p>
+                              <p style="text-align: center;"> <a href="http://192.168.11.100:8080/topic/member/reset.jsp?id=%s" target="_blank">
+                                  重置密碼</a></p>
+                              <br><br><br>
+                              <p>謝謝您</p>
+                              <p>久德電子有限公司敬上</p><br>
+                              <p>注意：該封郵件是由系統自動寄送的通知信，請不要直接回覆此信。
+                                若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
+                            </div>
+                          </body></html>
+                        """.formatted(bean.getName(), uuid);
+                System.out.println(text);
+                String Subject = "九德討論版重置密碼申請";// 主題
                 try {
                     mailTool.sendlineMail(bean.getEmail(), Subject, text);
                 } catch (Exception e) {
@@ -207,8 +247,7 @@ public class LoginController {
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
-            model.addAttribute("message", "認證碼" + auth + ",請重新申請 ");
-            model.addAttribute("error", "<a href='/topic/member/reSend.jsp'>重寄認證信</a>");
+            model.addAttribute("error", "認證碼" + auth + ",請重新申請 ");
             return "/member/certification";
         }
         //取出member  新增權限
@@ -216,6 +255,44 @@ public class LoginController {
         model.addAttribute("message", "認證成功,歡迎您的加入");
         return "/member/certification";
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //認證 and 訂閱Email
+    @RequestMapping(path = {"/CertificationOrder"})
+    public String CertificationOrder(@RequestParam("id") String id, Model model) {
+        System.out.println("*****認證 and 訂閱Email*****");
+        //檢查認證碼
+        String auth = ls.checkAithorize(id);
+        if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+            model.addAttribute("error", "認證碼" + auth + ",請重新申請 ");
+            return "/member/certification";
+        }
+        //取出member  新增權限
+        ls.savePermit(ZeroTools.getUUID(), auth, 1);
+        model.addAttribute("message", "認證成功,歡迎您的加入");
+        MemberBean mBean = ls.findMemberById(auth);
+
+        String Subject = "訂閱Email";
+        String text = """
+                訂閱Email by 討論版<br>
+                <br>
+                會員資料<br>
+                ==========================<br>
+                暱稱:%s<br>
+                Email:%s<br>
+                公司-組織:%s<br>
+                連絡電話:%s<br>
+                
+                """.formatted(mBean.getName(),mBean.getEmail(),mBean.getCompany(),mBean.getPhone());
+        try {
+            mailTool.sendlineMail("jeter.tony56@gmail.com,marketing@mail-jetec.com.tw,jetec.co@msa.hinet.net", Subject, text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "/member/certification";
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //重寄認證信
     @RequestMapping(path = {"/reSend"})
@@ -231,18 +308,38 @@ public class LoginController {
             errors.put("recaptcha", "需要驗證");
         }
         if (!ls.existsMemberByEnail(email)) errors.put("email", "未找到Email");
-        if (ls.existsPermetByEmailAndLevel(email,1)) errors.put("level", "已經通過認證");
+        if (ls.existsPermetByEmailAndLevel(email, 1)) errors.put("level", "已經通過認證");
         //沒有錯誤, 儲存資料 ,存權限 ,寄認證信
         if (errors.isEmpty()) {
             String uuid = ZeroTools.getUUID();
-            MemberBean save = ls.findByEmail(email);
+            MemberBean mbean = ls.findByEmail(email);
             //存認證
-            ls.saveAuthorize(uuid, save.getMemberid());
+            ls.saveAuthorize(uuid, mbean.getMemberid());
             //寄認證信
-            String text = "<html><body><p><a href='http://192.168.11.100:8080/topic/Certification?id=" + uuid + "'>點擊認證</a></p></body></html>";
-            String Subject = "久德討論版認證信";// 主題
+
+
+            String text = """
+                    <html><body>
+                      <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
+                        <p style="text-align: center;"> <img src="https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
+                            style="width: 300px;"></p>
+                        <p>%s 您好</p>
+                        <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
+                        <a href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank">
+                        <button   %s >驗證您的Email並訂閱久德最新消息</button> </a>
+                        <p style="text-align: center;"><a href="http://192.168.11.100:8080/topic/Certification?id=%s">驗證您的Email</a></p>
+                        <br><br><br>
+                        <p>謝謝您</p>
+                        <p>久德電子有限公司敬上</p><br>
+                        <p>注意：該封郵件是由系統自動寄送的通知信，請不要直接回覆此信。
+                          若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
+                      </div>
+                    </body></html>
+                    """.formatted(mbean.getName(), email, uuid, "style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;'", uuid);
+
+            String Subject = "請在久德討論版認證您的Email";// 主題
             try {
-                mailTool.sendlineMail(save.getEmail(), Subject, text);
+                mailTool.sendlineMail(mbean.getEmail(), Subject, text);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -148,21 +148,21 @@
                                                                         &nbsp;|
                                                                     </c:if>
                                                                     &nbsp;
-                                                                    <el-dropdown>
+                                                                    <el-dropdown @command="handleCommand">
                                                                         <span class="el-dropdown-link">
                                                                             <!-- 下拉 -->
                                                                             <i class="el-icon-s-tools"
                                                                                 style="font-size: 18px;"></i>
                                                                         </span>
                                                                         <el-dropdown-menu slot="dropdown">
-                                                                            <el-dropdown-item>
-                                                                                <i class="bi bi-share icon share"
-                                                                                    @click="dialogVisible = true">&nbsp;分享
-                                                                                </i>
+                                                                            <el-dropdown-item command='a'>
+                                                                                <i
+                                                                                    class="bi bi-share icon share">&nbsp;分享</i>
                                                                             </el-dropdown-item>
-                                                                            <el-dropdown-item>
-                                                                                <i class="bi bi-exclamation-circle"
-                                                                                @click="response(${article.articleid})">&nbsp;回報</i>
+                                                                            <el-dropdown-item
+                                                                                command="articleReturn/${article.articleid}">
+                                                                                <i
+                                                                                    class="bi bi-exclamation-circle">&nbsp;回報</i>
                                                                             </el-dropdown-item>
                                                                         </el-dropdown-menu>
                                                                     </el-dropdown>
@@ -198,13 +198,14 @@
                                                             <div class="col-lg-12 text-break" v-html="s.content"
                                                                 style="min-height: 100px;"></div>
                                                             <p>{{s.createtime}}<span style="float: right;">
-                                                                    <c:if test="${not empty member.memberid}"></c:if>
-                                                                    <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
-                                                                        @click="replyClickThumbsup(s)">讚
-                                                                        {{s.thumbsupNum}}</i>
-                                                                    &nbsp; | &nbsp;<i @click="message(s)"
-                                                                        class="bi bi-chat-text icon">留言</i>
-                                                                    &nbsp; | &nbsp;
+                                                                    <c:if test="${not empty member.memberid}">
+                                                                        <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
+                                                                            @click="replyClickThumbsup(s)">讚
+                                                                            {{s.thumbsupNum}}</i>
+                                                                        &nbsp; | &nbsp;<i @click="message(s)"
+                                                                            class="bi bi-chat-text icon">留言</i>
+                                                                        &nbsp; | &nbsp;
+                                                                    </c:if>
                                                                     <c:if test="${article.memberid == member.memberid}">
                                                                         <a
                                                                             :href="'${pageContext.request.contextPath}/reply/'+s.replyid"><i
@@ -212,21 +213,22 @@
                                                                         &nbsp;|
                                                                     </c:if>
                                                                     &nbsp;
-                                                                    <el-dropdown>
+                                                                    <el-dropdown @command="handleCommand">
                                                                         <span class="el-dropdown-link">
                                                                             <!-- 下拉 -->
                                                                             <i class="el-icon-s-tools"
                                                                                 style="font-size: 18px;"></i>
                                                                         </span>
                                                                         <el-dropdown-menu slot="dropdown">
-                                                                            <el-dropdown-item>
-                                                                                <i class="bi bi-share icon share"
-                                                                                    @click="dialogVisible = true">&nbsp;分享
+                                                                            <el-dropdown-item command='a'>
+                                                                                <i class="bi bi-share icon share">
+                                                                                    &nbsp;分享
                                                                                 </i>
                                                                             </el-dropdown-item>
-                                                                            <el-dropdown-item>
-                                                                                <i class="bi bi-exclamation-circle"
-                                                                                    @click="response(s.replyid)"> 回報
+                                                                            <el-dropdown-item
+                                                                                :command="'replyReturn/'+s.replyid">
+                                                                                <i class="bi bi-exclamation-circle">
+                                                                                    回報
                                                                                 </i>
                                                                             </el-dropdown-item>
                                                                         </el-dropdown-menu>
@@ -276,16 +278,7 @@
                             &nbsp;
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-
-                        </div>
-                    </div>
                 </div>
 
 
@@ -293,12 +286,11 @@
                 <a href=""></a>
             </body>
             <script>
+                // SEO
                 var aaa = document.createElement("meta");
                 aaa.setAttribute("property", "og:type");
                 aaa.content = location.href;
                 document.head.appendChild(aaa);
-
-                console.log($("#content").text());
                 var description = document.createElement("meta");
                 description.setAttribute("property", "og:description");
                 description.content = $("#content").text();
@@ -379,11 +371,6 @@
                             } else if (reply.member.integral >= 1000) {
                                 reply.level = '${pageContext.request.contextPath}/images/小白銀.png';
                             }
-
-                            console.log(reply.member.integral);
-                            console.log(reply.level);
-
-
                         });
                         if (this.hasThumbsup) {
                             $(".main").css("color", "#0d6efd")
@@ -395,7 +382,6 @@
                             cache: false,//不快取頁面
                             success: response => {
                                 this.rigthAdvertise = response;
-
                             },
                             error: function (returndata) {
                                 console.log(returndata);
@@ -405,8 +391,35 @@
 
                     },
                     methods: {
-                        response(replyid){
-                            console.log(replyid);
+                        //下拉工具
+                        handleCommand(command) {
+                            this.$message('click on item ' + command);
+                            if (command == "a") {
+                                this.dialogVisible = true
+                            } else {
+                                location.href = "${pageContext.request.contextPath}/article/" + command;
+                            }
+                        },
+
+                        response(location, replyid) {
+                            $.ajax({
+                                url: '${pageContext.request.contextPath}/article/' + location + '/' + replyid,
+                                type: 'POST',
+                                success: (boo) => {
+                                    if (boo) {
+                                        replyBean.isthumbs = true;
+                                        replyBean.thumbsupNum++;
+                                        this.$forceUpdate();
+                                    } else {
+                                        replyBean.isthumbs = false;
+                                        replyBean.thumbsupNum--;
+                                        this.$forceUpdate();
+                                    }
+                                },
+                                error: function (returndata) {
+                                    console.log(returndata);
+                                }
+                            });
                         },
                         //回復文章點讚
                         replyClickThumbsup(replyBean) {

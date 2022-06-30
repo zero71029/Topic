@@ -47,7 +47,7 @@
                             <div class="g-recaptcha " style="width: 304px;display: inline-block;  "
                                 data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
                             <button style="position: absolute;bottom: 0%; right: 0%;"
-                                class="btn btn-primary   ">登入</button>
+                                class="btn btn-primary   ">送出</button>
                         </div>
                         <p style="color: red;">${errors.recaptcha}</p>
                     </form>
