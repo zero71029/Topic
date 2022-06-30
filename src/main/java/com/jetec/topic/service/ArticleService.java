@@ -154,7 +154,7 @@ public class ArticleService {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //搜索
     public Map<String, Object> search(String search, Pageable p) {
-        Page<ArticleBean> page = ar.findByNameLikeIgnoreCase("%" + search + "%", p);
+        Page<ArticleBean> page = ar.findByStateAndNameLikeIgnoreCase("允許","%" + search + "%", p);
         Map<String, Object> result = new HashMap<>();
         result.put("list", page.getContent());
         result.put("total", page.getTotalElements());

@@ -72,11 +72,18 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div style="width: 100%;height: 100px;background-color: blue;"></div>
+                                        <el-carousel trigger="click" height="350px" interval="10000">
+                                            <el-carousel-item v-for="( s , index ) in middleAdvertise" :key="index">
+                                                <a :href="s.url" target="_blank">
+                                                    <img :src="'${pageContext.request.contextPath}/file/'+s.img"
+                                                        :alt="s.name"
+                                                        style="height: 100%;">
+                                                </a>
+                                            </el-carousel-item>
+                                        </el-carousel>
                                     </div>
                                 </div><br>
                                 <div class="row">
-
                                     <div class="col-lg-6">
                                         <div
                                             style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
@@ -227,6 +234,7 @@
                         controlbox: [],
                         application: [],
                         rigthAdvertise: [],
+                        middleAdvertise: [],
                     }
                 },
                 created() {
@@ -277,6 +285,18 @@
                         cache: false,//不快取頁面
                         success: response => {
                             this.rigthAdvertise = response;
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=中',
+                        type: 'get',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            this.middleAdvertise = response;
                         },
                         error: function (returndata) {
                             console.log(returndata);
