@@ -32,68 +32,97 @@
                     <div class="col-lg-2 "></div>
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                         <h2>文章回報</h2>
-                        <form action="${pageContext.request.contextPath}/article/saveReturn" method="post" style="font-size: 20px;">
+                        <form action="${pageContext.request.contextPath}/article/saveReturn" method="post" id="returnform"
+                            style="font-size: 20px;">
                             <input type="hidden" name="articleid" value="${article.articleid}">
                             <input type="hidden" name="memberid" value="${article.memberid}">
                             <input type="hidden" name="membername" value="${article.membername}">
                             <div>
-                                <label 
+                                <label
                                     style="display: table-cell; width: 150px;text-align: right; padding: 9px 20px 9px 0;">
                                     文章標題</label>
                                 <div style="display: table-cell;">${article.name}</div>
                             </div><br>
                             <div>
-                                <label 
+                                <label
                                     style="display: table-cell; width: 150px;text-align: right; padding: 9px 20px 9px 0;">
                                     文章作者</label>
                                 <div style="display: table-cell;">${article.membername}</div>
                             </div><br>
                             <div>
-                                <label 
+                                <label
                                     style="display: table-cell; width: 150px;text-align: right; padding: 9px 20px 9px 0;">
                                     文章時間</label>
                                 <div style="display: table-cell;">${article.createtime}</div>
                             </div><br>
                             <div>
-                                <label 
+                                <label
                                     style="display: table-cell; width: 150px;text-align: right; padding: 9px 20px 9px 0;">
                                     回報類型</label>
-                                <div style="display: table-cell;">
+                                <div style="display: table-cell;" id="returntype">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineCheckbox1" name="returntype"
-                                            value="其他事項">
+                                        <input class="form-check-input" type="radio" id="inlineCheckbox1"
+                                            name="returntype" value="其他事項">
                                         <label class="form-check-label" for="inlineCheckbox1">其他事項
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineCheckbox2" name="returntype"
-                                            value="內容重複">
+                                        <input class="form-check-input" type="radio" id="inlineCheckbox2"
+                                            name="returntype" value="內容重複">
                                         <label class="form-check-label" for="inlineCheckbox2">內容重複</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineCheckbox3" name="returntype"
-                                            value="文章違規">
+                                        <input class="form-check-input" type="radio" id="inlineCheckbox3"
+                                            name="returntype" value="文章違規">
                                         <label class="form-check-label" for="inlineCheckbox3">文章違規</label>
                                     </div>
                                 </div>
                             </div><br>
                             <div>
-                                <label 
+                                <label
                                     style="display: table-cell; width: 150px;text-align: right; padding: 9px 20px 9px 0;">
                                     回報訊息</label>
                                 <div style="display: table-cell;">
-                                    <textarea class="form-control" name="content"
-                                        style="width: 500px;height: 200px;" maxlength="900"></textarea>
+                                    <textarea class="form-control" name="content" style="width: 500px;height: 200px;"
+                                        maxlength="900"></textarea>
                                 </div>
                             </div><br>
                             <div style="text-align: right;">
-                                <button type="submit" class="btn btn-primary btn-lg">送出</button>
+                                <button type="button" class="btn btn-primary btn-lg"
+                                    onclick="submitReturn()">送出</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </body>
+        <script>
+            function submitReturn() {
+                isok = true;
+                console.log("ddddddddddddddddddddddddddddddddddddd");
+                console.log($("input[name='returntype']:checked").val());
+                if (typeof ($("input[name='returntype']:checked").val()) == "undefined") {
+                    isok= false;
+                    $("#returntype").css("border","red 1px solid");
+                }else{
+                    $("#returntype").css("#000","red 0px solid");
+                }
 
+
+
+
+                if(isok){
+                    $("#returnform").submit();
+                }else{
+                    alert("類型需填選")
+                }
+            }
+
+
+
+
+
+
+        </script>
 
         </html>
