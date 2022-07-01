@@ -111,7 +111,8 @@
                                             <div class="row ">
                                                 <c:if test="${not empty member.memberid}">
                                                     <p style="text-align: right;"> <button type="button"
-                                                            class="btn btn-success" @click="clickReply">回復</button>
+                                                            class="btn btn-success reply"
+                                                            @click="clickReply">回復</button>
                                                     </p>
                                                 </c:if>
                                                 <div class="col-lg-3 text-center">
@@ -204,15 +205,17 @@
                                                                         <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
                                                                             @click="replyClickThumbsup(s)">讚
                                                                             {{s.thumbsupNum}}</i>
-                                                                        &nbsp; | &nbsp;<i @click="message(s)"
-                                                                            class="bi bi-chat-text icon">留言</i>
                                                                         &nbsp; | &nbsp;
+                                                                        <i @click="message(s)"
+                                                                            class="bi bi-chat-text icon message">留言</i>
+                                                                        <span class="message">&nbsp; | &nbsp;</span>
+
                                                                     </c:if>
 
                                                                     <a v-show="'${member.memberid}' == s.memberid"
                                                                         :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
                                                                             class="bi bi-pencil-square">修改</i></a>
-                                                                    <span  v-show="'${member.memberid}' == s.memberid">
+                                                                    <span v-show="'${member.memberid}' == s.memberid">
                                                                         &nbsp; |
                                                                     </span>
 
@@ -267,7 +270,7 @@
                                             </div>
                                             <c:if test="${not empty member.memberid}">
                                                 <p style="text-align: right;"> <button type="button"
-                                                        class="btn btn-success" @click="clickReply">回復</button>
+                                                        class="btn btn-success reply" @click="clickReply">回復</button>
                                                 </p>
                                             </c:if>
                                         </div>
@@ -549,4 +552,8 @@
                         }
                     },
                 })
+                if (permit.indexOf("1") < 0){                    
+                    $(".message").hide();
+                    $(".reply").hide();
+                } 
             </script>

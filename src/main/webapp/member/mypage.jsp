@@ -48,8 +48,8 @@
                                     <div class="row" style="border: 1px solid #444;">
                                         <div class="col-lg-3 " style="position:relative;">
                                             <a href="${pageContext.request.contextPath}/system/level.jsp">
-                                                <img class="position-absolute top-50 start-50 translate-middle" :src="level"
-                                                alt="line" style="width: 100px;">
+                                                <img class="position-absolute top-50 start-50 translate-middle"
+                                                    :src="level" alt="line" style="width: 100px;">
                                             </a>
                                         </div>
                                         <div class="col-lg-3 text-center">
@@ -112,6 +112,8 @@
                                             <input type="text" class="form-control" name="birthday"
                                                 value="${member.birthday}"> -->
                                         </div>
+                                        <a href="${pageContext.request.contextPath}/member/reSend.jsp"
+                                            id="reSend">重寄認證信</a>
                                         <button type="button" class="btn btn-primary" style="float: right;"
                                             @click="revise">修改</button>
                                     </form>
@@ -121,11 +123,7 @@
                         </transition>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h1></h1>
-                    </div>
-                </div>
+
             </div>
         </body>
         <script>
@@ -194,7 +192,10 @@
                     }
                 },
             })
-            $("input[name='birthday']").addClass("form-control")
+            $("input[name='birthday']").addClass("form-control");
+            if (permit.indexOf("1") > 0) {
+                $("#reSend").hide();
+            } 
         </script>
         <style>
             .el-date-editor.el-input {

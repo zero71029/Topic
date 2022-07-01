@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/backstage")
-//@PreAuthorize(" hasAuthority('aa') OR hasAuthority('9')")
+//@PreAuthorize(" hasAuthority('9')")
 
 public class BackstageController {
     @Autowired
@@ -206,19 +206,20 @@ public class BackstageController {
         }
         return null;
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //回報列表
     @RequestMapping("/returnList")
     @ResponseBody
-    public Map<String, Object> returnList(@RequestParam("page")Integer page, @RequestParam("size")Integer size) {
+    public Map<String, Object> returnList(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
         page--;
         Pageable Pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
         Page<ArticleReturnBean> p = BS.findArticleReturn(Pageable);
         Map<String, Object> result = new HashMap<>();
-        result.put("list",p.getContent());
-        result.put("total",p.getTotalElements());
+        result.put("list", p.getContent());
+        result.put("total", p.getTotalElements());
 
-      return result;
+        return result;
     }
 
 }

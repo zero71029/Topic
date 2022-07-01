@@ -25,9 +25,12 @@
                     error: function (returndata) {
                         console.log(returndata);
                     }
-                });
+                });    
             </script>
         </c:if>
+
+
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid " style="position: relative;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">首頁</a>
@@ -63,18 +66,12 @@
                         </li>
                         <c:if test="${not empty member}">
                             <c:if test="${pageContext.request.requestURI == '/topic/topiclist.jsp'}">
-                                <li class="nav-item">
-                                <li class="nav-item" style="background-color: blue;border-radius: 4px;">
+                                <li class="nav-item" style="background-color: blue;border-radius: 4px;" id="publish">
                                     <a class="nav-link" style="color: white;"
                                         href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">
                                         發布文章
-                                        <c:forEach varStatus="loop" begin="0" end="${member.permitList.size()-1}"
-                                            items="${member.permitList}" var="s">
-                                            ${s.level}
-                                        </c:forEach>
-
                                     </a>
-                                </li>
+
                                 </li>
                             </c:if>
                         </c:if>
@@ -103,3 +100,16 @@
                 </div>
             </div>
         </nav>
+        <c:if test='${not empty member}'>
+            <script>
+                const permit =
+                    <c:forEach varStatus="loop" begin="0" end="${member.permitList.size()-1}"
+                        items="${member.permitList}" var="s">
+                        '${s.level}'+
+                    </c:forEach>'aa';
+
+                if(permit.indexOf("1") < 0){                 
+                    $("#publish").hide();
+                }
+            </script>
+        </c:if>
