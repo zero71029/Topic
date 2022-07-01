@@ -47,7 +47,10 @@
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <img src="${pageContext.request.contextPath}/images/page-03.png" style="width:  400px;"><br><br>
-                    <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">抱歉!${error}</div>
+                    <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold;display: inline;">抱歉!
+                        <c:if test="${empty error}">權限錯誤</c:if>
+                        <c:if test="${not empty error}">${error}</c:if>                        
+                    </div>
                     <div class="row" style="font-size: 20px;color: #333;line-height:40px">
                         <p>下面的連結可能對你有幫助:</p>
                     </div>
@@ -61,11 +64,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1></h1>
                 </div>
             </div>
         </div>

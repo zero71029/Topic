@@ -1,16 +1,12 @@
 package com.jetec.topic.Contriller;
 
-import com.jetec.topic.model.ArticleBean;
-import com.jetec.topic.model.ArticleContentBean;
-import com.jetec.topic.model.ArticleThumbsupBean;
-import com.jetec.topic.model.MemberBean;
+import com.jetec.topic.model.*;
 import com.jetec.topic.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+
+//不限定權限
 
 @Controller
 public class TopicController {
@@ -80,39 +76,152 @@ public class TopicController {
         }).start();
         return "/topicdetail";
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //修改回復文章
     @RequestMapping("/revise-reply/{replyid}")
     public String reply(@PathVariable("replyid") String replyid, Model model, HttpSession session) {
         System.out.println("=====修改回復文章=====");
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        if(as.hasReply(replyid)){
-            model.addAttribute(ArticleBean.SESSIONID,as.findReplyById(replyid));
+        if (as.hasReply(replyid)) {
+            model.addAttribute(ArticleBean.SESSIONID, as.findReplyById(replyid));
             return "/article/revisereply";
         }
-        if(memberBean == null){
-            model.addAttribute("error","未登入");
+        if (memberBean == null) {
+            model.addAttribute("error", "未登入");
             return "/error/error";
         }
-        model.addAttribute("error","文章不存在");
+        model.addAttribute("error", "文章不存在");
         return "/error/error";
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //文章回復
-    @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
     @RequestMapping(path = {"/reply/{articleid}"})
-    public String reply(HttpSession session, @PathVariable("articleid")String articleid,Model model) {
+    public String reply(HttpSession session, @PathVariable("articleid") String articleid, Model model) {
         MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        if(as.hasArticle(articleid)){
-            model.addAttribute(ArticleBean.SESSIONID,as.findById(articleid));
-        }else {
-            model.addAttribute("error","文章不存在");
+        if (as.hasArticle(articleid)) {
+            model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
+        } else {
+            model.addAttribute("error", "文章不存在");
             return "/error/error";
         }
-        if(memberBean == null){
-            model.addAttribute("error","未登入");
+        if (memberBean == null) {
+            model.addAttribute("error", "未登入");
             return "/error/error";
         }
         return "/article/reply";
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //細節初始化
+    @RequestMapping("/article/detailInit/{articleid}")
+    @ResponseBody
+    public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session) {
+        System.out.println("*****細節初始化*****");
+        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        Map<String, Object> result = new HashMap<>();
+        result.put("replylist", as.getReplyList(articleid));//回復
+        result.put("thumbsupNum", as.getThumbsupNum(articleid));//點讚數
+        if (memberBean == null) {
+            result.put("hasThumbsup", false);
+        } else {
+            result.put("hasThumbsup", as.hasThumbsup(articleid, memberBean.getMemberid()));//登入者是否點讚
+        }
+        return result;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //搜索
+    @RequestMapping("/article/search")
+    @ResponseBody
+    public Map<String, Object> search(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("search") String search) {
+        System.out.println("*****搜索*****");
+        page--;
+        Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
+        return as.search(search, p);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //搜索
+    @RequestMapping("/article/getContent/{articleid}")
+    @ResponseBody
+    public Map<String, Object> getContent(@PathVariable("articleid") String articleid) {
+        Map<String, Object> result = new HashMap<>();
+        result.put(ArticleBean.SESSIONID, as.findById(articleid));
+        result.put(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
+        return result;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //文章回報
+    @RequestMapping("/article/articleReturn/{articleid}")
+    public String articleReturn(@PathVariable("articleid") String articleid, Model model) {
+        System.out.println("*****文章回報*****");
+        ArticleBean aBean = as.findById(articleid);
+        model.addAttribute("article", aBean);
+        model.addAttribute("articleid", aBean.getArticleid());
+        model.addAttribute("replyid", aBean.getArticleid());
+        return "/article/return";
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //回復回報
+    @RequestMapping("/article/replyReturn/{replyid}")
+    public String replyReturn(@PathVariable("replyid") String replyid, Model model) {
+        System.out.println("*****回復回報*****");
+        Optional<ArticleReplyBean> op = as.getReplyByReplyid(replyid);
+        op.ifPresent(e -> {
+            ArticleBean aBean = as.findById(e.getArticleid());
+            aBean.setMemberid(e.getMemberid());
+            aBean.setMembername(e.getMembername());
+            aBean.setCreatetime(e.getCreatetime());
+            model.addAttribute("article", aBean);
+            model.addAttribute("articleid", aBean.getArticleid());
+            model.addAttribute("replyid", replyid);
+        });
+        return "/article/return";
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //儲存回報
+    @RequestMapping("/article/saveReturn")
+    public String saveReturn(ArticleReturnBean articleReturnBean, HttpSession session) {
+        System.out.println("*****儲存回報*****");
+        //將人轉成 舉報人
+        MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        articleReturnBean.setState("未處裡");
+        if (mBean == null) {
+            articleReturnBean.setMemberid("");
+            articleReturnBean.setMembername("路人");
+            as.saveArticleReturn(articleReturnBean);
+            return "redirect:/article/returnSuccess.jsp";
+        }
+
+        articleReturnBean.setMemberid(mBean.getMemberid());
+        articleReturnBean.setMembername(mBean.getName());
+        as.saveArticleReturn(articleReturnBean);
+        return "redirect:/article/returnSuccess.jsp";
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //點讚
+    @RequestMapping("/article/thumbsup/{articleid}")
+    @ResponseBody
+    public Boolean thumbsup(@PathVariable("articleid") String articleid, HttpSession session) {
+        System.out.println("*****點讚*****");
+        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        Boolean result = as.thumbsup(articleid, memberBean.getMemberid());
+        //計算積分
+        new Thread(() -> {
+            ArticleBean abean = as.findById(articleid);
+            if(abean == null){
+                ArticleReplyBean aReplyBean = as.findReplyById(articleid);
+                as.Integral(as.findById(aReplyBean.getArticleid()).getMemberid());
+            }else {
+                as.Integral(abean.getMemberid());
+            }
+        }).start();
+        return result;
     }
 }

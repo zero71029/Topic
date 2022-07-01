@@ -2,7 +2,6 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html lang="zh-TW">
-
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,6 @@
             <!-- 禁止SEO -->
             <meta name="robots" content="noindex">
         </head>
-
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
             <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
@@ -34,7 +32,8 @@
                         <h2>文章回報</h2>
                         <form action="${pageContext.request.contextPath}/article/saveReturn" method="post" id="returnform"
                             style="font-size: 20px;">
-                            <input type="hidden" name="articleid" value="${article.articleid}">
+                            <input type="hidden" name="articleid" value="${articleid}">
+                            <input type="hidden" name="replyid" value="${replyid}">
                             <input type="hidden" name="memberid" value="${article.memberid}">
                             <input type="hidden" name="membername" value="${article.membername}">
                             <div>
@@ -107,10 +106,6 @@
                 }else{
                     $("#returntype").css("#000","red 0px solid");
                 }
-
-
-
-
                 if(isok){
                     $("#returnform").submit();
                 }else{

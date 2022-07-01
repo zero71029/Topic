@@ -17,7 +17,9 @@ public class ArticleReturnBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(columnDefinition = "CHAR(32)")
-    private String returnid;//文章id
+    private String articleid;//文章id
+    @Column(columnDefinition = "CHAR(32)")
+    private String replyid;//回復id
     @Column(columnDefinition = "CHAR(32)")
     private String memberid;//回報人
     private String membername;
@@ -28,12 +30,12 @@ public class ArticleReturnBean {
     private String state;
     private LocalDateTime createtime;
 
-    public String getReturnid() {
-        return returnid;
+    public String getReplyid() {
+        return replyid;
     }
 
-    public void setReturnid(String returnid) {
-        this.returnid = returnid;
+    public void setReplyid(String replyid) {
+        this.replyid = replyid;
     }
 
     public String getMemberid() {
@@ -84,10 +86,19 @@ public class ArticleReturnBean {
         this.createtime = createtime;
     }
 
+    public String getArticleid() {
+        return articleid;
+    }
+
+    public void setArticleid(String articleid) {
+        this.articleid = articleid;
+    }
+
     @Override
     public String toString() {
         return "ArticleReturnBean{" +
-                "returnid='" + returnid + '\'' +
+                "articleid='" + articleid + '\'' +
+                ", replyid='" + replyid + '\'' +
                 ", memberid='" + memberid + '\'' +
                 ", membername='" + membername + '\'' +
                 ", returntype='" + returntype + '\'' +

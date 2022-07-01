@@ -47,10 +47,9 @@ public class ArticleService {
     }
 
     public ArticleBean findById(String articleid) {
-        return ar.findById(articleid).get();
+        Optional<ArticleBean> op = ar.findById(articleid);
+        return op.orElse(null);
     }
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚
     public Boolean thumbsup(String articleid, String memberid) {
@@ -141,19 +140,19 @@ public class ArticleService {
         //
         mbean.setIntegral(integral);
         int level = 1;
-        if( integral > 1000)level = 2;
-        if( integral > 10000)level = 3;
-        if( integral > 30000)level = 4;
-        if( integral > 90000)level = 5;
-        if(!(pr.existsByMemberidAndLevel(memberid,level))){
-            pr.save(new PermitBean(ZeroTools.getUUID(),memberid,level));
+        if (integral > 1000) level = 2;
+        if (integral > 10000) level = 3;
+        if (integral > 30000) level = 4;
+        if (integral > 90000) level = 5;
+        if (!(pr.existsByMemberidAndLevel(memberid, level))) {
+            pr.save(new PermitBean(ZeroTools.getUUID(), memberid, level));
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //搜索
     public Map<String, Object> search(String search, Pageable p) {
-        Page<ArticleBean> page = ar.findByStateAndNameLikeIgnoreCase("允許","%" + search + "%", p);
+        Page<ArticleBean> page = ar.findByStateAndNameLikeIgnoreCase("允許", "%" + search + "%", p);
         Map<String, Object> result = new HashMap<>();
         result.put("list", page.getContent());
         result.put("total", page.getTotalElements());
@@ -192,10 +191,12 @@ public class ArticleService {
             return 0;
         }
     }
+
     //取得回復文章
     public Optional<ArticleReplyBean> getReplyByReplyid(String replyid) {
         return arr.findById(replyid);
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //儲存回報
     public void saveArticleReturn(ArticleReturnBean articleReturnBean) {
@@ -207,6 +208,6 @@ public class ArticleService {
     }
 
     public ArticleReplyBean findReplyById(String replyid) {
-        return  arr.getById(replyid);
+        return arr.getById(replyid);
     }
 }

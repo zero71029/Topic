@@ -105,9 +105,9 @@
                                     <div class="l-formRow ">
                                         <label class="l-formRow__title l-formRow__title--lg">註冊確認</label>
                                         <div class="l-formRow__content ">
-                                            <div class="o-formDesc"><span>請仔細閱讀完版規、服務條款及個人資料保護法，並勾選【我已經閱讀】</span></div>
+                                            <div class="o-formDesc"><span>請仔細閱讀完版規、服務條款，並勾選【我已經閱讀】</span></div>
 
-                                            <div class="l-articleReply rule_wrap" id="mobile01_forum_rule_wrap">
+                                            <div class="l-articleReply rule_wrap" id="forum_rule_wrap">
                                                 久德電子討論區規則，並同時適用於會員名稱、會員個人頭像、會員個人簽名檔及私人訊息<br>
                                                 本站對會員發布的文字、圖片或檔案保有片面修改或移除的權利。當會員使用本網站服務時，代表會員已經詳細閱讀並完全了解，並同意配合下述規定：<br>
                                                 1. 請勿一文多貼或是大意內容相同/類似的文章重覆刊登。<br>
@@ -133,17 +133,17 @@
                                                 </div>
                                                 <div class="o-formError"><span></span></div>
                                             </div><br>
-                                            <div class="l-articleReply rule_wrap" id="tos_wrap">
-                                                <div class="u-gapNextV--lg">
-                                                    <div class="l-heading">
-                                                        <div class="l-heading__title">
-                                                            服務條款
-                                                        </div>
+                                            <div class="u-gapNextV--lg">
+                                                <div class="l-heading">
+                                                    <div class="l-heading__title">
+                                                        服務條款
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="l-articleReply rule_wrap" id="tos_wrap">
                                                 <div class="u-gapNextV--lg">
                                                     <div class="l-panel">
-                                                        <ul class="c-panel">                                                           
+                                                        <ul class="c-panel">
                                                             認知與接受條款<br>
                                                             「久德電子有限公司」係依據本服務條款提供「久德討論版」服務。當您使用「久德討論版」時，即表示您已閱讀、瞭解並同意接受本約定書之所有內容。「久德電子有限公司」有權於任何時間修改或變更本約定書之內容，建議您隨時注意該等修改或變更。您於任何修改或變更後繼續使用「久德討論版」，視為您已閱讀、瞭解並同意接受該等修改或變更。<br>
                                                             <br>
@@ -227,9 +227,6 @@
                             <div class="col-lg-1 ">
                             </div>
                         </div>
-
-
-
                     </div>
                     <div class="col-lg-3 "></div>
                 </div>
@@ -302,7 +299,7 @@
                             $('#tos').attr('disabled', false);
                         }
                     });
-                    $('#mobile01_forum_rule_wrap').scroll(function () {
+                    $('#forum_rule_wrap').scroll(function () {
                         var scrollTop = $(this).scrollTop();
                         var scrollHeight = $(this).prop("scrollHeight");
                         var windowHeight = $(this).innerHeight();

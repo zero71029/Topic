@@ -61,23 +61,23 @@
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=application">應用</a>
                         </li>
-
                         <c:if test="${not empty member}">
-                           
-                                <c:if test="${pageContext.request.requestURI == '/topic/topiclist.jsp'}">
+                            <c:if test="${pageContext.request.requestURI == '/topic/topiclist.jsp'}">
                                 <li class="nav-item">
                                 <li class="nav-item" style="background-color: blue;border-radius: 4px;">
-                                    <a class="nav-link" style="color: white;" 
-                                        href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">發布文章
-                                        
+                                    <a class="nav-link" style="color: white;"
+                                        href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">
+                                        發布文章
+                                        <c:forEach varStatus="loop" begin="0" end="${member.permitList.size()-1}"
+                                            items="${member.permitList}" var="s">
+                                            ${s.level}
+                                        </c:forEach>
+
                                     </a>
                                 </li>
                                 </li>
                             </c:if>
                         </c:if>
-
-
-
                     </ul>
                     <form class="d-flex" method="get" action="${pageContext.request.contextPath}/search.jsp">
                         <input class="form-control me-2" type="search" placeholder="Search" name="q" maxlength="20">
@@ -100,7 +100,6 @@
                             </ul>
                         </div>
                     </c:if>
-
                 </div>
             </div>
         </nav>

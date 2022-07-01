@@ -34,7 +34,8 @@ public class BackstageService {
     AdvertiseRepository adr;
     @Autowired
     WatchRepository wr;
-
+    @Autowired
+    ArticleReturnRepository articleReturnRepository;
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //初始化
     public Map<String, Object> init(Integer page, Integer size) {
@@ -200,5 +201,10 @@ public class BackstageService {
 
     public List<AdvertiseBean> findAdvertiseByLocation(String location) {
         return adr.findByLocation(location);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //回報列表
+    public Page<ArticleReturnBean> findArticleReturn(Pageable p) {
+        return articleReturnRepository.findAll(p);
     }
 }

@@ -4,6 +4,10 @@ import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.BackstageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,9 +74,7 @@ public class BackstageController {
 
 
         //存觀看時間
-        new Thread(() -> {
-            BS.saveWatchTime("system", articleid);
-        }).start();
+        new Thread(() -> BS.saveWatchTime("system", articleid)).start();
         return result;
     }
 
@@ -204,6 +206,19 @@ public class BackstageController {
         }
         return null;
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //回報列表
+    @RequestMapping("/returnList")
+    @ResponseBody
+    public Map<String, Object> returnList(@RequestParam("page")Integer page, @RequestParam("size")Integer size) {
+        page--;
+        Pageable Pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
+        Page<ArticleReturnBean> p = BS.findArticleReturn(Pageable);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list",p.getContent());
+        result.put("total",p.getTotalElements());
 
+      return result;
+    }
 
 }
