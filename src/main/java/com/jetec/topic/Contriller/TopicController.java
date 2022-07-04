@@ -1,5 +1,6 @@
 package com.jetec.topic.Contriller;
 
+import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -223,5 +221,13 @@ public class TopicController {
             }
         }).start();
         return result;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //搜索
+    @RequestMapping("/recaptcha")
+    @ResponseBody
+    public Boolean recaptcha(@RequestBody String toke) {
+        System.out.println("*****機器人檢查*****");
+        return ZeroTools.recaptcha(toke);
     }
 }

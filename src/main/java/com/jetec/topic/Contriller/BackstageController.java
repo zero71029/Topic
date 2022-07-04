@@ -35,8 +35,8 @@ public class BackstageController {
     public Map<String, Object> init(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer size) {
         page--;
         System.out.println("初始化");
-        Map<String, Object> result = BS.init(page, size);
-        return result;
+
+        return BS.init(page, size);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,8 +55,8 @@ public class BackstageController {
     public Map<String, Object> articleLiat(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer size, @RequestParam("state") String state) {
         page--;
         System.out.println("文章列表初始化");
-        Map<String, Object> result = BS.articleList(page, size,state);
-        return result;
+
+        return BS.articleList(page, size,state);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,8 +89,7 @@ public class BackstageController {
     public List<ArticleReplyBean> replyState(@PathVariable("replyid") String replyid, @PathVariable("state") String state) {
         System.out.println("reply修改狀態");
         ArticleReplyBean aBean = BS.replyState(replyid, state);
-        List<ArticleReplyBean> result = BS.getArticleReplyList(aBean.getArticleid());
-        return result;
+        return BS.getArticleReplyList(aBean.getArticleid());
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //修改狀態
@@ -166,7 +165,6 @@ public class BackstageController {
     @RequestMapping("/advertiseinit")
     @ResponseBody
     public List<AdvertiseBean> advertiseinit(@RequestParam("location") String location) {
-        System.out.println("廣告初始化");
         return BS.findAdvertiseByLocation(location);
     }
 
@@ -197,7 +195,7 @@ public class BackstageController {
                 fileMap.get("file").transferTo(new File(path2));
                 System.out.println("輸出成功");
                 //3. 儲存檔案名稱到資料庫
-                MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+//                MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
 //                FileBean fileBean = new FileBean(ZeroTools.getUUID(),memberBean.getMemberid(),uuid+lastname,ZeroTools.getTime(new Date()));
 //                FileBean save =  ufs.save(fileBean);
 

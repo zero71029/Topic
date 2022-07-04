@@ -101,7 +101,6 @@
         <script>
             const url = new URL(location.href);
             const nav = url.searchParams.get("nav");
-            console.log(nav);
             var vm = new Vue({
                 el: ".app",
                 data() {
