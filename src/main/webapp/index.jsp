@@ -210,11 +210,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h1></h1>
-                    </div>
-                </div>
             </div>
         </body>
         <script>

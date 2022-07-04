@@ -10,9 +10,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -41,7 +39,7 @@ public class UserService implements UserDetailsService {
                     permit.append(",");
                 });
                 permit.append("11");
-                System.out.println(permit.toString());
+                System.out.println(permit);
                 return new User(username, op.get().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(permit.toString()));
             }
         } else {

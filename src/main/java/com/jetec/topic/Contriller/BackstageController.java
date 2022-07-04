@@ -9,10 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -55,10 +52,10 @@ public class BackstageController {
     //文章列表初始化
     @RequestMapping("/articleList")
     @ResponseBody
-    public Map<String, Object> articleLiat(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer size) {
+    public Map<String, Object> articleLiat(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer size, @RequestParam("state") String state) {
         page--;
         System.out.println("文章列表初始化");
-        Map<String, Object> result = BS.articleList(page, size);
+        Map<String, Object> result = BS.articleList(page, size,state);
         return result;
     }
 
@@ -71,8 +68,6 @@ public class BackstageController {
         Map<String, Object> result = new HashMap<>();
         result.put(ArticleBean.SESSIONID, BS.getarticleDetail(articleid));
         result.put(ArticleContentBean.SESSIONID, BS.getArticleContent(articleid));
-
-
         //存觀看時間
         new Thread(() -> BS.saveWatchTime("system", articleid)).start();
         return result;
@@ -96,6 +91,14 @@ public class BackstageController {
         ArticleReplyBean aBean = BS.replyState(replyid, state);
         List<ArticleReplyBean> result = BS.getArticleReplyList(aBean.getArticleid());
         return result;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //修改狀態
+    @RequestMapping("/changeReturnState")
+    @ResponseBody
+    public boolean changeReturnState(@RequestParam("id") Long id,@RequestParam("state")String state) {
+        System.out.println("reply修改狀態");
+        return BS.changeReturnState(id,state);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,14 +214,14 @@ public class BackstageController {
     //回報列表
     @RequestMapping("/returnList")
     @ResponseBody
-    public Map<String, Object> returnList(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+    public Map<String, Object> returnList(@RequestParam("page") Integer page, @RequestParam("size") Integer size,@RequestParam("state") String state) {
+        System.out.println("回報列表");
         page--;
         Pageable Pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
-        Page<ArticleReturnBean> p = BS.findArticleReturn(Pageable);
+        Page<ArticleReturnBean> p = BS.findArticleReturn(Pageable,state);
         Map<String, Object> result = new HashMap<>();
         result.put("list", p.getContent());
         result.put("total", p.getTotalElements());
-
         return result;
     }
 

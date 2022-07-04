@@ -36,6 +36,7 @@ public class BackstageService {
     WatchRepository wr;
     @Autowired
     ArticleReturnRepository articleReturnRepository;
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //初始化
     public Map<String, Object> init(Integer page, Integer size) {
@@ -51,7 +52,7 @@ public class BackstageService {
         return mr.findById(memberid).get();
     }
 
-    public Map<String, Object> articleList(Integer page, Integer size) {
+    public Map<String, Object> articleList(Integer page, Integer size, String state) {
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> a = new ArrayList();
         //先取未驗證
@@ -65,12 +66,19 @@ public class BackstageService {
 
 
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
-        Page<ArticleBean> mp = ar.findByStateNot("未驗證", p);
+        Page<ArticleBean> mp;
+        if (Objects.equals("ALL", state)) {
+            mp = ar.findByStateNot("未驗證", p);
+        } else {
+            mp = ar.findByState(state, p);
+        }
+
+
         //取 未看 回復數
         List<ArticleBean> ArticleBeanList = mp.getContent();
         ArticleBeanList.forEach(e -> {
             Map<String, Object> artlcle = new HashMap<>();
-            Integer i = 0;
+            Integer i;
             Optional<WatchBean> op = wr.findByMemberidAndArticleid("system", e.getArticleid());
             if (op.isPresent()) {
                 WatchBean wBean = op.get();
@@ -127,7 +135,6 @@ public class BackstageService {
     }
 
     public List<ArticleBean> search(String name) {
-
         return ar.findByNameLikeIgnoreCase("%" + name + "%", Sort.by(Sort.Direction.DESC, "createtime"));
     }
 
@@ -170,13 +177,12 @@ public class BackstageService {
         return adr.save(adBean);
     }
 
-    public List<AdvertiseBean> findAll() {
-        return adr.findAll();
-    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //刪除廣告
-    public void deladvertise(AdvertiseBean adBean) {adr.delete(adBean);}
+    public void deladvertise(AdvertiseBean adBean) {
+        adr.delete(adBean);
+    }
 
     //存觀看時間 system
     public void saveWatchTime(String memberid, String articleid) {
@@ -185,9 +191,7 @@ public class BackstageService {
                     e.setWatchtime(LocalDateTime.now());
                     wr.save(e);
                 },
-                () -> {
-                    wr.save(new WatchBean(memberid, articleid, LocalDateTime.now()));
-                });
+                () -> wr.save(new WatchBean(memberid, articleid, LocalDateTime.now())));
 
 //        WatchBean wBean;
 //        if (op.isPresent()) {
@@ -202,9 +206,28 @@ public class BackstageService {
     public List<AdvertiseBean> findAdvertiseByLocation(String location) {
         return adr.findByLocation(location);
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //回報列表
-    public Page<ArticleReturnBean> findArticleReturn(Pageable p) {
-        return articleReturnRepository.findAll(p);
+    public Page<ArticleReturnBean> findArticleReturn(Pageable p,String state) {
+        System.out.println(state);
+        if(Objects.equals("ALL",state)){
+            return articleReturnRepository.findAll(p);
+        }else {
+            return articleReturnRepository.findByState(state,p);
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //修改回復狀態
+    public boolean changeReturnState(Long id, String state) {
+        Optional<ArticleReturnBean> op = articleReturnRepository.findById(id);
+        if (op.isPresent()) {
+            ArticleReturnBean arb = op.get();
+            arb.setState(state);
+            articleReturnRepository.save(arb);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

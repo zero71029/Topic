@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "article_return")
@@ -29,6 +30,15 @@ public class ArticleReturnBean {
     @Column(columnDefinition = "CHAR(3)")
     private String state;
     private LocalDateTime createtime;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getReplyid() {
         return replyid;
@@ -78,8 +88,8 @@ public class ArticleReturnBean {
         this.state = state;
     }
 
-    public LocalDateTime getCreatetime() {
-        return createtime;
+    public String getCreatetime() {
+        return createtime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public void setCreatetime(LocalDateTime createtime) {

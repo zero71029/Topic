@@ -27,5 +27,5 @@ public interface ArticleRepository extends JpaRepository<ArticleBean, String> {
 
     List<ArticleBean> findByNameLikeIgnoreCase(String s, Sort sort);
 
-    Page<ArticleBean> findByStateAndNameLikeIgnoreCase(String 允許, String s, Pageable p);
+    Page<ArticleBean> findByStateAndNameLikeIgnoreCase(String state, String s, Pageable p);
 }

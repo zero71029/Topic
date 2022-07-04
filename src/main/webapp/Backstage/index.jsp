@@ -9,19 +9,16 @@
     <title>backstage</title>
     <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
     <script defer="defer" type="module" src="${pageContext.request.contextPath}/js/chunk-vendors.bd710026.js"></script>
-    <script defer="defer" type="module" src="${pageContext.request.contextPath}/js/app.e5a9191f.js"></script>
+    <script defer="defer" type="module" src="${pageContext.request.contextPath}/js/app.d746cb14.js"></script>
     <link href="${pageContext.request.contextPath}/css/chunk-vendors.7518329a.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/app.88549053.css" rel="stylesheet">
-    <script defer="defer" src="${pageContext.request.contextPath}/js/chunk-vendors-legacy.3b7c2bcd.js"
-        nomodule></script>
-    <script defer="defer" src="${pageContext.request.contextPath}/js/app-legacy.205a9b82.js" nomodule></script>
-    <!-- 禁止SEO -->
-    <meta name="robots" content="noindex">
+    <link href="${pageContext.request.contextPath}/css/app.253d9121.css" rel="stylesheet">
+    <script defer="defer" src="${pageContext.request.contextPath}/js/chunk-vendors-legacy.3b7c2bcd.js" nomodule></script>
+    <script defer="defer" src="${pageContext.request.contextPath}/js/app-legacy.68576ce4.js" nomodule></script>
 </head>
 
 <body><noscript><strong>We're sorry but backstage doesn't work properly without JavaScript enabled. Please enable it to
-            continue.</strong></noscript>
-    <div id="app"></div>
+    continue.</strong></noscript>
+<div id="app"></div>
 </body>
 
 </html>
