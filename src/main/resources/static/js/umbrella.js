@@ -6,7 +6,7 @@ var canHeight = canvas.height = window.innerHeight;
 var x = [];
 var y = [];
 var mobileX = [];
-var mobileY = []
+var mobileY = [];
 var diX, diy, dist;
 //設定點 位置
 
@@ -27,7 +27,7 @@ window.onmouseout = () => {
 };
 mobileX[100] = 0;
 mobileY[100] = 0;
-draw()
+draw();
 
 //畫點
 function draw() {
@@ -36,7 +36,7 @@ function draw() {
         x[i] += mobileX[i];//移動量
         y[i] += mobileY[i];
         if (x[i] > canWidth || x[i] < 0) mobileX[i] *= -1;//碰掉牆壁反彈
-        if (y[i] > canHeight || y[i] < 0) mobileY[i] *= -1
+        if (y[i] > canHeight || y[i] < 0) mobileY[i] *= -1;
 
         ctx.fillStyle = "#ced4da";//點點顏色
         ctx.fillRect(x[i], y[i], 3, 3);//點點大小  位置
@@ -61,5 +61,5 @@ function draw() {
             }
         }
     }
-    requestAnimationFrame(draw);
+    requestAnimationFrame(draw); 
 }

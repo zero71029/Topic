@@ -24,7 +24,7 @@
 
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
-            <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
+            <!-- <script src="${pageContext.request.contextPath}/js/umbrella.js"></script> -->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -337,5 +337,80 @@
                 display: none;
             }
         </style>
+        <script>
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            var mix = 6000;
+            var canWidth = canvas.width = window.innerWidth;
+            var canHeight = canvas.height = window.innerHeight;
+            //設定點 位置
+            ctx.clearRect(0, 0, canWidth, canHeight);
+            const T = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m",]
+          
+            ctx.font = '15px serif';
+            //畫點
+          
+            var i = [];
+            var y = [];
+            for (let x = 0; x < canWidth / 20; x++) {
+              y.push(Math.floor(Math.random() * canHeight));
+              i.push(1)
+            }
+            draw();
+            function draw() {
+              ctx.clearRect(0, 0, canWidth, canHeight);
+              for (let x = 0; x < canWidth / 20; x++) {
+                ctx.fillStyle = "#00ff0000";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff002c";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 15 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff0049";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 30 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff006a";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 45 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff0080";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 60 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00A0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 75 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00C0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 90 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00D0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 105 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00F0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 120 + y[x] + i[x] * 20);
+
+
+      ctx.fillStyle = "#00ff0000";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff002c";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 15 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff0049";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 30 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff006a";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 45 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff0080";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 60 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00A0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 75 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00C0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 90 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00D0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 105 + y[x] + i[x] * 20);
+      ctx.fillStyle = "#00ff00F0";
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 120 + y[x] + i[x] * 20);
+                i[x]++;
+                if ((y[x] + i[x]*20+Math.floor(Math.random() *100)) > canHeight){
+                  i[x] = 1;
+                  y[x] = Math.floor(Math.random() * 100);
+                } 
+              }   
+              
+              console.log(Math.floor(Math.random() * 26))
+              setTimeout(() => {
+                draw();
+              }, 150);
+          
+            }
+          </script>
 
         </html>

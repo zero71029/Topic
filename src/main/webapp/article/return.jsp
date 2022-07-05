@@ -2,6 +2,7 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html lang="zh-TW">
+
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +10,10 @@
             <title>會員登入</title>
             <!-- 禁止SEO -->
             <meta name="robots" content="noindex">
+            <!-- 我不是機器人 -->
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         </head>
+
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
             <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
@@ -30,8 +34,8 @@
                     <div class="col-lg-2 "></div>
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                         <h2>文章回報</h2>
-                        <form action="${pageContext.request.contextPath}/article/saveReturn" method="post" id="returnform"
-                            style="font-size: 20px;">
+                        <form action="${pageContext.request.contextPath}/article/saveReturn" method="post"
+                            id="returnform" style="font-size: 20px;">
                             <input type="hidden" name="articleid" value="${articleid}">
                             <input type="hidden" name="replyid" value="${replyid}">
                             <input type="hidden" name="memberid" value="${article.memberid}">
@@ -86,8 +90,10 @@
                                         maxlength="900"></textarea>
                                 </div>
                             </div><br>
-                            <div style="text-align: right;">
-                                <button type="button" class="btn btn-primary btn-lg"
+                            <div>
+                                <div class="g-recaptcha " style="width: 304px; display: inline-block;"
+                                    data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
+                                <button type="button" class="btn btn-primary btn-lg" style="float: right;"
                                     onclick="submitReturn()">送出</button>
                             </div>
                         </form>
@@ -101,16 +107,47 @@
                 console.log("ddddddddddddddddddddddddddddddddddddd");
                 console.log($("input[name='returntype']:checked").val());
                 if (typeof ($("input[name='returntype']:checked").val()) == "undefined") {
-                    isok= false;
-                    $("#returntype").css("border","red 1px solid");
-                }else{
-                    $("#returntype").css("#000","red 0px solid");
+                    isok = false;
+                    $("#returntype").css("border", "red 1px solid");
+                } else {
+                    $("#returntype").css("#000", "red 0px solid");
                 }
-                if(isok){
-                    $("#returnform").submit();
-                }else{
+
+
+                const formData = new FormData(document.getElementById("returnform"));
+                const recap = formData.get("g-recaptcha-response");
+                if (recap.length > 0) {
+                    $(".g-recaptcha").css("border", "1px solid #ced4da");
+                } else {
+                    isok = false;
+                    $(".g-recaptcha").css("border", "1px red solid");
+                }
+
+                if (isok) {
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/recaptcha',
+                        type: 'post',
+                        data: recap,
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            if (response) {
+                                $("#returnform").submit();
+
+                            } else {
+                                this.$message.error('檢查錯誤');
+                            }
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
+                } else {
                     alert("類型需填選")
                 }
+
+
+
             }
 
 

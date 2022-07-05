@@ -106,7 +106,7 @@
                                     <br>
 
                                     <div class="g-recaptcha " style="width: 304px; display: inline-block;"
-                                    data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
+                                        data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
                                     <div class="mb-3 text-end">
                                         <button type="button" class="btn btn-primary" @click="preview">預覽</button>
                                         <button type="button" class="btn btn-primary" @click="submitForm"
@@ -274,41 +274,41 @@
                             $(".tox-tinymce").css("border", "1px solid #ced4da");
                         }
 
-                        
+
                         const formData = new FormData(document.getElementById("articleform"));
-                            const recap = formData.get("g-recaptcha-response");
-                            if (recap.length > 0) {
-                                $(".g-recaptcha").css("border", "1px solid #ced4da");
-                            } else {
-                                isok = false;
-                                $(".g-recaptcha").css("border", "1px red solid");
-                            }
-                        if (isok) {
-
-                            if (isok) {
-                                $.ajax({
-                                    url: '${pageContext.request.contextPath}/recaptcha',
-                                    type: 'post',
-                                    data: recap,
-                                    async: false,//同步請求
-                                    cache: false,//不快取頁面
-                                    success: response => {
-                                        if (response) {
-                                            $("#articleform").attr("target", "");
-                                            $("#articleform").attr("action", "${pageContext.request.contextPath}/article/save");
-                                            $("#articleform").submit();
-
-                                        } else {
-                                            this.$message.error('檢查錯誤');
-                                        }
-                                    },
-                                    error: function (returndata) {
-                                        console.log(returndata);
-                                    }
-                                });
-                            }
-
+                        const recap = formData.get("g-recaptcha-response");
+                        if (recap.length > 0) {
+                            $(".g-recaptcha").css("border", "1px solid #ced4da");
+                        } else {
+                            isok = false;
+                            $(".g-recaptcha").css("border", "1px red solid");
                         }
+
+
+                        if (isok) {
+                            $.ajax({
+                                url: '${pageContext.request.contextPath}/recaptcha',
+                                type: 'post',
+                                data: recap,
+                                async: false,//同步請求
+                                cache: false,//不快取頁面
+                                success: response => {
+                                    if (response) {
+                                        $("#articleform").attr("target", "");
+                                        $("#articleform").attr("action", "${pageContext.request.contextPath}/article/save");
+                                        $("#articleform").submit();
+
+                                    } else {
+                                        this.$message.error('檢查錯誤');
+                                    }
+                                },
+                                error: function (returndata) {
+                                    console.log(returndata);
+                                }
+                            });
+                        }
+
+
                     }
                 },
             })
