@@ -1,4 +1,4 @@
-package com.jetec.topic.service;
+package com.jetec.topic.Contriller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,31 +7,31 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ArticleServiceTest {
+class MemberControllerTest {
+
+
     @Autowired
     MockMvc mockMvc;
 
+
     @Test
-    void save() throws Exception {
+    void signout() {
     }
 
     @Test
-    void findByArticlegroup() {
-    }
-
-    @Test
-    void findById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/findById"))
+    void myArticle() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/myArticle"))
                 .andExpect(status().isOk())
-                .andDo(print())
+                .andDo(print());
 //                .andExpect(content().string("hello"))
-                .andExpect(status().isCreated());
+//                .andExpect(status().isCreated())
 //                .andExpect(jsonPath("$.id").hasJsonPath())
 //                .andExpect(jsonPath("$.name").value(request.getString("name")))
 //                .andExpect(jsonPath("$.price").value(request.getInt("price")))
@@ -40,11 +40,10 @@ class ArticleServiceTest {
     }
 
     @Test
-    void thumbsup() {
-
+    void myReply() {
     }
 
     @Test
-    void findThumbsup() {
+    void revise() {
     }
 }

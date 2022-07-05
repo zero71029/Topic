@@ -75,6 +75,7 @@
                                 <p style="text-align: center;">
                                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                                         :current-page="currentPage" :page-sizes="[1,2,3,10, 20, 30, 40,100]"
+                                        :pager-count="5"
                                         :page-size="pageSize" layout=" sizes, prev, pager, next, jumper" :total="total">
                                     </el-pagination>
                                 </p>
@@ -106,11 +107,10 @@
                 data() {
                     return {
                         currentPage: 1,
-                        pageSize: 10,
+                        pageSize: 20,
                         total: 400,
                         list: [],
                         rigthAdvertise: [],
-
                     }
                 },
                 created() {
