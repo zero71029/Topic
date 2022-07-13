@@ -62,6 +62,16 @@ public class MailTool {
 
         mailSender.send(mimeMessage);
     }
+    //添加靜態物件
+    public void sendlineMail(String[] to, String Subject,String text) throws Exception {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom("zero@mail-jetec.com.tw");
+        helper.setTo(to);
+        helper.setSubject(Subject);
+        helper.setText(text,true);
+        mailSender.send(mimeMessage);
+    }
 
 
 

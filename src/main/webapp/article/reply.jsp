@@ -51,8 +51,8 @@
                             <div class="col-lg-10">
                                 <form action="${pageContext.request.contextPath}/article/save" method="post"
                                     id="articleform">
-                                    <input type="hidden" name="memberid" value="${member.memberid}">
-                                    <input type="hidden" name="membername" value="${member.name}">
+                                    <input type="hidden" name="memberid" value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
+                                    <input type="hidden" name="membername" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
                                     <input type="hidden" name="articleid" value="${article.articleid}">
                                     <p style="font-size: 18px;"><span
                                             style="width: 80px; display: inline-block;">討論區</span> {{group}}</p>
@@ -66,8 +66,8 @@
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
-                                                target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
+                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> 與<a href=""
+                                                target="_blank">本站服務條款</a>
                                         </label>
                                     </div>
                                     <br>

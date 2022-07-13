@@ -1,5 +1,6 @@
 package com.jetec.topic.security;
 
+import com.jetec.topic.filter.LoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -20,13 +22,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService UserDetailsService;
-
     // 注入數據源
     @Autowired
     private DataSource dataSource;
 
     @Autowired
     AppsAuthenticationFailureHandler appsAuthenticationFailureHandler;
+
+    @Autowired
+    LoginFilter loginFilter;
 
     // 配置對象
     @Bean
@@ -45,7 +49,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable();
+        http.csrf().disable()
+                .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
         // 自定義登入
         http.formLogin()
                 // 登入頁面

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -26,9 +27,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws AuthenticationException {
-        System.out.println(request);
-        String response = request.getParameter("g-recaptcha-response");
-        if (ZeroTools.recaptcha(response)) {
             Optional<MemberBean> op = mr.findByEmail(username);
             if (op.isPresent()) {
                 MemberBean mBean = op.get();
@@ -38,14 +36,10 @@ public class UserService implements UserDetailsService {
                     permit.append(e.getLevel());
                     permit.append(",");
                 });
-                permit.append("11");
-                System.out.println(permit);
-                return new User(username, op.get().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(permit.toString()));
+                permit.append("aa");
+                mBean.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(permit.toString()));
+                return mBean;
             }
-        } else {
-            request.setAttribute("recaptcha", "認證錯誤");
-        }
-//        return null;
         return new User("null","null",AuthorityUtils.commaSeparatedStringToAuthorityList(""));
     }
 }

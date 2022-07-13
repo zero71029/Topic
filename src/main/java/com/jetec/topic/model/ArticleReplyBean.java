@@ -23,6 +23,7 @@ public class ArticleReplyBean {
     private String createtime;
     private Integer num;
     private String state;
+    private Integer floor;
 
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
@@ -50,6 +51,14 @@ public class ArticleReplyBean {
 
     public ArticleReplyBean() {
 
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
     }
 
     public String getState() {

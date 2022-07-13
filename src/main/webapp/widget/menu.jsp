@@ -6,28 +6,6 @@
         <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/icons/bootstrap-icons.css">
         <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
-        <!-- session 檢查-->
-        <c:if test='${empty member}'>
-            <script>
-                console.log("未登入");
-                $.ajax({
-                    url: '${pageContext.request.contextPath}/UserAuthorize',
-                    type: 'POST',
-                    success: function (haveSession) {
-                        if (haveSession) {
-                            console.log("有登入");
-                            location.reload();
-                        } else {
-
-                            console.log("沒有認證");
-                        }
-                    },
-                    error: function (returndata) {
-                        console.log(returndata);
-                    }
-                });    
-            </script>
-        </c:if>
 
 
 
@@ -81,11 +59,11 @@
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     &nbsp;&nbsp;&nbsp;
-                    <c:if test="${member == null}">
+                    <c:if test="${empty SPRING_SECURITY_CONTEXT.authentication.principal }">
                         <a href="${pageContext.request.contextPath}/member/register.jsp">註冊</a>/ <a
                             href="${pageContext.request.contextPath}/member/login.jsp">登入</a>
                     </c:if>
-                    <c:if test="${member != null}">
+                    <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                 aria-expanded="false"><i class="bi bi-person-circle" style="font-size: 28px;"></i></a>
@@ -102,12 +80,8 @@
         </nav>
         <c:if test='${not empty member}'>
             <script>
-                const permit =
-                    <c:forEach varStatus="loop" begin="0" end="${member.permitList.size()-1}"
-                        items="${member.permitList}" var="s">
-                        '${s.level}'+
-                    </c:forEach>'aa';
-
+                const permit ='${SPRING_SECURITY_CONTEXT.authentication.principal.authorities}'
+                console.log(permit)
                 if(permit.indexOf("1") < 0){                 
                     $("#publish").hide();
                 }

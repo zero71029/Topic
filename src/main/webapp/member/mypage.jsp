@@ -43,8 +43,8 @@
                             <div class="row" v-show="show">
                                 <div class="col-lg-3 "></div>
                                 <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
-                                    <span style="color: #074F8F;font-size: 40px;">${member.name}</span>
-                                    <p>註冊日期 : ${member.createtime}</p>
+                                    <span style="color: #074F8F;font-size: 40px;">${SPRING_SECURITY_CONTEXT.authentication.principal.name}</span>
+                                    <p>註冊日期 : ${SPRING_SECURITY_CONTEXT.authentication.principal.createtime}</p>
                                     <div class="row" style="border: 1px solid #444;">
                                         <div class="col-lg-3 " style="position:relative;">
                                             <a href="${pageContext.request.contextPath}/system/level.jsp">
@@ -80,27 +80,27 @@
                                     <form action="" method="post" id="reviseForm">
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">會員名稱</label>
-                                            <input type="text" class="form-control" name="name" value="${member.name}">
+                                            <input type="text" class="form-control" name="name" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">組資單位</label>
                                             <input type="text" class="form-control" name="company"
-                                                value="${member.company}">
+                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.company}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">Email</label>
                                             <input type="email" class="form-control" name="email"
-                                                value="${member.email}" disabled>
+                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.email}" disabled>
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">連絡電話</label>
                                             <input type="text" class="form-control" name="phone"
-                                                value="${member.phone}">
+                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.phone}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">聯絡地址</label>
                                             <input type="text" class="form-control" name="address"
-                                                value="${member.address}">
+                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.address}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">生日</label>
@@ -110,7 +110,7 @@
                                             </el-date-picker>
                                             <!-- 
                                             <input type="text" class="form-control" name="birthday"
-                                                value="${member.birthday}"> -->
+                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.birthday}"> -->
                                         </div>
                                         <a href="${pageContext.request.contextPath}/member/reSend.jsp"
                                             id="reSend">重寄認證信</a>
@@ -135,7 +135,7 @@
                         articleNum: 0,//發表文章數
                         integral: 0,//獲得積分
                         show: false,
-                        birthday: "${member.birthday}",
+                        birthday: "${SPRING_SECURITY_CONTEXT.authentication.principal.birthday}",
                         level: "${pageContext.request.contextPath}/images/青銅.png"
                     }
                 },

@@ -1,12 +1,16 @@
 package com.jetec.topic.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "member")
-public class MemberBean {
+public class MemberBean implements UserDetails {
 
     public static final String SESSIONID ="member";
 
@@ -73,10 +77,6 @@ public class MemberBean {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -129,6 +129,46 @@ public class MemberBean {
         this.createtime = createtime;
     }
 
+
+    @Transient
+    private Collection<? extends GrantedAuthority> authorities;
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     @Override
     public String toString() {
         return "MemberBean{" +
@@ -142,7 +182,7 @@ public class MemberBean {
                 ", address='" + address + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", createtime='" + createtime + '\'' +
-                ", permitList=" + permitList +
+                ", authorities=" + authorities +
                 '}';
     }
 }

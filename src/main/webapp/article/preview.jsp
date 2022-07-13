@@ -45,7 +45,7 @@
                                             <div class="col-lg-3 text-center">
                                                 <span
                                                     style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
-                                                <span style="color: #379cf4;">${member.name}</span><br>
+                                                <span style="color: #379cf4;">${SPRING_SECURITY_CONTEXT.authentication.principal.name}</span><br>
 
 
                                             </div>

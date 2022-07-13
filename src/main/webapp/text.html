@@ -1,94 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
-</body>
-</html>
-<script>
-  var canvas = document.getElementById("canvas");
-  var ctx = canvas.getContext("2d");
-  var mix = 6000;
-  var canWidth = canvas.width = window.innerWidth;
-  var canHeight = canvas.height = window.innerHeight;
-  //設定點 位置
-  ctx.clearRect(0, 0, canWidth, canHeight);
-  const T = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m",]
-
-  ctx.font = '15px serif';
-  //畫點
-
-  var i = [];
-  var y = [];
-  for (let x = 0; x < canWidth / 20; x++) {
-    y.push(Math.floor(Math.random() * canHeight));
-    i.push(15)
-  }
-  draw();
-  function draw() {
-    ctx.clearRect(0, 0, canWidth, canHeight);
-    for (let x = 0; x < canWidth / 20; x++) {
-      ctx.fillStyle = "#00ff0000";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff002c";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 15 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff0049";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 30 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff006a";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 45 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff0080";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 60 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00A0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 75 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00C0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 90 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00D0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 105 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00F0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20 - 500, 120 + y[x] + i[x] * 20);
-
-
-      ctx.fillStyle = "#00ff0000";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff002c";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 15 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff0049";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 30 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff006a";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 45 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff0080";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 60 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00A0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 75 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00C0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 90 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00D0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 105 + y[x] + i[x] * 20);
-      ctx.fillStyle = "#00ff00F0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 20, 120 + y[x] + i[x] * 20);
-      i[x]++;
-      if ((y[x] + i[x] * 20 + Math.floor(Math.random() * 100)) > canHeight) {
-        i[x] = 1;
-        y[x] = Math.floor(Math.random() * 100);
-      }
-    }
-
-    console.log(Math.floor(Math.random() * 26))
-    setTimeout(() => {
-      draw();
-    }, 150);
-
-  }
-</script>
-<style>
-  body {
-    background-color: #000;
-  }
-</style>
+<html><body>
+  <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
+    <p style="text-align: center;"> <img src="https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
+        style="width: 300px;"></p>
+    <p>%s 您好</p>
+    <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
+    <a  style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'     href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank" >
+   驗證您的Email並訂閱久德最新消息   
+  </a>
+    <p style="text-align: center;"><a href="http://192.168.11.100:8080/topic/Certification?id=%s">驗證您的Email</a></p>
+    <br><br><br>
+    <p>謝謝您</p>
+    <p>久德電子有限公司敬上</p><br>
+    <p>注意：該封郵件是由系統自動寄送的通知信，請不要直接回覆此信。
+      若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
+  </div>
+</body></html>

@@ -188,7 +188,7 @@
                                                 <div class="row ">
                                                     <div class="col-lg-3 text-center">
                                                         <span
-                                                            style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.num+1}}樓</span><br>
+                                                            style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.floor}}樓</span><br>
                                                         <span style="color: #379cf4;">{{s.membername}}</span><br>
                                                         積分:{{s.member.integral}} <br>
 
@@ -196,7 +196,7 @@
 
                                                     </div>
                                                     <div class="col-lg-9 ">
-                                                        <div class="row">
+                                                        <div class="row" :id="s.replyid">
                                                             <div class="col-lg-12 text-break" v-html="s.content"
                                                                 style="min-height: 100px;"></div>
 
@@ -212,10 +212,10 @@
 
                                                                     </c:if>
 
-                                                                    <a v-show="'${member.memberid}' == s.memberid"
+                                                                    <a v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid"
                                                                         :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
                                                                             class="bi bi-pencil-square">修改</i></a>
-                                                                    <span v-show="'${member.memberid}' == s.memberid">
+                                                                    <span v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid">
                                                                         &nbsp; |
                                                                     </span>
 
@@ -319,7 +319,7 @@
                             integral: '${article.member.integral}',
                             rigthAdvertise: [],
 
-                            level: "${pageContext.request.contextPath}/images/小青銅.png",
+                            level: "${pageContext.request.contextPath}/images/小青銅.svg",
                         }
                     },
                     created() {
@@ -341,13 +341,13 @@
 
 
                         if (this.integral >= 90000) {
-                            this.level = '${pageContext.request.contextPath}/images/小傳奇.png';
+                            this.level = '${pageContext.request.contextPath}/images/小傳奇.svg';
                         } else if (this.integral >= 30000) {
-                            this.level = '${pageContext.request.contextPath}/images/小鉑金.png';
+                            this.level = '${pageContext.request.contextPath}/images/小鉑金.svg';
                         } else if (this.integral >= 10000) {
-                            this.level = '${pageContext.request.contextPath}/images/小黃金.png';
+                            this.level = '${pageContext.request.contextPath}/images/小黃金.svg';
                         } else if (this.integral >= 1000) {
-                            this.level = '${pageContext.request.contextPath}/images/小白銀.png';
+                            this.level = '${pageContext.request.contextPath}/images/小白銀.svg';
                         }
 
                         //判斷 瀏覽者是否點讚(回復)
@@ -359,7 +359,7 @@
                             reply.thumbsupNum = reply.thumbsuplist.length;
                             reply.see = false;
                             reply.thumbsuplist.forEach(e => {
-                                if (e.memberid == '${member.memberid}') {
+                                if (e.memberid == '${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}') {
                                     reply.isthumbs = true;
                                 }
                             })
@@ -425,7 +425,7 @@
                         },
                         //回復文章點讚
                         replyClickThumbsup(replyBean) {
-                            if ('${member.name}' == '') {
+                            if ('${SPRING_SECURITY_CONTEXT.authentication.principal.name}' == '') {
                                 window.open("${pageContext.request.contextPath}/member/login.jsp");
                             } else {
                                 $.ajax({
@@ -450,7 +450,7 @@
                         },
                         //主文章點讚
                         clickThumbsup() {
-                            if ('${member.name}' == '') {
+                            if ('${SPRING_SECURITY_CONTEXT.authentication.principal.name}' == '') {
                                 window.open("${pageContext.request.contextPath}/member/login.jsp");
                             } else {
                                 $.ajax({
@@ -491,8 +491,8 @@
                             if (this.text.trim() != "") {
                                 var data = new FormData();
                                 data.append("articleid", reply.replyid);
-                                data.append("memberid", "${member.memberid}");
-                                data.append("membername", "${member.name}");
+                                data.append("memberid", "${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}");
+                                data.append("membername", "${SPRING_SECURITY_CONTEXT.authentication.principal.name}");
                                 data.append("content", this.text);
                                 data.append("article", id);
                                 $.ajax({
@@ -516,7 +516,7 @@
                                     reply.thumbsupNum = reply.thumbsuplist.length;
                                     reply.see = false;
                                     reply.thumbsuplist.forEach(e => {
-                                        if (e.memberid == '${member.memberid}') {
+                                        if (e.memberid == '${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}') {
                                             reply.isthumbs = true;
                                         }
                                     })
@@ -525,7 +525,7 @@
                             }
                         },
                         clickReply() {
-                            if ('${member.name}' == '') {
+                            if ('${SPRING_SECURITY_CONTEXT.authentication.principal.name}' == '') {
                                 window.open("${pageContext.request.contextPath}/member/login.jsp");
                             } else {
                                 location.href = '${pageContext.request.contextPath}/reply/${article.articleid}';
@@ -552,7 +552,7 @@
                         }
                     },
                 })
-                if (permit.indexOf("1") < 0){                    
+                if (permit.indexOf("1") < 0){
                     $(".message").hide();
                     $(".reply").hide();
                 } 

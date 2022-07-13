@@ -38,7 +38,7 @@ public class TopicController {
         //取 未看 回復數
         List<ArticleBean> list = p.getContent();
         MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        List<Map<String, Object>> a = new ArrayList();
+        List<Map<String, Object>> a = new ArrayList<>();
         list.forEach(e -> {
             Map<String, Object> artlcle = new HashMap<>();
             if (mBean != null) {

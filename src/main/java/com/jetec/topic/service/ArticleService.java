@@ -139,7 +139,7 @@ public class ArticleService {
         mr.save(mbean);
         //
         mbean.setIntegral(integral);
-        int level = 1;
+        int level = 0;
         if (integral > 1000) level = 2;
         if (integral > 10000) level = 3;
         if (integral > 30000) level = 4;

@@ -48,11 +48,11 @@
                                 <form action="${pageContext.request.contextPath}/article/save" method="post"
                                     id="articleform">
                                     <input type="hidden" name="replyid" value="${article.replyid}">
-                                    <input type="hidden" name="memberid" value="${member.memberid}">
-                                    <input type="hidden" name="membername" value="${member.name}">
+                                    <input type="hidden" name="memberid" value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
+                                    <input type="hidden" name="membername" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
                                     <input type="hidden" name="articleid" value="${article.articleid}">
                                     <input type="hidden" name="createtime" value="${article.createtime}">
-                                    <div class="mb-3">
+                                    <div class="mb-3" style="cursor: pointer;">
 
 
                                         <textarea class="form-control" name="content" v-model="bean.content"></textarea>

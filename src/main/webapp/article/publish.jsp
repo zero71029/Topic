@@ -54,7 +54,7 @@
                             <div class="col-lg-10">
                                 <form action="${pageContext.request.contextPath}/article/save" method="post"
                                     id="articleform">
-                                    <input type="hidden" name="memberid" value="${member.memberid}">
+                                    <input type="hidden" name="memberid" value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
                                     <input type="hidden" name="articleid" v-model="bean.articleid">
                                     <input type="hidden" name="createtime" v-model="bean.createtime">
                                     <input type="hidden" name="membername" v-model="bean.membername">

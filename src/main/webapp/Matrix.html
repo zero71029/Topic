@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Matrix</title>
 </head>
 
 <body>
@@ -29,9 +29,8 @@
   var y = [];
   for (let x = 0; x < canWidth / 20; x++) {
     y.push(Math.floor(Math.random() * canHeight));
-    i.push(15)
+    i.push(9)
   }
-
 
 
 
@@ -41,23 +40,23 @@
     ctx.clearRect(0, 0, canWidth, canHeight);
     for (let x = 0; x < canWidth / 25; x++) {
       ctx.fillStyle = "#00ff0000";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff002c";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 15 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 15 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff0049";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 30 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 30 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff006a";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 45 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 45 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff0080";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 60 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 60 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff00A0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 75 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 75 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff00C0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 90 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 90 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff00D0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 105 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 105 + y[x] + i[x] * 20);
       ctx.fillStyle = "#00ff00F0";
-      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 400, 120 + y[x] + i[x] * 20);
+      ctx.fillText(T[Math.floor(Math.random() * 26)], x * 25 - 500, 120 + y[x] + i[x] * 20);
 
 
       ctx.fillStyle = "#00ff0000";
@@ -94,7 +93,7 @@
 </script>
 <style>
   body {
-    color: #00ff15;
+   
     background-color: #000;
   }
 </style>
