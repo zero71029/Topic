@@ -48,7 +48,7 @@
                                     <div class="col-lg-12">
                                         <div
                                             style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
-                                            熱門討論區</div>
+                                            最新文章</div>
                                         <table class="table">
                                             <tbody>
                                                 <tr v-for="(s, index) in popular" :key="index">

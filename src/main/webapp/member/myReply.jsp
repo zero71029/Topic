@@ -59,7 +59,7 @@
                                 </td>
                                 <td>{{s.bean.createtime}}</td>
                                 <td>{{s.bean.replytime}}</td>
-                                <td>{{s.bean.replylist.length}}
+                                <td>{{s.bean.total}}
                                     <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
                                         NEW {{ s.watch }}
                                     </el-tag>

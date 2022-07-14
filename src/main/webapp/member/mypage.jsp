@@ -46,9 +46,9 @@
                                     <span style="color: #074F8F;font-size: 40px;">${SPRING_SECURITY_CONTEXT.authentication.principal.name}</span>
                                     <p>註冊日期 : ${SPRING_SECURITY_CONTEXT.authentication.principal.createtime}</p>
                                     <div class="row" style="border: 1px solid #444;">
-                                        <div class="col-lg-3 " style="position:relative;">
+                                        <div class="col-lg-3 text-center" style="padding-top: 13px;">
                                             <a href="${pageContext.request.contextPath}/system/level.jsp">
-                                                <img class="position-absolute top-50 start-50 translate-middle"
+                                                <img 
                                                     :src="level" alt="line" style="width: 100px;">
                                             </a>
                                         </div>

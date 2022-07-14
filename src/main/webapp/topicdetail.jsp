@@ -110,7 +110,7 @@
                                         <div class="col-lg-10">
                                             <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                 <p style="text-align: right;"> <button type="button"
-                                                        class="btn btn-success reply" @click="clickReply">回復</button>
+                                                        class="btn btn-success reply" @click="clickReply">回覆</button>
                                                 </p>
                                             </c:if>
                                         
@@ -208,7 +208,7 @@
                                             </div>
                                             <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                 <p style="text-align: right;"> <button type="button"
-                                                        class="btn btn-success reply" @click="clickReply">回復</button>
+                                                        class="btn btn-success reply" @click="clickReply">回覆</button>
                                                 </p>
                                             </c:if>
                                             <p style="text-align: center;">
@@ -295,10 +295,10 @@
                             this.level = '${pageContext.request.contextPath}/images/小白銀.svg';
                         }
 
-                        //判斷 瀏覽者是否點讚(回復)
+                        //判斷 瀏覽者是否點讚(回覆)
                         this.replylist.forEach(reply => {
                             if (reply.state == "封鎖") {
-                                reply.content = "因違反版規，此條回復已被封鎖";
+                                reply.content = "因違反版規，此條回覆已被封鎖";
                                 reply.replylist = [];
                             }
                             reply.thumbsupNum = reply.thumbsuplist.length;
@@ -366,7 +366,7 @@
                                 }
                             });
                         },
-                        //回復文章點讚
+                        //回覆文章點讚
                         replyClickThumbsup(replyBean) {
                             if ('${SPRING_SECURITY_CONTEXT.authentication.principal.name}' == '') {
                                 window.open("${pageContext.request.contextPath}/member/login.jsp");
