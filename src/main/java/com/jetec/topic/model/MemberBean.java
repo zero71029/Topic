@@ -13,7 +13,7 @@ import java.util.List;
 public class MemberBean implements UserDetails {
 
     public static final String SESSIONID ="member";
-
+    public static final String SESSION_NAME ="SPRING_SECURITY_CONTEXT";
 
     @Id
     @Column(columnDefinition="CHAR(32)")

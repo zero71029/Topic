@@ -69,7 +69,7 @@
                                         <div class="col-lg-3 text-center">
                                             <i class="bi bi-trophy" style="font-size: 60px;"></i><br>
                                             <span>獲得積分</span><br>
-                                            <span style="font-size: 20px;"><b>{{integral}}</b></span>
+                                            <span style="font-size: 20px;"><b>{{bean.integral}}</b></span>
                                         </div>
                                     </div>
                                     <br>
@@ -78,29 +78,30 @@
                                         &nbsp; 個人資料</p>
 
                                     <form action="" method="post" id="reviseForm">
+                                        
                                         <div class="mb-3">
-                                            <label for="exampleFormControlInput1" class="form-label">會員名稱</label>
-                                            <input type="text" class="form-control" name="name" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
+                                            <label for="exampleFormControlInput1" class="form-label">暱稱</label>
+                                            <input type="text" class="form-control" name="name" v-model.trim="bean.name">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">組資單位</label>
                                             <input type="text" class="form-control" name="company"
-                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.company}">
+                                                v-model.trim="bean.company">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">Email</label>
                                             <input type="email" class="form-control" name="email"
-                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.email}" disabled>
+                                                v-model="bean.email" disabled>
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">連絡電話</label>
                                             <input type="text" class="form-control" name="phone"
-                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.phone}">
+                                                v-model.trim="bean.phone">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">聯絡地址</label>
                                             <input type="text" class="form-control" name="address"
-                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.address}">
+                                                v-model.trim="bean.address">
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">生日</label>
@@ -110,7 +111,7 @@
                                             </el-date-picker>
                                             <!-- 
                                             <input type="text" class="form-control" name="birthday"
-                                                value="${SPRING_SECURITY_CONTEXT.authentication.principal.birthday}"> -->
+                                                v-model="bean.birthday}"> -->
                                         </div>
                                         <a href="${pageContext.request.contextPath}/member/reSend.jsp"
                                             id="reSend">重寄認證信</a>
@@ -131,6 +132,7 @@
                 el: ".app",
                 data() {
                     return {
+                        bean:{},
                         replyNum: 0,//回復文章數
                         articleNum: 0,//發表文章數
                         integral: 0,//獲得積分
@@ -146,9 +148,10 @@
                         async: false,//同步請求
                         cache: false,//不快取頁面
                         success: response => {
+                            this.bean = response.member;
                             this.articleNum = response.articleNum;
                             this.replyNum = response.replyNum;
-                            this.integral = response.integral;
+                            this.integral = this.bean.integral;
                         },
                         error: function (returndata) {
                             console.log(returndata);
@@ -170,6 +173,7 @@
                     this.show = true
                 },
                 methods: {
+                    //修改個人資料
                     revise() {
                         var data = new FormData(document.getElementById("reviseForm"));
                         console.log(data.get("name"));

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +36,13 @@ public class MemberController {
     @ResponseBody
     public Map<String, Object> Signout(HttpSession session) {
         System.out.println("*****我的頁面*****");
-        MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
-        Map<String, Object> result = ms.init(member);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+        as.Integral(memberBean.getMemberid());//計算積分
+        Map<String, Object> result =new HashMap<>();
+        result.put("replyNum", as.countReplyByMemberid(memberBean.getMemberid()));//回復文章數
+        result.put("articleNum", as.countByMemberid(memberBean.getMemberid()));//發表文章數
+        result.put(MemberBean.SESSIONID,ms.getMemberById(memberBean.getMemberid()));
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,19 +51,20 @@ public class MemberController {
     @ResponseBody
     public Map<String, Object> myArticle(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
         System.out.println("*****我的文章*****");
-        MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         page--;
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
-        Page<ArticleBean> pa =ms.myArticle(member,p);
+        Page<ArticleBean> pa =ms.myArticle(memberBean,p);
         Map<String, Object> result = new HashMap<>();
 
         //取 未看 回復數
         List<ArticleBean> list = pa.getContent();
         List<Map<String, Object>> a = new ArrayList();
-        if (member != null) {
+        if (memberBean != null) {
             list.forEach(e -> {
                 Map<String, Object> artlcle = new HashMap<>();
-                Integer i = as.getWatchCount(member.getMemberid(), e.getArticleid());
+                Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
                 artlcle.put("bean", e);
                 artlcle.put("watch", i);
                 a.add(artlcle);
@@ -77,9 +84,10 @@ public class MemberController {
     @ResponseBody
     public Map<String, Object> myReply(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
         System.out.println("*****我的回復*****");
-        MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         page--;
-        return ms.myReply(member,page,size);
+        return ms.myReply(memberBean,page,size);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,16 +96,19 @@ public class MemberController {
     @ResponseBody
     public Map<String, Object> revise(HttpSession session,MemberBean bean) {
         System.out.println("*****修改我的資料*****");
-        MemberBean member = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean member = (MemberBean) sci.getAuthentication().getPrincipal();
         bean.setMemberid(member.getMemberid());
         bean.setEmail(member.getEmail());
         bean.setPassword(member.getPassword());
         bean.setCreatetime(member.getCreatetime());
         bean.setIntegral(member.getIntegral());
         MemberBean save = ms.save(bean);
-        session.setAttribute(MemberBean.SESSIONID,save);
-        Map<String, Object> result = ms.init(save);
-        System.out.println(bean);
+        Map<String, Object> result =new HashMap<>();
+        result.put("replyNum", as.countReplyByMemberid(member.getMemberid()));//回復文章數
+        result.put("articleNum", as.countByMemberid(member.getMemberid()));//發表文章數
+        result.put(MemberBean.SESSIONID,save);
+
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,17 +38,22 @@ public class TopicController {
 
         //取 未看 回復數
         List<ArticleBean> list = p.getContent();
-        MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = null;
+        if(sci != null ){
+            memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+        }
+        
         List<Map<String, Object>> a = new ArrayList<>();
-        list.forEach(e -> {
+        for (ArticleBean e    :list ) {
             Map<String, Object> artlcle = new HashMap<>();
-            if (mBean != null) {
-                Integer i = as.getWatchCount(mBean.getMemberid(), e.getArticleid());
+            if (memberBean != null) {
+                Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
                 artlcle.put("watch", i);
             }
             artlcle.put("bean", e);
             a.add(artlcle);
-        });
+        } 
         //a = { "bean" : articleBean , "watch" : i }
         result.put("list", a);
         result.put("total", p.getTotalElements());
@@ -66,10 +72,13 @@ public class TopicController {
 
         model.addAttribute(ArticleThumbsupBean.THUMBSUPID, as.findThumbsup(articleid));
         //存觀看時間
-        MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean mBean = null;
+        if(sci != null)mBean = (MemberBean) sci.getAuthentication().getPrincipal();
+        MemberBean finalMBean = mBean;
         new Thread(() -> {
-            if (mBean != null) {
-                as.saveWatchTime(mBean, articleid);
+            if (finalMBean != null) {
+                as.saveWatchTime(finalMBean, articleid);
             }
         }).start();
         return "/topicdetail";
@@ -80,7 +89,8 @@ public class TopicController {
     @RequestMapping("/revise-reply/{replyid}")
     public String reply(@PathVariable("replyid") String replyid, Model model, HttpSession session) {
         System.out.println("=====修改回復文章=====");
-        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         if (as.hasReply(replyid)) {
             model.addAttribute(ArticleBean.SESSIONID, as.findReplyById(replyid));
             return "/article/revisereply";
@@ -97,7 +107,8 @@ public class TopicController {
     //文章回復
     @RequestMapping(path = {"/reply/{articleid}"})
     public String reply(HttpSession session, @PathVariable("articleid") String articleid, Model model) {
-        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         if (as.hasArticle(articleid)) {
             model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
         } else {
@@ -117,7 +128,9 @@ public class TopicController {
     @ResponseBody
     public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session) {
         System.out.println("*****細節初始化*****");
-        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = null;
+        if(sci != null)memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         Map<String, Object> result = new HashMap<>();
         result.put("replylist", as.getReplyList(articleid));//回復
         result.put("thumbsupNum", as.getThumbsupNum(articleid));//點讚數
@@ -187,17 +200,18 @@ public class TopicController {
     public String saveReturn(ArticleReturnBean articleReturnBean, HttpSession session) {
         System.out.println("*****儲存回報*****");
         //將人轉成 舉報人
-        MemberBean mBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         articleReturnBean.setState("未處裡");
-        if (mBean == null) {
+        if (memberBean == null) {
             articleReturnBean.setMemberid("");
             articleReturnBean.setMembername("路人");
             as.saveArticleReturn(articleReturnBean);
             return "redirect:/article/returnSuccess.jsp";
         }
 
-        articleReturnBean.setMemberid(mBean.getMemberid());
-        articleReturnBean.setMembername(mBean.getName());
+        articleReturnBean.setMemberid(memberBean.getMemberid());
+        articleReturnBean.setMembername(memberBean.getName());
         as.saveArticleReturn(articleReturnBean);
         return "redirect:/article/returnSuccess.jsp";
     }
@@ -208,7 +222,8 @@ public class TopicController {
     @ResponseBody
     public Boolean thumbsup(@PathVariable("articleid") String articleid, HttpSession session) {
         System.out.println("*****點讚*****");
-        MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         Boolean result = as.thumbsup(articleid, memberBean.getMemberid());
         //計算積分
         new Thread(() -> {

@@ -21,7 +21,6 @@ public class ArticleReplyBean {
     @Type(type = "text")
     private String content;
     private String createtime;
-    private Integer num;
     private String state;
     private Integer floor;
 
@@ -67,14 +66,6 @@ public class ArticleReplyBean {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
     }
 
     public List<ArticleReplyBean> getReplylist() {

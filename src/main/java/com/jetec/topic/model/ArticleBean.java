@@ -12,19 +12,21 @@ public class ArticleBean {
     @Id
     @Column(columnDefinition = "CHAR(32)")
     private String articleid;
-    private String name;
-    private String state;
-    private String replytime;
-    private String createtime;
     @Column(columnDefinition = "CHAR(32)")
     private String memberid;
+    @Column(columnDefinition = "CHAR(16)")
+    private String createtime;
+    private String name;
+    @Column(columnDefinition = "CHAR(3)")
+    private String state;
+    private String replytime;
     private String articlegroup;
     private String membername;
 
 
     @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
-    @OrderBy("num DESC")
+    @OrderBy("createtime DESC")
     private List<ArticleReplyBean> replylist;
 
 
@@ -33,7 +35,7 @@ public class ArticleBean {
     private List<ArticleThumbsupBean> thumbsuplist;
 
 
-    @OneToOne(targetEntity = MemberBean.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = MemberBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "memberid", referencedColumnName = "memberid", insertable = false, updatable = false)
     private MemberBean member;
 

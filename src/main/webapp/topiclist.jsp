@@ -25,7 +25,6 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <h1>討論區</h1>
-                    ${SPRING_SECURITY_CONTEXT.authentication.principal}
                     </div>
                 </div>
                 <div class="row">
@@ -76,7 +75,6 @@
                                 <p style="text-align: center;">
                                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                                         :current-page="currentPage" :page-sizes="[1,2,3,10, 20, 30, 40,100]"
-                                     
                                         :page-size="pageSize" layout=" sizes, prev, pager, next, jumper" :total="total">
                                     </el-pagination>
                                 </p>

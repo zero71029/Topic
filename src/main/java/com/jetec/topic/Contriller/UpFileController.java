@@ -5,6 +5,7 @@ import com.jetec.topic.model.FileBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.UpFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,7 +52,8 @@ public class UpFileController {
                 fileMap.get("file").transferTo(new File(path2));
                 System.out.println("輸出成功");
                 //3. 儲存檔案名稱到資料庫
-                MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+                SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+                MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
                 FileBean fileBean = new FileBean(ZeroTools.getUUID(),memberBean.getMemberid(),uuid+lastname,ZeroTools.getTime(new Date()));
                 FileBean save =  ufs.save(fileBean);
 

@@ -96,8 +96,8 @@ public class ArticleService {
     }
 
     //取得有幾筆回復
-    public Integer getArticleNum(String articleid) {
-        return arr.getArticleNum(articleid);
+    public Integer getArticleFloor(String articleid) {
+        return arr.countByArticleid(articleid);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ public class ArticleService {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //計算積分
     public void Integral(String memberid) {
-
+        System.out.println("計算積分");
         MemberBean mbean = mr.getById(memberid);
         List<ArticleBean> articleList = ar.findByMemberidAndState(memberid, "允許");
         int integral = 0; //積分
@@ -133,12 +133,14 @@ public class ArticleService {
             }
         }
         //回復1個1分
-        Integer replyNum = arr.countByMemberidAndState(memberid, "state");
+        Integer replyNum = arr.countByMemberidAndStateNot(memberid, "封鎖");
         integral = integral + replyNum;
-        //儲存
-        mr.save(mbean);
         //
         mbean.setIntegral(integral);
+        //儲存
+        mr.save(mbean);
+
+        //存權限
         int level = 0;
         if (integral > 1000) level = 2;
         if (integral > 10000) level = 3;
@@ -209,5 +211,13 @@ public class ArticleService {
 
     public ArticleReplyBean findReplyById(String replyid) {
         return arr.getById(replyid);
+    }
+
+    public Integer countByMemberid(String memberid) {
+        return ar.countByMemberid( memberid);
+    }
+    //回復文章數
+    public Object countReplyByMemberid(String memberid) {
+        return arr.countByMemberid( memberid);
     }
 }

@@ -7,6 +7,7 @@ import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,8 @@ public class ArticleController {
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
             articleBean.setArticleid(ZeroTools.getUUID());
             articleBean.setCreatetime(ZeroTools.getTime(new Date()));
-            MemberBean memberBean = (MemberBean) session.getAttribute(MemberBean.SESSIONID);
+            SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+            MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
             articleBean.setMemberid(memberBean.getMemberid());
             articleBean.setMembername(memberBean.getName());
             articleBean.setState("未驗證");
@@ -71,13 +73,15 @@ public class ArticleController {
     public String saveReply(ArticleReplyBean arBean) {
         System.out.println("*****文章回復儲存*****");
         System.out.println(arBean);
+        //新回復
         if(arBean.getReplyid() == null ||  arBean.getReplyid().isEmpty()){
             arBean.setReplyid(ZeroTools.getUUID());
             arBean.setCreatetime(ZeroTools.getTime(new Date()));
-            Integer num = as.getArticleNum(arBean.getArticleid());
-            arBean.setNum(num + 1);
-        }
+            Integer floor = as.getArticleFloor(arBean.getArticleid());
+            arBean.setFloor(floor + 2);
 
+        }
+        arBean.setState("未讀");
         ArticleReplyBean save = as.saveArticleReply(arBean);
 
         //計算積分

@@ -8,6 +8,7 @@ import com.jetec.topic.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,19 +37,20 @@ public class LoginController {
     public String login(HttpSession session) {
         System.out.println("*****登入成功*****");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        String Username;
-        if (principal instanceof UserDetails userDetails) {
-            Username = userDetails.getUsername();
-        } else {
-            Username = principal.toString();
-        }
-        System.out.println(Username);
-        MemberBean mBean = ls.findByEmail(Username);
-        session.setAttribute(MemberBean.SESSIONID, mBean);
-
+//        Object principal = authentication.getPrincipal();
+//        String Username;
+//        if (principal instanceof UserDetails userDetails) {
+//            Username = userDetails.getUsername();
+//        } else {
+//            Username = principal.toString();
+//        }
+//        System.out.println(Username);
+//        MemberBean mBean = ls.findByEmail(Username);
+//        session.setAttribute(MemberBean.SESSIONID, mBean);
+//        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        MemberBean memberBean = (MemberBean) authentication.getPrincipal();
         //計算積分
-        new Thread(() -> as.Integral(mBean.getMemberid())).start();
+        new Thread(() -> as.Integral(memberBean.getMemberid())).start();
         return "redirect:/index";
     }
 
@@ -132,26 +134,26 @@ public class LoginController {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //登入驗證
-    @ResponseBody
-    @RequestMapping(path = {"/UserAuthorize"})
-    public boolean UserAuthorize(Authentication authentication, HttpSession session) {
-        System.out.println("*****登入驗證*****");
-        // 驗證 補session user
-        if (authentication != null) {
-            System.out.println("有authentication");
-            Optional<MemberBean> op = ls.getMemberByEmail(authentication.getName());
-            if (op.isPresent()) {
-                session.setAttribute(MemberBean.SESSIONID, op.get());
-                return true;
-            } else {
-                return false;
-
-            }
-        } else {
-            System.out.println("沒有authentication");
-        }
-        return false;
-    }
+//    @ResponseBody
+//    @RequestMapping(path = {"/UserAuthorize"})
+//    public boolean UserAuthorize(Authentication authentication, HttpSession session) {
+//        System.out.println("*****登入驗證*****");
+//        // 驗證 補session user
+//        if (authentication != null) {
+//            System.out.println("有authentication");
+//            Optional<MemberBean> op = ls.getMemberByEmail(authentication.getName());
+//            if (op.isPresent()) {
+//                session.setAttribute(MemberBean.SESSIONID, op.get());
+//                return true;
+//            } else {
+//                return false;
+//
+//            }
+//        } else {
+//            System.out.println("沒有authentication");
+//        }
+//        return false;
+//    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //忘記密碼
@@ -201,7 +203,7 @@ public class LoginController {
                           </body></html>
                         """.formatted(bean.getName(), uuid);
                 System.out.println(text);
-                String Subject = "九德討論版重置密碼申請";// 主題
+                String Subject = "久德討論版重置密碼申請";// 主題
                 try {
                     mailTool.sendlineMail(bean.getEmail(), Subject, text);
                 } catch (Exception e) {

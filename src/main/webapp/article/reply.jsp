@@ -49,7 +49,7 @@
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
                         <div class="row ">
                             <div class="col-lg-10">
-                                <form action="${pageContext.request.contextPath}/article/save" method="post"
+                                <form action="${pageContext.request.contextPath}/article/saveReply" method="post"
                                     id="articleform">
                                     <input type="hidden" name="memberid" value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
                                     <input type="hidden" name="membername" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">

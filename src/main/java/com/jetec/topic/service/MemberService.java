@@ -32,23 +32,9 @@ public class MemberService {
     @Autowired
     ArticleService as;
 
-    public Map<String, Object> init(MemberBean member) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("replyNum", arr.countByMemberid(member.getMemberid()));//回復文章數
-        result.put("articleNum", ar.countByMemberid(member.getMemberid()));//發表文章數
-//        int integral = 0; //積分
-//        for (ArticleBean article : articleList) {
-//            integral = integral + 100;
-//            if (article.getThumbsuplist().size() > 10) {
-//                integral = integral + 100;
-//            } else {
-//                integral = integral + article.getThumbsuplist().size() * 10;
-//            }
-//        }
-//        integral = integral + replyList.size();
-        result.put("integral", member.getIntegral());//獲得積分
-        return result;
-    }
+
+
+
 
     public MemberBean save(MemberBean bean) {
         return mr.save(bean);
@@ -105,5 +91,9 @@ public class MemberService {
         result.put("list", a);
         result.put("total", articleList.size());
         return result;
+    }
+    //發表文章數
+    public MemberBean getMemberById(String memberid) {
+        return mr.findById(memberid).orElse(null);
     }
 }

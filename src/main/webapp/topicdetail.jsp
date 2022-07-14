@@ -109,7 +109,7 @@
                                         <!-- 中間主體 -->
                                         <div class="col-lg-10">
                                             <div class="row ">
-                                                <c:if test="${not empty member.memberid}">
+                                                <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                     <p style="text-align: right;"> <button type="button"
                                                             class="btn btn-success reply"
                                                             @click="clickReply">回復</button>
@@ -135,7 +135,7 @@
                                                             <h3 id="articlename">${article.name}</h3>
                                                             <p>${article.createtime}
                                                                 <span style="float: right;">
-                                                                    <c:if test="${not empty member.memberid}">
+                                                                    <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                                         <i class="bi bi-hand-thumbs-up icon  main"
                                                                             @click="clickThumbsup">讚
                                                                             {{thumbsupNum}}
@@ -143,7 +143,7 @@
                                                                         &nbsp; | &nbsp;
 
                                                                     </c:if>
-                                                                    <c:if test="${article.memberid == member.memberid}">
+                                                                    <c:if test="${article.memberid == SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
                                                                         <a
                                                                             href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
                                                                                 class="bi bi-pencil-square">修改</i></a>
@@ -201,7 +201,7 @@
                                                                 style="min-height: 100px;"></div>
 
                                                             <p>{{s.createtime}}<span style="float: right;">
-                                                                    <c:if test="${not empty member.memberid}">
+                                                                    <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                                         <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
                                                                             @click="replyClickThumbsup(s)">讚
                                                                             {{s.thumbsupNum}}</i>
@@ -268,7 +268,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <c:if test="${not empty member.memberid}">
+                                            <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                 <p style="text-align: right;"> <button type="button"
                                                         class="btn btn-success reply" @click="clickReply">回復</button>
                                                 </p>
@@ -353,7 +353,7 @@
                         //判斷 瀏覽者是否點讚(回復)
                         this.replylist.forEach(reply => {
                             if (reply.state == "封鎖") {
-                                reply.content = "該回覆已經被封鎖";
+                                reply.content = "因違反版規，此條回復已被封鎖";
                                 reply.replylist = [];
                             }
                             reply.thumbsupNum = reply.thumbsuplist.length;
@@ -363,15 +363,15 @@
                                     reply.isthumbs = true;
                                 }
                             })
-                            reply.level = '${pageContext.request.contextPath}/images/小青銅.png';
+                            reply.level = '${pageContext.request.contextPath}/images/小青銅.svg';
                             if (reply.member.integral >= 90000) {
-                                reply.level = '${pageContext.request.contextPath}/images/小傳奇.png';
+                                reply.level = '${pageContext.request.contextPath}/images/小傳奇.svg';
                             } else if (reply.member.integral >= 30000) {
-                                reply.level = '${pageContext.request.contextPath}/images/小鉑金.png';
+                                reply.level = '${pageContext.request.contextPath}/images/小鉑金.svg';
                             } else if (reply.member.integral >= 10000) {
-                                reply.level = '${pageContext.request.contextPath}/images/小黃金.png';
+                                reply.level = '${pageContext.request.contextPath}/images/小黃金.svg';
                             } else if (reply.member.integral >= 1000) {
-                                reply.level = '${pageContext.request.contextPath}/images/小白銀.png';
+                                reply.level = '${pageContext.request.contextPath}/images/小白銀.svg';
                             }
                         });
                         if (this.hasThumbsup) {
