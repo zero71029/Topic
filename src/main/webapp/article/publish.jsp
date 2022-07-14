@@ -60,8 +60,6 @@
                                     <input type="hidden" name="membername" v-model="bean.membername">
                                     <input type="hidden" name="replytime" v-model="bean.replytime">
                                     <input type="hidden" name="state" value="未驗證">
-
-
                                     <div class="mb-3">
                                         <label class="form-label"> 主題 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
@@ -69,7 +67,6 @@
                                         <input type="text" class="form-control" name="name" id="name"
                                             v-model="bean.name">
                                     </div>
-
                                     <div class="mb-3">
                                         <label class="form-label"> 主題 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
@@ -83,9 +80,6 @@
                                             <option value="application">應用</option>
                                         </select>
                                     </div>
-
-
-
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">內容</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1" name="content"
@@ -185,7 +179,6 @@
                     }
                 },
                 created() {
-
                     this.bean.articlegroup = nav;
                     console.log(id);
                     if (id == null || id == "") {

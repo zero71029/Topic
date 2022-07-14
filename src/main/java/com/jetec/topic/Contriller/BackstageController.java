@@ -55,7 +55,6 @@ public class BackstageController {
     public Map<String, Object> articleLiat(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer size, @RequestParam("state") String state) {
         page--;
         System.out.println("文章列表初始化");
-
         return BS.articleList(page, size,state);
     }
 
@@ -63,11 +62,12 @@ public class BackstageController {
     //文章細節
     @RequestMapping("/articleDetail/{id}")
     @ResponseBody
-    public Map<String, Object> articleDetail(@PathVariable("id") String articleid) {
+    public Map<String, Object> articleDetail(@PathVariable("id") String articleid,@RequestParam("p")Integer p) {
+        p--;
         System.out.println("文章細節");
         Map<String, Object> result = new HashMap<>();
-        result.put(ArticleBean.SESSIONID, BS.getarticleDetail(articleid));
-        result.put(ArticleContentBean.SESSIONID, BS.getArticleContent(articleid));
+        result.put(ArticleBean.SESSIONID, BS.getarticleDetail(articleid,p));
+
         //存觀看時間
         new Thread(() -> BS.saveWatchTime("system", articleid)).start();
         return result;

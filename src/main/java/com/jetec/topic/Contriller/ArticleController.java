@@ -6,6 +6,10 @@ import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
@@ -16,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 //限定權限
@@ -60,8 +66,10 @@ public class ArticleController {
         }
         ArticleBean save = as.save(articleBean);
         if (save != null) {
-            ArticleContentBean acBean = new ArticleContentBean(save.getArticleid(), content);
-            as.saveArticleContent(acBean);
+            ArticleReplyBean  arBean = new ArticleReplyBean(ZeroTools.getUUID(),save.getArticleid(),save.getMemberid(),save.getMembername(),content,save.getCreatetime());
+            arBean.setFloor(1);
+            arBean.setState("未讀");
+            as.saveArticleContent(arBean);
         }
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
         return "redirect:/article/success.jsp";
@@ -78,8 +86,8 @@ public class ArticleController {
             arBean.setReplyid(ZeroTools.getUUID());
             arBean.setCreatetime(ZeroTools.getTime(new Date()));
             Integer floor = as.getArticleFloor(arBean.getArticleid());
-            arBean.setFloor(floor + 2);
-
+            arBean.setFloor(floor + 1);
+            arBean.setState("未讀");
         }
         arBean.setState("未讀");
         ArticleReplyBean save = as.saveArticleReply(arBean);
@@ -97,12 +105,19 @@ public class ArticleController {
     //儲存留言
     @RequestMapping(path = {"/savemessage"})
     @ResponseBody
-    public List<ArticleReplyBean> savemessage(ArticleReplyBean arBean, @RequestParam("article") String article) {
+    public Map<String, Object> savemessage(ArticleReplyBean arBean, @RequestParam("article") String article, @RequestParam("p") Integer p) {
+        p--;
+        Pageable pageable = PageRequest.of(p, 10, Sort.Direction.ASC, "create");
         System.out.println("*****儲存留言*****");
         arBean.setReplyid(ZeroTools.getUUID());
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);
-        return as.getReplyList(article);
+        Map<String, Object> result = new HashMap<>();
+        Page<ArticleReplyBean> page = as.getReplyList(article,pageable);
+        result.put("replylist", page.getContent() );//回復
+        result.put("total", page.getTotalElements() );//回復總數
+
+        return result;
     }
 
 

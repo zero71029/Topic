@@ -108,83 +108,14 @@
                                     <div class="row ">
                                         <!-- 中間主體 -->
                                         <div class="col-lg-10">
-                                            <div class="row ">
-                                                <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
-                                                    <p style="text-align: right;"> <button type="button"
-                                                            class="btn btn-success reply"
-                                                            @click="clickReply">回復</button>
-                                                    </p>
-                                                </c:if>
-                                                <div class="col-lg-3 text-center">
-                                                    <span
-                                                        style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
-                                                    <span style="color: #379cf4;">${article.membername} </span><br>
-                                                    積分:${article.member.integral}
-                                                    <br>
-                                                    <!-- <div class="fb-share-button"
-                                                        data-href="https://www.your-domain.com/your-page.html"
-                                                        data-layout="button_count">
-                                                    </div> -->
-                                                    <img :src="level" style="width: 60px;">
-
-                                                </div>
-                                                <!-- 主文 -->
-                                                <div class="col-lg-9 ">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 text-break">
-                                                            <h3 id="articlename">${article.name}</h3>
-                                                            <p>${article.createtime}
-                                                                <span style="float: right;">
-                                                                    <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
-                                                                        <i class="bi bi-hand-thumbs-up icon  main"
-                                                                            @click="clickThumbsup">讚
-                                                                            {{thumbsupNum}}
-                                                                        </i>
-                                                                        &nbsp; | &nbsp;
-
-                                                                    </c:if>
-                                                                    <c:if test="${article.memberid == SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
-                                                                        <a
-                                                                            href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
-                                                                                class="bi bi-pencil-square">修改</i></a>
-                                                                        &nbsp;|
-                                                                    </c:if>
-                                                                    &nbsp;
-                                                                    <el-dropdown @command="handleCommand">
-                                                                        <span class="el-dropdown-link">
-                                                                            <!-- 下拉 -->
-                                                                            <i class="el-icon-s-tools"
-                                                                                style="font-size: 18px;"></i>
-                                                                        </span>
-                                                                        <el-dropdown-menu slot="dropdown">
-                                                                            <el-dropdown-item command='a'>
-                                                                                <i
-                                                                                    class="bi bi-share icon share">&nbsp;分享</i>
-                                                                            </el-dropdown-item>
-                                                                            <el-dropdown-item
-                                                                                command="articleReturn/${article.articleid}">
-                                                                                <i
-                                                                                    class="bi bi-exclamation-circle">&nbsp;回報</i>
-                                                                            </el-dropdown-item>
-                                                                        </el-dropdown-menu>
-                                                                    </el-dropdown>
-                                                                </span>
-                                                            </p>
-                                                            <hr>
-                                                            <div id="content" style="min-height: 150px;">
-                                                                ${article_content.content}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 回復 -->
+                                            <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
+                                                <p style="text-align: right;"> <button type="button"
+                                                        class="btn btn-success reply" @click="clickReply">回復</button>
+                                                </p>
+                                            </c:if>
+                                        
                                             <div v-for="(s, index) in replylist" :key="index">
-                                                <div class="row">
-                                                    <div class="col-lg-12 text-center">
-                                                        <hr>
-                                                    </div>
-                                                </div>
+
                                                 <div class="row ">
                                                     <div class="col-lg-3 text-center">
                                                         <span
@@ -201,7 +132,8 @@
                                                                 style="min-height: 100px;"></div>
 
                                                             <p>{{s.createtime}}<span style="float: right;">
-                                                                    <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
+                                                                    <c:if
+                                                                        test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                                         <i :class="[handthumbs,{thumbsup:s.isthumbs},s.replyid]"
                                                                             @click="replyClickThumbsup(s)">讚
                                                                             {{s.thumbsupNum}}</i>
@@ -215,7 +147,8 @@
                                                                     <a v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid"
                                                                         :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
                                                                             class="bi bi-pencil-square">修改</i></a>
-                                                                    <span v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid">
+                                                                    <span
+                                                                        v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid">
                                                                         &nbsp; |
                                                                     </span>
 
@@ -267,12 +200,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 text-center">
+                                                        <hr>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                 <p style="text-align: right;"> <button type="button"
                                                         class="btn btn-success reply" @click="clickReply">回復</button>
                                                 </p>
                                             </c:if>
+                                            <p style="text-align: center;">
+                                                <el-pagination
+                                                    @current-change="handleCurrentChange" :current-page="currentPage"
+                                                     page-size="10"
+                                                    layout="  prev, pager, next, jumper" :total="total">
+                                                </el-pagination>
+                                            </p>
                                         </div>
                                         <!-- 右邊廣告 -->
                                         <div class="col-lg-2">
@@ -303,12 +248,13 @@
 
 
             <script>
+                // const url = new URL(location.href);
+                // const p = url.searchParams.get("p");
                 var id = '${article.articleid}';
                 var vm = new Vue({
                     el: ".app",
                     data() {
                         return {
-
                             dialogVisible: false,
                             thumbsupNum: 0,
                             hasThumbsup: false,
@@ -318,13 +264,14 @@
                             text: "",
                             integral: '${article.member.integral}',
                             rigthAdvertise: [],
-
-                            level: "${pageContext.request.contextPath}/images/小青銅.svg",
+                            level: "${pageContext.request.contextPath}/images/小青銅.svg",                           
+                            total: 10,
+                            currentPage: 1,
                         }
                     },
                     created() {
                         $.ajax({
-                            url: '${pageContext.request.contextPath}/article/detailInit/${article.articleid}',
+                            url: '${pageContext.request.contextPath}/article/detailInit/${article.articleid}?p=1',
                             type: 'POST',
                             async: false,//同步請求
                             cache: false,//不快取頁面
@@ -332,14 +279,12 @@
                                 this.thumbsupNum = response.thumbsupNum;
                                 this.hasThumbsup = response.hasThumbsup;
                                 this.replylist = response.replylist;
-
+                                this.total =response.total;
                             },
                             error: function (returndata) {
                                 console.log(returndata);
                             }
                         });
-
-
                         if (this.integral >= 90000) {
                             this.level = '${pageContext.request.contextPath}/images/小傳奇.svg';
                         } else if (this.integral >= 30000) {
@@ -389,9 +334,7 @@
                                 console.log(returndata);
                             }
                         });
-                    }, mounted() {
-
-                    },
+                    }, 
                     methods: {
                         //下拉工具
                         handleCommand(command) {
@@ -496,7 +439,7 @@
                                 data.append("content", this.text);
                                 data.append("article", id);
                                 $.ajax({
-                                    url: '${pageContext.request.contextPath}/article/savemessage',
+                                    url: '${pageContext.request.contextPath}/article/savemessage?p='+this.currentPage,
                                     type: 'POST',
                                     data: data,
                                     async: false,
@@ -505,7 +448,8 @@
                                     processData: false,
                                     success: (response) => {
                                         console.log(response);
-                                        this.replylist = response;
+                                        this.replylist = response.replylist;
+                                        this.total=response.total;
                                     },
                                     error: function (returndata) {
                                         console.log(returndata);
@@ -549,10 +493,30 @@
                                     this.$message.error('電子郵件或密碼錯誤');
                                 }
                             });
+                        },
+                        //分頁頁數
+                        handleCurrentChange(val) {
+                            this.currentPage = val;
+                            $.ajax({
+                                url: '${pageContext.request.contextPath}/article/detailInit/${article.articleid}?p=' + this.currentPage,
+                                type: 'POST',
+                                async: false,//同步請求
+                                cache: false,//不快取頁面
+                                success: response => {
+                                    this.thumbsupNum = response.thumbsupNum;
+                                    this.hasThumbsup = response.hasThumbsup;
+                                    this.replylist = response.replylist;
+                                    this.total =response.total;
+                                },
+                                error: function (returndata) {
+                                    console.log(returndata);
+                                }
+                            });
                         }
+
                     },
                 })
-                if (permit.indexOf("1") < 0){
+                if (permit.indexOf("1") < 0) {
                     $(".message").hide();
                     $(".reply").hide();
                 } 

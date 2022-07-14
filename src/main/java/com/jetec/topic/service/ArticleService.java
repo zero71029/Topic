@@ -91,8 +91,8 @@ public class ArticleService {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //取得文章回復
-    public List<ArticleReplyBean> getReplyList(String articleid) {
-        return arr.findByArticleid(articleid, Sort.by(Sort.Direction.ASC, "createtime"));
+    public Page<ArticleReplyBean> getReplyList(String articleid,Pageable pageable) {
+        return arr.findByArticleid(articleid, pageable);
     }
 
     //取得有幾筆回復
@@ -166,8 +166,8 @@ public class ArticleService {
     }
 
     //存文章內容
-    public void saveArticleContent(ArticleContentBean acBean) {
-        acr.save(acBean);
+    public void saveArticleContent(ArticleReplyBean arBean) {
+        arr.save(arBean);
     }
 
     //存觀看時間
@@ -219,5 +219,9 @@ public class ArticleService {
     //回復文章數
     public Object countReplyByMemberid(String memberid) {
         return arr.countByMemberid( memberid);
+    }
+
+    public long countReplyByArticleid(String articleid) {
+        return arr.countByArticleid(articleid);
     }
 }

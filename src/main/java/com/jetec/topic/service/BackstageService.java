@@ -58,6 +58,8 @@ public class BackstageService {
         //先取未驗證
         List<ArticleBean> list = ar.findByState("未驗證", Sort.by(Sort.Direction.DESC, "createtime"));
         list.forEach(e -> {
+            System.out.println(arr.countByArticleid(e.getArticleid()));
+            e.setTotal(arr.countByArticleid(e.getArticleid()));
             Map<String, Object> artlcle = new HashMap<>();
             artlcle.put("watch", 0);
             artlcle.put("bean", e);
@@ -77,6 +79,7 @@ public class BackstageService {
         //取 未看 回復數
         List<ArticleBean> ArticleBeanList = mp.getContent();
         ArticleBeanList.forEach(e -> {
+            e.setTotal(arr.countByArticleid(e.getArticleid()));
             Map<String, Object> artlcle = new HashMap<>();
             Integer i;
             Optional<WatchBean> op = wr.findByMemberidAndArticleid("system", e.getArticleid());
@@ -99,8 +102,14 @@ public class BackstageService {
         return result;
     }
 
-    public ArticleBean getarticleDetail(String articleid) {
-        return ar.findById(articleid).get();
+    public ArticleBean getarticleDetail(String articleid,Integer p) {
+        Optional<ArticleBean> op = ar.findById(articleid);
+        op.ifPresent(e ->{
+            Page<ArticleReplyBean> page = arr.findByArticleid(articleid,PageRequest.of(p,10, Sort.Direction.ASC,"create"));
+            e.setReplylist(page.getContent());
+            e.setTotal(page.getTotalElements());
+        });
+        return op.get();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +136,7 @@ public class BackstageService {
     }
 
     public List<ArticleReplyBean> getArticleReplyList(String articleid) {
-        return arr.findByArticleid(articleid, Sort.by(Sort.Direction.ASC, "createtime"));
+        return arr.findByArticleid(articleid,PageRequest.of(0, 10, Sort.Direction.ASC, "create")).getContent();
     }
 
     public ArticleContentBean getArticleContent(String articleid) {

@@ -1,13 +1,20 @@
 package com.jetec.topic.model;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "article_reply")
+@DynamicInsert
+@DynamicUpdate
 public class ArticleReplyBean {
+
+    public static final String SESSIONID = "reply";
 
 
     @Id
@@ -23,7 +30,8 @@ public class ArticleReplyBean {
     private String createtime;
     private String state;
     private Integer floor;
-
+    @Column(name = "create_time")
+    private LocalDateTime create;
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
@@ -32,7 +40,7 @@ public class ArticleReplyBean {
 
     @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
-    @OrderBy("createtime ASC")
+    @OrderBy("create ASC")
     private List<ArticleReplyBean> replylist;
 
     @OneToOne(targetEntity = MemberBean.class, cascade = CascadeType.ALL)
