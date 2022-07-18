@@ -22,6 +22,8 @@ public class ArticleBean {
     private String replytime;
     private String articlegroup;
     private String membername;
+    @Transient
+    private Integer total;
 
 
     @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
@@ -127,6 +129,15 @@ public class ArticleBean {
 
     public void setMember(MemberBean member) {
         this.member = member;
+    }
+
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     @Override

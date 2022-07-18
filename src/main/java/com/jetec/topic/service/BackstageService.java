@@ -107,7 +107,7 @@ public class BackstageService {
         op.ifPresent(e ->{
             Page<ArticleReplyBean> page = arr.findByArticleid(articleid,PageRequest.of(p,10, Sort.Direction.ASC,"create"));
             e.setReplylist(page.getContent());
-            e.setTotal(page.getTotalElements());
+            e.setTotal((int) page.getTotalElements());
         });
         return op.get();
     }
