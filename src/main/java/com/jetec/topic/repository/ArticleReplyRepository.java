@@ -25,4 +25,14 @@ public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean, 
     Integer countByArticleid(String articleid);
 
     Integer countByMemberidAndStateNot(String memberid, String state);
+
+    @Query(value = "select * from article_reply where articleid = ?1 order by create_time  limit 0,9 ",nativeQuery = true)
+    List<ArticleReplyBean> findByArticleidAndPageZero(String articleid);
+
+    @Query(value = "select * from article_reply where articleid = ?1 order by create_time  limit ?2,?3",nativeQuery = true)
+    List<ArticleReplyBean> findByArticleidAndPage(String articleid, Integer p,Integer size);
+
+
+
+
 }

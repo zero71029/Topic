@@ -3,6 +3,7 @@ package com.jetec.topic.service;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.repository.*;
+import com.sun.jna.platform.unix.X11;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +51,7 @@ public class ArticleService {
         Optional<ArticleBean> op = ar.findById(articleid);
         return op.orElse(null);
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //點讚
     public Boolean thumbsup(String articleid, String memberid) {
@@ -84,18 +86,30 @@ public class ArticleService {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//文章回復 儲存
+//文章回覆 儲存
     public ArticleReplyBean saveArticleReply(ArticleReplyBean arBean) {
         return arr.save(arBean);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//取得文章回復
-    public Page<ArticleReplyBean> getReplyList(String articleid,Pageable pageable) {
-        return arr.findByArticleid(articleid, pageable);
+//取得文章回覆
+    public Map<String, Object> getReplyList(String articleid, Integer p) {
+        Map<String, Object> result = new HashMap<>();
+//        limit N,M : 相当于 limit M offset N , 从第 N 条记录开始, 返回 M 条记录
+        if (p == 0) {
+            String sql = "select * from article_reply where articleid = ?1 order by create_time limit 0,10";
+            result.put("list",arr.findByArticleidAndPageZero(articleid));
+            result.put("total",arr.countByArticleid(articleid));
+            return result;
+        }
+        String sql = "select * from article_reply where articleid = ?1 order by create_time  limit ?2,?3";
+        List<ArticleReplyBean> page = arr.findByArticleidAndPage(articleid, p * 10 - 1, 10);
+        result.put("list",arr.findByArticleidAndPage(articleid, p * 10 - 1, 10));
+        result.put("total",arr.countByArticleid(articleid));
+        return result;
     }
 
-    //取得有幾筆回復
+    //取得有幾筆回覆
     public Integer getArticleFloor(String articleid) {
         return arr.countByArticleid(articleid);
     }
@@ -132,7 +146,7 @@ public class ArticleService {
                 integral = integral + article.getThumbsuplist().size() * 10;
             }
         }
-        //回復1個1分
+        //回覆1個1分
         Integer replyNum = arr.countByMemberidAndStateNot(memberid, "封鎖");
         integral = integral + replyNum;
         //
@@ -166,8 +180,8 @@ public class ArticleService {
     }
 
     //存文章內容
-    public void saveArticleContent(ArticleReplyBean arBean) {
-        arr.save(arBean);
+    public void saveArticleContent(ArticleContentBean acBean) {
+        acr.save(acBean);
     }
 
     //存觀看時間
@@ -183,7 +197,7 @@ public class ArticleService {
         wr.save(wBean);
     }
 
-    //取 未看 回復數
+    //取 未看 回覆數
     public Integer getWatchCount(String memberid, String articleid) {
         Optional<WatchBean> op = wr.findByMemberidAndArticleid(memberid, articleid);
         if (op.isPresent()) {
@@ -194,7 +208,7 @@ public class ArticleService {
         }
     }
 
-    //取得回復文章
+    //取得回覆文章
     public Optional<ArticleReplyBean> getReplyByReplyid(String replyid) {
         return arr.findById(replyid);
     }
@@ -214,14 +228,11 @@ public class ArticleService {
     }
 
     public Integer countByMemberid(String memberid) {
-        return ar.countByMemberid( memberid);
-    }
-    //回復文章數
-    public Object countReplyByMemberid(String memberid) {
-        return arr.countByMemberid( memberid);
+        return ar.countByMemberid(memberid);
     }
 
-    public long countReplyByArticleid(String articleid) {
-        return arr.countByArticleid(articleid);
+    //回覆文章數
+    public Object countReplyByMemberid(String memberid) {
+        return arr.countByMemberid(memberid);
     }
 }

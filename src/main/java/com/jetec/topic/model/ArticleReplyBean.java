@@ -14,8 +14,6 @@ import java.util.List;
 @DynamicUpdate
 public class ArticleReplyBean {
 
-    public static final String SESSIONID = "reply";
-
 
     @Id
     @Column(columnDefinition = "CHAR(32)")
@@ -30,8 +28,10 @@ public class ArticleReplyBean {
     private String createtime;
     private String state;
     private Integer floor;
+
     @Column(name = "create_time")
     private LocalDateTime create;
+
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
@@ -40,7 +40,7 @@ public class ArticleReplyBean {
 
     @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
-    @OrderBy("create ASC")
+    @OrderBy("createtime ASC")
     private List<ArticleReplyBean> replylist;
 
     @OneToOne(targetEntity = MemberBean.class, cascade = CascadeType.ALL)
@@ -58,6 +58,14 @@ public class ArticleReplyBean {
 
     public ArticleReplyBean() {
 
+    }
+
+    public LocalDateTime getCreate() {
+        return create;
+    }
+
+    public void setCreate(LocalDateTime create) {
+        this.create = create;
     }
 
     public Integer getFloor() {

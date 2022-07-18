@@ -47,11 +47,11 @@ public class MemberService {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //我的回復
+    //我的回覆
     public Map<String, Object> myReply(MemberBean member, Integer page, Integer size) {
         List<ArticleReplyBean> arList = arr.findByMemberid(member.getMemberid());
         List<ArticleBean> articleList = new ArrayList<>();
-        //取得回復過的Articleid列表
+        //取得回覆過的Articleid列表
         Set<String> articleidList = new HashSet<>();
         arList.forEach(e -> articleidList.add(e.getArticleid()));
         //用Articleid列表 取得文章列表
@@ -76,7 +76,7 @@ public class MemberService {
                 .collect(Collectors.toCollection(ArrayList::new));
         Map<String, Object> result = new HashMap<>();
 
-        //取 未看 回復數
+        //取 未看 回覆數
         List<Map<String, Object>> a = new ArrayList();
         if (member != null) {
             list.forEach(e -> {

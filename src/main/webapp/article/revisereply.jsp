@@ -29,7 +29,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1>回復文章</h1>
+                        <h1>回覆文章</h1>
                     </div>
                 </div>
                 <div class="row">

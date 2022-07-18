@@ -52,7 +52,7 @@
                                             <th scope="col">主題</th>
                                             <th scope="col" style="width: 150px;">發布時間</th>
                                             <th scope="col" style="width: 150px;">最後回覆</th>
-                                            <th scope="col" style="width: 90px;">回復數</th>
+                                            <th scope="col" style="width: 90px;">回覆數</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,7 +73,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <!-- 分頁 -->
                                 <p style="text-align: center;">
+
                                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                                         :current-page="currentPage" :page-sizes="[1,2,3,10, 20, 30, 40,100]"
                                         :page-size="pageSize" layout=" sizes, prev, pager, next, jumper" :total="total">

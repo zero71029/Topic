@@ -1,7 +1,6 @@
 package com.jetec.topic.model;
 
 import javax.persistence.*;
-import java.beans.IntrospectionException;
 import java.util.List;
 
 @Entity
@@ -25,13 +24,11 @@ public class ArticleBean {
     private String membername;
 
 
-    //    @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
-//    @OrderBy("create ASC")
-    @Transient
+    @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
+    @OrderBy("create DESC")
     private List<ArticleReplyBean> replylist;
-    @Transient
-    private long total;
+
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "articleid", insertable = false, updatable = false)
@@ -130,14 +127,6 @@ public class ArticleBean {
 
     public void setMember(MemberBean member) {
         this.member = member;
-    }
-
-    public long getTotal() {
-        return total;
-    }
-
-    public void setTotal(long total) {
-        this.total = total;
     }
 
     @Override

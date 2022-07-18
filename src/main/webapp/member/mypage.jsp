@@ -62,7 +62,7 @@
                                         <div class="col-lg-3 text-center">
                                             <a href="${pageContext.request.contextPath}/member/myReply.jsp">
                                                 <i class="bi bi-chat-text" style="font-size: 60px;"></i><br>
-                                                <span>回復文章</span><br>
+                                                <span>回覆文章</span><br>
                                                 <span style="font-size: 20px;"><b>{{replyNum}}</b></span>
                                             </a>
                                         </div>
@@ -133,7 +133,7 @@
                 data() {
                     return {
                         bean:{},
-                        replyNum: 0,//回復文章數
+                        replyNum: 0,//回覆文章數
                         articleNum: 0,//發表文章數
                         integral: 0,//獲得積分
                         show: false,

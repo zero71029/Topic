@@ -76,7 +76,7 @@ public class BackstageService {
         }
 
 
-        //取 未看 回復數
+        //取 未看 回覆數
         List<ArticleBean> ArticleBeanList = mp.getContent();
         ArticleBeanList.forEach(e -> {
             e.setTotal(arr.countByArticleid(e.getArticleid()));
@@ -227,7 +227,7 @@ public class BackstageService {
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //修改回復狀態
+    //修改回覆狀態
     public boolean changeReturnState(Long id, String state) {
         Optional<ArticleReturnBean> op = articleReturnRepository.findById(id);
         if (op.isPresent()) {

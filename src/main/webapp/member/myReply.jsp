@@ -28,7 +28,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1>我的回復</h1>
+                        <h1>我的回覆</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -47,7 +47,7 @@
                                 <th scope="col">主題</th>
                                 <th scope="col">發布時間</th>
                                 <th scope="col">最後回覆</th>
-                                <th scope="col">回復數</th>
+                                <th scope="col">回覆數</th>
                                 <th scope="col">狀態</th>
                             </tr>
                             <tr v-for="(s, index) in list" :key="index">

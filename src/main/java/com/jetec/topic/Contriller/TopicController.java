@@ -46,7 +46,6 @@ public class TopicController {
         
         List<Map<String, Object>> a = new ArrayList<>();
         for (ArticleBean e    :list ) {
-            e.setTotal(as.countReplyByArticleid(e.getArticleid()));
             Map<String, Object> artlcle = new HashMap<>();
             if (memberBean != null) {
                 Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
@@ -68,8 +67,9 @@ public class TopicController {
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model, HttpSession session) {
         System.out.println("=====進入文章細節=====");
         model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
-
+        model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
         //
+
         model.addAttribute(ArticleThumbsupBean.THUMBSUPID, as.findThumbsup(articleid));
         //存觀看時間
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -126,31 +126,20 @@ public class TopicController {
     //細節初始化
     @RequestMapping("/article/detailInit/{articleid}")
     @ResponseBody
-    public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session,@RequestParam("p")Integer p) {
+    public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session, @RequestParam("p")Integer p) {
         p--;
-        int size = 10;
-
-        // limit N,M : 相当于 limit M offset N , 返回 M 条记录 , 从第 N 条记录开始
-        //  lime 9,0
-//        if(p>0)size=10;
-        // linme 10 , 10*p
-
-
-
-        Pageable pageable = PageRequest.of(p, size, Sort.Direction.ASC, "create");
         System.out.println("*****細節初始化*****");
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = null;
         if(sci != null)memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         Map<String, Object> result = new HashMap<>();
-        Page<ArticleReplyBean> page = as.getReplyList(articleid,pageable);
-        result.put("replylist", page.getContent() );//回復
-        result.put("total", page.getTotalElements() );//回復總數
+        result.put("replylist", as.getReplyList(articleid,p).get("list"));//回復
+        result.put("total", as.getReplyList(articleid,p).get("total"));//總數
         result.put("thumbsupNum", as.getThumbsupNum(articleid));//點讚數
         if (memberBean == null) {
             result.put("hasThumbsup", false);
         } else {
-            result.put("hasThumbsup", as.hasThumbsup(articleid, memberBean.getMemberid()));//登入者是否點讚
+            result.put("hasThumbsup", as.hasThumbsup(articleid, memberBean.getMemberid()));//登入者是否點讚203
         }
         return result;
     }

@@ -45,10 +45,30 @@
                         <div class="row">
                             <div class="col-lg-10">
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                         <div
                                             style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             最新文章</div>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr v-for="(s, index) in popular" :key="index">
+                                                    <td>
+                                                        <a class="tdname"
+                                                            :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
+                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
+                                                                >{{s.group}}</a>
+                                                        </span>
+                                                        <span
+                                                            style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div
+                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            最新討論</div>
                                         <table class="table">
                                             <tbody>
                                                 <tr v-for="(s, index) in popular" :key="index">

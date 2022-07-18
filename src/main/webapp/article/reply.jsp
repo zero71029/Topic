@@ -7,7 +7,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>回復文章</title>
+            <title>回覆文章</title>
             <!-- 禁止SEO -->
             <meta name="robots" content="noindex">
             <!-- 我不是機器人 -->
@@ -33,7 +33,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1>回復文章</h1>
+                        <h1>回覆文章</h1>
                     </div>
                 </div>
                 <div class="row">
