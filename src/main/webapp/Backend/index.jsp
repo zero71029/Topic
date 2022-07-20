@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="/favicon.ico">
-    <title>backstage</title>
+    <title>Backend</title>
     <script defer="defer" type="module" src="${pageContext.request.contextPath}/js/chunk-vendors.bd710026.js"></script>
     <script defer="defer" type="module" src="${pageContext.request.contextPath}/js/app.e75397f9.js"></script>
     <link href="${pageContext.request.contextPath}/css/chunk-vendors.7518329a.css" rel="stylesheet">
@@ -15,7 +15,7 @@
     <script defer="defer" src="${pageContext.request.contextPath}/js/app-legacy.cbce2fcc.js" nomodule></script>
 </head>
 
-<body><noscript><strong>We're sorry but backstage doesn't work properly without JavaScript enabled. Please enable it to
+<body><noscript><strong>We're sorry but Backend doesn't work properly without JavaScript enabled. Please enable it to
     continue.</strong></noscript>
 <div id="app"></div>
 </body>

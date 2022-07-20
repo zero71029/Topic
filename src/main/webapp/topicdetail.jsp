@@ -22,8 +22,7 @@
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
                 <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
-                <!-- 禁止SEO -->
-                <meta name="robots" content="noindex">
+
 
             </head>
 
@@ -516,7 +515,7 @@
                                 data.append("content", this.text);
                                 data.append("article", id);
                                 $.ajax({
-                                    url: '${pageContext.request.contextPath}/article/savemessage',
+                                    url: '${pageContext.request.contextPath}/article/savemessage?p='+this.currentPage,
                                     type: 'POST',
                                     data: data,
                                     async: false,
@@ -525,7 +524,7 @@
                                     processData: false,
                                     success: (response) => {
                                         console.log(response);
-                                        this.replylist = response;
+                                        this.replylist = response.list;
                                     },
                                     error: function (returndata) {
                                         console.log(returndata);

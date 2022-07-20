@@ -57,10 +57,10 @@
                     </div>
                     <div style="font-size: 18px;color: #333;line-height:40px">
                         <ul>
-                            <li><a href="/topic/index" tabindex="-1">首頁</a></li>
-                            <li><a href="/topic/topiclist.jsp?nav=sensor" tabindex="-1">感測器</a></li>
-                            <li><a href="/topic/topiclist.jsp?nav=apparatus" tabindex="-1">儀器儀表</a></li>
-                            <li><a href="/topic/topiclist.jsp?nav=Netcom" tabindex="-1">網通裝置</a></li>
+                            <li><a href="${pageContext.request.contextPath}/index" tabindex="-1">首頁</a></li>
+                            <li><a href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor" tabindex="-1">感測器</a></li>
+                            <li><a href="${pageContext.request.contextPath}/topiclist.jsp?nav=apparatus" tabindex="-1">儀器儀表</a></li>
+                            <li><a href="${pageContext.request.contextPath}/topiclist.jsp?nav=Netcom" tabindex="-1">網通裝置</a></li>
                         </ul>
                     </div>
                 </div>

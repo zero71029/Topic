@@ -8,8 +8,6 @@ import com.jetec.topic.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,15 +88,7 @@ public class LoginController {
         //沒有錯誤, 儲存資料 ,存權限 ,寄認證信
         if (errors.isEmpty()) {
             String uuid = ZeroTools.getUUID();
-            //存會員
-            MemberBean save = ls.saveMember(bean);
-            //存認證
-            ls.saveAuthorize(uuid, save.getMemberid());
-            //存權限
-            ls.savePermit(uuid, save.getMemberid(), 0);
-
             //寄認證信
-
             String text = """
                     <html><body>
                       <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
@@ -106,9 +96,9 @@ public class LoginController {
                             style="width: 300px;"></p>
                         <p>%s 您好</p>
                         <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
-                        <a %s href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank">
+                        <a %s href="http://192.168.11.100:8080/Forum/CertificationOrder?id=%s" target="_blank">
                         驗證您的Email並訂閱久德最新消息 </a>
-                        <p style="text-align: center;"><a href="http://192.168.11.100:8080/topic/Certification?id=%s">驗證您的Email</a></p>
+                        <p style="text-align: center;"><a href="http://192.168.11.100:8080/Forum/Certification?id=%s">驗證您的Email</a></p>
                         <br><br><br>
                         <p>謝謝您</p>
                         <p>久德電子有限公司敬上</p><br>
@@ -116,15 +106,21 @@ public class LoginController {
                           若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
                       </div>
                     </body></html>
-                    """.formatted("mbean.getName()", "email", "style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'", "uuid", "uuid");
-
-            System.out.println(text);
+                    """.formatted(bean.getName(), bean.getEmail(), "style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'", uuid, uuid);
             String Subject = "請在久德討論版認證您的Email";// 主題
             try {
-                System.out.println(text);
-                mailTool.sendlineMail(save.getEmail(), Subject, text);
+                mailTool.sendlineMail(bean.getEmail(), Subject, text);
+                //存會員
+                MemberBean save = ls.saveMember(bean);
+                //存認證
+                ls.saveAuthorize(uuid, save.getMemberid());
+                //存權限
+                ls.savePermit(uuid, save.getMemberid(), 0);
+
+
             } catch (Exception e) {
                 e.printStackTrace();
+                return "redirect:/error/error500.jsp";
             }
 
             return "redirect:/member/registerSuccess.jsp";
@@ -192,7 +188,7 @@ public class LoginController {
                               <p>這是管理者介面重設密碼通知信，要求變更久德討論版中 帳號 的管理者密碼，若不是您本人申請，請忽略此封信件。</p><br>
                               <p>如果您有重置密碼需求，請於申請後24小時內點選下方連結，並輸入新的密碼完成變更。
                                 若超過時間請重新申請重複申請以最新的信件為準。</p>
-                              <p style="text-align: center;"> <a href="http://192.168.11.100:8080/topic/member/reset.jsp?id=%s" target="_blank">
+                              <p style="text-align: center;"> <a href="http://192.168.11.100:8080/Forum/member/reset.jsp?id=%s" target="_blank">
                                   重置密碼</a></p>
                               <br><br><br>
                               <p>謝謝您</p>
@@ -280,11 +276,10 @@ public class LoginController {
                 <br>
                 會員資料<br>
                 ==========================<br>
-                暱稱:%s<br>
-                Email:%s<br>
-                公司-組織:%s<br>
-                連絡電話:%s<br>
-                                
+                暱稱 : %s<br>
+                Email : %s<br>
+                公司-組織 : %s<br>
+                連絡電話 : %s<br>                                
                 """.formatted(mBean.getName(), mBean.getEmail(), mBean.getCompany(), mBean.getPhone());
         try {
             String[] address = new String[3];
@@ -333,9 +328,9 @@ public class LoginController {
                                 style="width: 300px;"></p>
                             <p>%s 您好</p>
                             <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
-                            <a %s href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank">
+                            <a %s href="http://192.168.11.100:8080/Forum/CertificationOrder?id=%s" target="_blank">
                             驗證您的Email並訂閱久德最新消息 </a>
-                            <p style="text-align: center;"><a href="http://192.168.11.100:8080/topic/Certification?id=%s">驗證您的Email</a></p>
+                            <p style="text-align: center;"><a href="http://192.168.11.100:8080/Forum/Certification?id=%s">驗證您的Email</a></p>
                             <br><br><br>
                             <p>謝謝您</p>
                             <p>久德電子有限公司敬上</p><br>
@@ -344,7 +339,7 @@ public class LoginController {
                           </div>
                         </body>
                     <style></html>
-                        """.formatted("mbean.getName()", "email", "style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'", "uuid", "uuid");
+                        """.formatted(mbean.getName(), mbean.getEmail(), "style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'", uuid, uuid);
 
             String Subject = "請在久德討論版認證您的Email";// 主題
             try {

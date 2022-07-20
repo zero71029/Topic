@@ -279,6 +279,10 @@
                             this.controlbox = response.controlbox;
                             this.application = response.application;
 
+                            this.news.forEach(e => {
+                                this.changGrop(e);
+                            });
+
                             this.popular.forEach(e => {
                                 this.changGrop(e);
                             });
