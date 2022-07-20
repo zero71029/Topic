@@ -43,7 +43,7 @@
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=application">應用</a>
                         </li>
                         <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
-                            <c:if test="${pageContext.request.requestURI == '/topic/topiclist.jsp'}">
+                            <c:if test="${pageContext.request.requestURI == '/Forum/topiclist.jsp'}">
                                 <li class="nav-item" style="background-color: blue;border-radius: 4px;" id="publish">
                                     <a class="nav-link" style="color: white;"
                                         href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">

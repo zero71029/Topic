@@ -29,6 +29,6 @@ public class PublicController {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //首頁
-    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail","/Backstage","/b","advertiseList"})
-    public String articleList() {  return "/Backstage/index";    }
+    @RequestMapping( path = {"/articleList", "/memberList","/article/Detail","/memberDetail","/Backend","/b","advertiseList"})
+    public String articleList() {  return "/Backend/index";    }
 }
