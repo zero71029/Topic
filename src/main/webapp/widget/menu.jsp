@@ -80,8 +80,7 @@
         </nav>
         <c:if test='${not empty SPRING_SECURITY_CONTEXT.authentication.principal}'>
             <script>
-                const permit ='${SPRING_SECURITY_CONTEXT.authentication.principal.authorities}'
-                console.log(permit)
+                const permit ='${SPRING_SECURITY_CONTEXT.authentication.principal.authorities}' 
                 if(permit.indexOf("1") < 0){                 
                     $("#publish").hide();
                 }

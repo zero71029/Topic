@@ -70,9 +70,9 @@
                         <!-- <%-- 右邊工具列--%> -->
                         <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                     </div>
-                    <div class="row app" v-cloak>
+                    <div class="row app" >
                         <!-- 彈窗 -->
-                        <el-dialog title="分享" :visible.sync="dialogVisible" width="30%">
+                        <el-dialog title="分享" :visible.sync="dialogVisible" width="30%" v-cloak>
                             <a href="https://social-plugins.line.me/lineit/share?url=<%=url%>/detail/${article.articleid}"
                                 target="_blank">
                                 <img src="${pageContext.request.contextPath}/images/lint-small.png" alt="line">
@@ -99,7 +99,7 @@
                             </span>
                         </el-dialog>
                         <!--  -->
-                        <div class="col-lg-12 ">
+                        <div class="col-lg-12 " v-cloak>
                             <div class="row">
                                 <div class="col-lg-2 scenery">
                                 </div>

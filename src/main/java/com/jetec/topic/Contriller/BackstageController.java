@@ -67,7 +67,7 @@ public class BackstageController {
         System.out.println("文章細節");
         Map<String, Object> result = new HashMap<>();
         result.put(ArticleBean.SESSIONID, BS.getarticleDetail(articleid,p));
-
+        result.put(ArticleContentBean.SESSIONID, BS.getArticleContent(articleid).getContent());
         //存觀看時間
         new Thread(() -> BS.saveWatchTime("system", articleid)).start();
         return result;

@@ -18,6 +18,11 @@
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
             </script>
+            <style>
+                [v-cloak] {
+                    display: none;
+                }
+            </style>
         </head>
 
         <body>
@@ -39,7 +44,7 @@
                 <div class="row app">
                     <div class="col-lg-2 ">
                     </div>
-                    <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
+                    <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;" v-cloak>
                         <div class="row ">
                             <div class="col-lg-12">&nbsp;</div>
                         </div>

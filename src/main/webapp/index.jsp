@@ -20,6 +20,20 @@
             <meta property="og:type" content="website" />
             <meta property="og:title" content="${article.name}" />
             <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
+            <style>
+                tr td a {
+                    text-decoration: none;
+                    line-height: 30px;
+                }
+    
+                tr td a.tdname {
+                    color: #000;
+                }
+    
+                [v-cloak] {
+                    display: none;
+                }
+            </style>
         </head>
 
         <body>
@@ -38,9 +52,9 @@
                     <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                 </div>
                 <!-- 中間主體 -->
-                <div class="row app" v-cloak>
+                <div class="row app" >
                     <div class="col-lg-2"></div>
-                    <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;">
+                    <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;" v-cloak>
                         <br>
                         <div class="row">
                             <div class="col-lg-10">
@@ -51,7 +65,7 @@
                                             最新文章</div>
                                         <table class="table">
                                             <tbody>
-                                                <tr v-for="(s, index) in popular" :key="index">
+                                                <tr v-for="(s, index) in news" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -68,7 +82,7 @@
                                     <div class="col-lg-6">
                                         <div
                                             style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
-                                            最新討論</div>
+                                            熱門討論</div>
                                         <table class="table">
                                             <tbody>
                                                 <tr v-for="(s, index) in popular" :key="index">
@@ -238,6 +252,7 @@
                 data() {
                     return {
                         popular: [],
+                        news:[],
                         sensor: [],
                         apparatus: [],
                         Netcom: [],
@@ -256,6 +271,7 @@
                         cache: false,//不快取頁面
                         success: response => {
                             this.popular = response.popular;
+                            this.news = response.news;
                             this.sensor = response.sensor;
                             this.apparatus = response.apparatus;
                             this.Netcom = response.Netcom;
@@ -343,19 +359,6 @@
                 },
             })
         </script>
-        <style>
-            tr td a {
-                text-decoration: none;
-                line-height: 30px;
-            }
 
-            tr td a.tdname {
-                color: #000;
-            }
-
-            [v-cloak] {
-                display: none;
-            }
-        </style>
 
         </html>

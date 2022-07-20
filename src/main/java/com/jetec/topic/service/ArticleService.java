@@ -3,7 +3,6 @@ package com.jetec.topic.service;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.repository.*;
-import com.sun.jna.platform.unix.X11;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -97,15 +95,14 @@ public class ArticleService {
         Map<String, Object> result = new HashMap<>();
 //        limit N,M : 相当于 limit M offset N , 从第 N 条记录开始, 返回 M 条记录
         if (p == 0) {
-            String sql = "select * from article_reply where articleid = ?1 order by create_time limit 0,10";
-            result.put("list",arr.findByArticleidAndPageZero(articleid));
-            result.put("total",arr.countByArticleid(articleid));
+//            String sql = "select * from article_reply where articleid = ?1 order by create_time limit 0,10";
+            result.put("list", arr.findByArticleidAndPageZero(articleid));
+            result.put("total", arr.countByArticleid(articleid));
             return result;
         }
-        String sql = "select * from article_reply where articleid = ?1 order by create_time  limit ?2,?3";
-        List<ArticleReplyBean> page = arr.findByArticleidAndPage(articleid, p * 10 - 1, 10);
-        result.put("list",arr.findByArticleidAndPage(articleid, p * 10 - 1, 10));
-        result.put("total",arr.countByArticleid(articleid));
+//        String sql = "select * from article_reply where articleid = ?1 order by create_time  limit ?2,?3";
+        result.put("list", arr.findByArticleidAndPage(articleid, p * 10 - 1, 10));
+        result.put("total", arr.countByArticleid(articleid));
         return result;
     }
 
@@ -119,13 +116,30 @@ public class ArticleService {
     public Map<String, Object> init() {
         Map<String, Object> result = new HashMap<>();
         Pageable p = PageRequest.of(0, 5, Sort.Direction.DESC, "createtime");
-        result.put("popular", ar.findByState("允許", p).getContent());//熱門
+
+
+        result.put("news", ar.findByState("允許", p).getContent());//新
         result.put("sensor", ar.findByArticlegroupAndState("sensor", p, "允許").getContent());//感測器
         result.put("apparatus", ar.findByArticlegroupAndState("apparatus", p, "允許").getContent());//儀器儀表
         result.put("Netcom", ar.findByArticlegroupAndState("Netcom", p, "允許").getContent());//網通裝置
         result.put("software", ar.findByArticlegroupAndState("software", p, "允許").getContent());//軟體配件
         result.put("controlbox", ar.findByArticlegroupAndState("controlbox", p, "允許").getContent());//控制箱
         result.put("application", ar.findByArticlegroupAndState("application", p, "允許").getContent());//應用
+
+
+        LocalDateTime end = LocalDateTime.now();
+        LocalDateTime start = end.minusDays(30);
+        List<String> l = arr.countArticleidByCreateBetween(start, end);
+        AtomicInteger index = new AtomicInteger();
+        List<ArticleBean> a = l.stream()
+                .map(e -> ar.findById(e).orElse(null))
+                .filter(Objects::nonNull)
+                .filter(e->{
+                    index.getAndIncrement();
+                    return index.get() <= 5;
+                })
+                .collect(Collectors.toList());
+        result.put("popular", a);//熱門
         return result;
     }
 

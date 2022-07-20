@@ -7,7 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean, String> {
 
@@ -33,6 +35,16 @@ public interface ArticleReplyRepository extends JpaRepository<ArticleReplyBean, 
     List<ArticleReplyBean> findByArticleidAndPage(String articleid, Integer p,Integer size);
 
 
-
-
+    @Query(value = "    select\n" +
+            "        articleid\n" +
+            "    from\n" +
+            "        article_reply \n" +
+            "    where\n" +
+            "        create_time  BETWEEN ?1 AND ?2" +
+            "    GROUP BY\n" +
+            "        articleid  \n" +
+            "      having count(articleid) \n" +
+            "    order by\n" +
+            "        count(articleid)  Desc limit 10;  ",nativeQuery = true)
+    List<String> countArticleidByCreateBetween(LocalDateTime start, LocalDateTime end);
 }

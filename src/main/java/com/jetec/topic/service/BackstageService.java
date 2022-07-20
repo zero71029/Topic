@@ -140,7 +140,7 @@ public class BackstageService {
     }
 
     public ArticleContentBean getArticleContent(String articleid) {
-        return acr.getById(articleid);
+        return acr.findById(articleid).orElse(new ArticleContentBean("",""));
     }
 
     public List<ArticleBean> search(String name) {
