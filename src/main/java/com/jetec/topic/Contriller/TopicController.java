@@ -51,6 +51,7 @@ public class TopicController {
                 Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
                 artlcle.put("watch", i);
             }
+            e.setTotal(as.countReplyArticle(e.getArticleid()));
             artlcle.put("bean", e);
             a.add(artlcle);
         } 

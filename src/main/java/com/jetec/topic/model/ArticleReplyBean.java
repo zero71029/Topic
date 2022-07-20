@@ -29,9 +29,17 @@ public class ArticleReplyBean {
     private String state;
     private Integer floor;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time",updatable = false)
     private LocalDateTime create;
 
+
+    public LocalDateTime getCreate() {
+        return create;
+    }
+
+    public void setCreate(LocalDateTime create) {
+        this.create = create;
+    }
 
     @OneToMany(targetEntity = ArticleThumbsupBean.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "articleid", referencedColumnName = "replyid", insertable = false, updatable = false)
@@ -60,13 +68,7 @@ public class ArticleReplyBean {
 
     }
 
-    public LocalDateTime getCreate() {
-        return create;
-    }
 
-    public void setCreate(LocalDateTime create) {
-        this.create = create;
-    }
 
     public Integer getFloor() {
         return floor;
@@ -152,9 +154,6 @@ public class ArticleReplyBean {
         return member;
     }
 
-    public void setMember(MemberBean member) {
-        this.member = member;
-    }
 
     @Override
     public String toString() {

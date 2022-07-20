@@ -52,6 +52,8 @@
                                     <input type="hidden" name="membername" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
                                     <input type="hidden" name="articleid" value="${article.articleid}">
                                     <input type="hidden" name="createtime" value="${article.createtime}">
+                                    <input type="hidden" name="floor" value="${article.floor}">
+                                    
                                     <div class="mb-3" style="cursor: pointer;">
 
 
@@ -144,6 +146,7 @@
                 },
                 created() {
                     this.bean.content =`${article.content}`
+                    //廣告
                     $.ajax({
                         url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
                         type: 'get',

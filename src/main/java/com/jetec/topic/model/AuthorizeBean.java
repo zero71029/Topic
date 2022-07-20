@@ -19,7 +19,7 @@ public class AuthorizeBean {
     private String id;
     @Column(columnDefinition="CHAR(32)")
     private String  memberid;
-    @Column(name = "create_time")
+    @Column(name = "create_time",updatable = false)
     private LocalDateTime create;
 
 

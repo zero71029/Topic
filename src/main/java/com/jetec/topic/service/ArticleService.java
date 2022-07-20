@@ -249,4 +249,8 @@ public class ArticleService {
     public Object countReplyByMemberid(String memberid) {
         return arr.countByMemberid(memberid);
     }
+
+    public Integer countReplyArticle(String articleid) {
+        return arr.countByArticleid(articleid);
+    }
 }

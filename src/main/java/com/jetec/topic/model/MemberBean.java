@@ -27,7 +27,7 @@ public class MemberBean implements UserDetails {
     private String address;
     private String birthday;
     private String createtime;
-    @Column(name = "create_time")
+    @Column(name = "create_time",updatable = false)
     private Date create;
 
 

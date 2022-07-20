@@ -55,9 +55,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">主題</th>
-                                            <th scope="col" style="width: 150px;">發布時間</th>
-                                            <th scope="col" style="width: 150px;">最後回覆</th>
-                                            <th scope="col" style="width: 90px;">回覆數</th>
+                                            <th scope="col" style="width: 150px;text-align: center;">發布時間</th>
+                                            <th scope="col" style="width: 150px;text-align: center;">最後回覆</th>
+                                            <th scope="col" style="width: 90px;text-align: center;">回覆數</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,7 +69,7 @@
                                             </td>
                                             <td>{{s.bean.createtime}}</td>
                                             <td>{{s.bean.replytime}}</td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 {{s.bean.total}}
                                                 <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
                                                     NEW {{ s.watch }}
