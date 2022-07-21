@@ -36,8 +36,9 @@ public class AppsAuthenticationFailureHandler implements AuthenticationFailureHa
 
         String username = request.getParameter("username"); // 取得登入帳號
         String password = request.getParameter("password");
-        System.out.println(username);
-        System.out.println(password);
+        //讓資料能返回
+        request.setAttribute("username",username);
+        request.setAttribute("password",password);
         Optional<MemberBean> op = mr.findByEmail(username);
         Map<String, String> error = new HashMap<>();
 
@@ -51,10 +52,6 @@ public class AppsAuthenticationFailureHandler implements AuthenticationFailureHa
             System.out.println("找不到使用者");
             error.put("user","找不到使用者") ;
         });
-
-
-
-
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("error", error);
         request.getRequestDispatcher("/member/login.jsp").forward(request, response);

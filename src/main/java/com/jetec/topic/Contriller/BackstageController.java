@@ -154,8 +154,6 @@ public class BackstageController {
     @ResponseBody
     public List<AdvertiseBean> addadvertise(AdvertiseBean adBean) {
         System.out.println("新增/修改 廣告");
-
-        System.out.println(adBean);
         BS.save(adBean);
         return BS.findAdvertiseByLocation(adBean.getLocation());
     }

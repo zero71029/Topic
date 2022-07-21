@@ -58,6 +58,7 @@ class ArticleControllerTest {
                 .andExpect(model().attributeExists("articleBean"))
                 .andDo(print()).andReturn();
           System.out.println(mvcResult.getModelAndView().getModel().get("article_content"));
+          assertEquals(mvcResult.getModelAndView().getModel().get("article_content"),"XXXXXX");
     }
 
     @Test

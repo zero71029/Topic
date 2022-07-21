@@ -1,5 +1,6 @@
 package com.jetec.topic.Contriller;
 
+import com.jetec.topic.Tools.SystemCode;
 import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,7 @@ public class MemberController {
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         as.Integral(memberBean.getMemberid());//計算積分
         Map<String, Object> result =new HashMap<>();
+        result.put("code", SystemCode.ISOK);//回復文章數
         result.put("replyNum", as.countReplyByMemberid(memberBean.getMemberid()));//回復文章數
         result.put("articleNum", as.countByMemberid(memberBean.getMemberid()));//發表文章數
         result.put(MemberBean.SESSIONID,ms.getMemberById(memberBean.getMemberid()));

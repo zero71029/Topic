@@ -88,13 +88,13 @@
                                 <label for="exampleFormControlInput1"
                                     class='form-label ${empty error.user  ? "":"red" }'>電子郵件 ${error.user} </label>
                                 <input type="email" class="form-control ${empty error.user  ? '':' is-error' }"
-                                    id="username" name="username" value="AAA@AAA.com">
+                                    id="username" name="username" value="${username}">
                             </div><br>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1"
                                     class='form-label ${empty  error.pass  ? "":"red" }'>登入密碼 ${error.pass}</label>
-                                <input type="text" class="form-control ${empty error.pass  ? '':' is-error' }"
-                                    id="password" name="password" value="AAA">
+                                <input type="password" class="form-control ${empty error.pass  ? '':' is-error' }"
+                                    id="password" name="password" value="${password}">
                             </div>
                             <br>
                             <div class="row">

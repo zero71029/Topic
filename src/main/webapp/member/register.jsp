@@ -127,7 +127,7 @@
                                                             id="forum_rule" ${check?"checked":""} disabled
                                                             class="c-checkbox__input">
                                                         <label for="forum_rule" class="c-checkbox__original">
-                                                            <span>我已經閱讀 討論區規則並且同意註冊為會員</span>
+                                                            <span>我已經閱讀 討論區規則並且同意註冊為會員</span><span style="color: red;">*</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -198,7 +198,7 @@
                                                         <input type="checkbox" name="tos" value="1" id="tos"
                                                             ${check?"checked":""} class="c-checkbox__input" disabled>
                                                         <label for="tos" class="c-checkbox__original">
-                                                            <span>我已經閱讀 服務條款並且同意註冊為會員</span>
+                                                            <span>我已經閱讀 服務條款並且同意註冊為會員</span><span style="color: red;">*</span>
                                                         </label>
                                                     </div>
                                                 </div>

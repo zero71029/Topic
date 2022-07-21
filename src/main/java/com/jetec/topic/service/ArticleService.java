@@ -36,6 +36,8 @@ public class ArticleService {
     PermitRepository pr;
     @Autowired
     ArticleReturnRepository articleReturnRepository;
+    @Autowired
+    LoginIpRepository lir;
 
     public ArticleBean save(ArticleBean articleBean) {
         return ar.save(articleBean);
@@ -252,5 +254,9 @@ public class ArticleService {
 
     public Integer countReplyArticle(String articleid) {
         return arr.countByArticleid(articleid);
+    }
+
+    public void saveLoginIp(LoginIpBean loginIpBean) {
+         lir.save(loginIpBean);
     }
 }
