@@ -15,6 +15,8 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
+            <!-- 廣告 -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
             </script>
@@ -90,15 +92,8 @@
                             </div>
                             <!-- 右邊廣告 -->
                             <div class="col-lg-2">
-                                <div class="advertise">
-                                    <el-carousel trigger="click" height="500px" :interval="15000">
-                                        <el-carousel-item v-for="( s, index) in rigthAdvertise" :key="index">
-                                            <a :href="s.url" target="_blank"><img
-                                                    :src="'${pageContext.request.contextPath}/file/'+s.img"
-                                                    :alt="s.name"></a>
-                                        </el-carousel-item>
-                                    </el-carousel>
-                                </div>
+                                <!-- 右邊廣告 -->
+                                <jsp:include page="/widget/advertise.jsp"></jsp:include>
                             </div>
                         </div>
                     </div>

@@ -20,9 +20,8 @@ public class LoginFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("機器人驗證");
-        if(Objects.equals("/Forum/login",request.getRequestURI()) ){
 
+        if(Objects.equals("/Forum/login",request.getRequestURI()) ){
             try{
                 String recaptcha = request.getParameter("g-recaptcha-response");
                 if(recaptcha == null || recaptcha.isEmpty()){

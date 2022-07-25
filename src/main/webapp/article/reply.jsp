@@ -24,7 +24,8 @@
             <script>
                 ELEMENT.locale(ELEMENT.lang.zhTW)
             </script>
-
+            <!-- 廣告 -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
         </head>
 
         <body>

@@ -18,6 +18,8 @@
                 <!-- 引入element-ui组件库 -->
                 <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
                 <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
+                <!-- 廣告 -->
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
                 <meta property="og:locale" content="zh_TW">
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
@@ -69,7 +71,7 @@
                         <!-- <%-- 右邊工具列--%> -->
                         <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                     </div>
-                    <div class="row app" >
+                    <div class="row app">
                         <!-- 彈窗 -->
                         <el-dialog title="分享" :visible.sync="dialogVisible" width="30%" v-cloak>
                             <a href="https://social-plugins.line.me/lineit/share?url=<%=url%>/detail/${article.articleid}"
@@ -320,8 +322,8 @@
                     el: ".app",
                     data() {
                         return {
-                            currentPage:1,
-                            total:15,
+                            currentPage: 1,
+                            total: 15,
 
                             dialogVisible: false,
                             thumbsupNum: 0,
@@ -338,11 +340,11 @@
                     },
                     created() {
                         const url = new URL(location.href);
-                        var p =url.searchParams.get("p");                       
-                        if(p == null )p =1;
+                        var p = url.searchParams.get("p");
+                        if (p == null) p = 1;
                         this.currentPage = p;
                         $.ajax({
-                            url: '${pageContext.request.contextPath}/article/detailInit/${article.articleid}?p='+p,
+                            url: '${pageContext.request.contextPath}/article/detailInit/${article.articleid}?p=' + p,
                             type: 'POST',
                             async: false,//同步請求
                             cache: false,//不快取頁面
@@ -515,7 +517,7 @@
                                 data.append("content", this.text);
                                 data.append("article", id);
                                 $.ajax({
-                                    url: '${pageContext.request.contextPath}/article/savemessage?p='+this.currentPage,
+                                    url: '${pageContext.request.contextPath}/article/savemessage?p=' + this.currentPage,
                                     type: 'POST',
                                     data: data,
                                     async: false,
@@ -570,8 +572,8 @@
                             });
                         },
                         //分頁
-                        handleCurrentChange(val){
-                           location.href="${pageContext.request.contextPath}/detail/${article.articleid}?p="+val
+                        handleCurrentChange(val) {
+                            location.href = "${pageContext.request.contextPath}/detail/${article.articleid}?p=" + val
                         }
                     },
                 })

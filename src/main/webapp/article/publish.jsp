@@ -21,7 +21,8 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="//unpkg.com/element-ui/lib/umd/locale/zh-TW.js"></script>
-
+            <!-- 廣告 -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
             <!-- tinymce -->
             <script src="${pageContext.request.contextPath}/tinymce/js/tinymce.min.js"></script>
             <script>

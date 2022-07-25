@@ -20,21 +20,24 @@
             <meta property="og:type" content="website" />
             <meta property="og:title" content="${article.name}" />
             <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
+            <!-- 廣告 -->
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
             <style>
                 tr td a {
                     text-decoration: none;
                     line-height: 30px;
                 }
-    
+
                 tr td a.tdname {
                     color: #000;
                 }
-    
+
                 [v-cloak] {
                     display: none;
                 }
             </style>
         </head>
+
 
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
@@ -52,7 +55,7 @@
                     <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                 </div>
                 <!-- 中間主體 -->
-                <div class="row app" >
+                <div class="row app">
                     <div class="col-lg-2"></div>
                     <div class="col-lg-8 " style="background-color: white; --bs-bg-opacity: 1;" v-cloak>
                         <br>
@@ -69,8 +72,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                                >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -89,8 +92,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                                >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -100,14 +103,14 @@
                                         </table>
                                     </div>
                                 </div>
+                                <!-- 中間廣告 -->
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <el-carousel trigger="click" height="350px" interval="10000">
+                                        <el-carousel trigger="click" height="400px" interval="10000" id="carouselMidd">
                                             <el-carousel-item v-for="( s , index ) in middleAdvertise" :key="index">
                                                 <a :href="s.url" target="_blank">
                                                     <img :src="'${pageContext.request.contextPath}/file/'+s.img"
-                                                        :alt="s.name"
-                                                        style="height: 100%;">
+                                                        :alt="s.name" style="height: 100%;" class="midd">
                                                 </a>
                                             </el-carousel-item>
                                         </el-carousel>
@@ -125,8 +128,8 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span>
-                                                            <a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                                >{{s.group}}
+                                                            <a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}
                                                             </a>
                                                         </span>
                                                         <span
@@ -146,8 +149,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                               >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -166,8 +169,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                             >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -186,8 +189,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                              >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -206,8 +209,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                              >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -226,8 +229,8 @@
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
-                                                        <span><a :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'"
-                                                         >{{s.group}}</a>
+                                                        <span><a
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -238,13 +241,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-2" style="overflow: visible;">
+                                <!-- 右邊廣告 -->
                                 <jsp:include page="/widget/advertise.jsp"></jsp:include>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </body>
         <script>
             var vm = new Vue({
@@ -252,7 +257,7 @@
                 data() {
                     return {
                         popular: [],
-                        news:[],
+                        news: [],
                         sensor: [],
                         apparatus: [],
                         Netcom: [],
@@ -363,6 +368,22 @@
                 },
             })
         </script>
-
+        <style>
+            @media (max-width:1700px) {
+                .el-carousel__container {
+                    height: 350px !important;
+                }
+            }
+            @media (max-width:1500px) {
+                .el-carousel__container {
+                    height: 300px !important;
+                }
+            }
+            @media (max-width:1300px) {
+                .el-carousel__container {
+                    height: 200px !important;
+                }
+            }  
+        </style>
 
         </html>
