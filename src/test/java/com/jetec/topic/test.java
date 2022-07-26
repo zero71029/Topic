@@ -3,8 +3,9 @@ package com.jetec.topic;
 
 import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.repository.ArticleRepository;
-import com.jetec.topic.service.ArticleService;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,18 @@ public class test {
 
     @Autowired
     ArticleRepository ar;
+
+
+
+    @Test
+    public void logtest() {
+        Logger logger = LoggerFactory.getLogger(test.class);
+        logger.info("*****讀取潛在客戶列表*****");
+        logger.error("logback 成功了");
+        logger.debug("logback 成功了");
+    }
+
+
 
 
 

@@ -7,6 +7,8 @@ import com.jetec.topic.model.LoginIpBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.LoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,20 +34,20 @@ public class LoginController {
     @Autowired
     MailTool mailTool;
 
+    Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //登入
     @RequestMapping("/home")
     public String login(HttpServletRequest request) {
-        System.out.println("*****登入成功*****");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String ip = request.getRemoteAddr();//得到来访者的IP地址
         System.out.println(ip);
-
         MemberBean memberBean = (MemberBean) authentication.getPrincipal();
         LoginIpBean loginIpBean = ZeroFactory.buildLoginIp(memberBean.getMemberid(), ip);
         as.saveLoginIp(loginIpBean);
-
+        logger.info("{} 登入成功", ip);
+        logger.info("暱稱:{} ;Email:{}",memberBean.getName(),memberBean.getEmail());
 //        Object principal = authentication.getPrincipal();
 //        String Username;
 //        if (principal instanceof UserDetails userDetails) {
@@ -57,7 +59,6 @@ public class LoginController {
 //        MemberBean mBean = ls.findByEmail(Username);
 //        session.setAttribute(MemberBean.SESSIONID, mBean);
 //        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-
 
 
         //計算積分
@@ -92,7 +93,7 @@ public class LoginController {
         model.addAttribute("errors", errors);
 
         // 機器人判斷
-        if (!   (ZeroTools.recaptcha(token) || (Objects.equals("AAA",token)))) {
+        if (!(ZeroTools.recaptcha(token) || (Objects.equals("AAA", token)))) {
             errors.put("recaptcha", "需要驗證");
         }
 
@@ -174,7 +175,7 @@ public class LoginController {
         model.addAttribute("email", email);
 
         //我不是機器人檢查
-        if (ZeroTools.recaptcha(recaptcha) || Objects.equals(recaptcha,"AAA")) {
+        if (ZeroTools.recaptcha(recaptcha) || Objects.equals(recaptcha, "AAA")) {
             Optional<MemberBean> op = ls.getMemberByEmail(email);
             if (op.isPresent()) {
                 MemberBean bean = op.get();

@@ -3,6 +3,7 @@ package com.jetec.topic.Contriller;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.ArticleService;
+import com.jetec.topic.service.BackstageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,8 @@ public class TopicController {
 
     @Autowired
     ArticleService as;
+    @Autowired
+    BackstageService BS;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //文章列表
@@ -248,4 +251,16 @@ public class TopicController {
         System.out.println("*****機器人檢查*****");
         return ZeroTools.recaptcha(toke);
     }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //廣告初始化
+    @RequestMapping("/topic/advertiseinit")
+    @ResponseBody
+    public List<AdvertiseBean> advertiseinit(@RequestParam("location") String location) {
+        return BS.findAdvertiseByLocation(location);
+    }
+
+
 }

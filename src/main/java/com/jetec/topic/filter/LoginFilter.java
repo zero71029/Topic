@@ -30,6 +30,8 @@ public class LoginFilter extends OncePerRequestFilter {
                 Assert.isTrue(ZeroTools.recaptcha(recaptcha) || Objects.equals("AAA",recaptcha),"驗證失敗!");
                 request.setAttribute("success","驗證成功");
             }catch (Exception e){
+                request.setAttribute("username",request.getParameter("username"));
+                request.setAttribute("password",request.getParameter("password"));
                 request.setAttribute("recaptcha",e.getMessage());
                 request.getRequestDispatcher("/member/login.jsp").forward(request, response);
                 return;

@@ -58,7 +58,6 @@ public class BackstageService {
         //先取未驗證
         List<ArticleBean> list = ar.findByState("未驗證", Sort.by(Sort.Direction.DESC, "createtime"));
         list.forEach(e -> {
-            System.out.println(arr.countByArticleid(e.getArticleid()));
             e.setTotal(arr.countByArticleid(e.getArticleid()));
             Map<String, Object> artlcle = new HashMap<>();
             artlcle.put("watch", 0);

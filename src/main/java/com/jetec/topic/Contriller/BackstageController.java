@@ -3,16 +3,23 @@ package com.jetec.topic.Contriller;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.BackstageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.HashMap;
@@ -21,12 +28,13 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/backstage")
-//@PreAuthorize(" hasAuthority('9')")
+@PreAuthorize(" hasAuthority('9')")
 
 public class BackstageController {
     @Autowired
     BackstageService BS;
 
+    Logger l = LoggerFactory.getLogger(BackstageController.class);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //初始化
@@ -158,13 +166,7 @@ public class BackstageController {
         return BS.findAdvertiseByLocation(adBean.getLocation());
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //廣告初始化
-    @RequestMapping("/advertiseinit")
-    @ResponseBody
-    public List<AdvertiseBean> advertiseinit(@RequestParam("location") String location) {
-        return BS.findAdvertiseByLocation(location);
-    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //上傳附件
@@ -219,6 +221,33 @@ public class BackstageController {
         result.put("list", p.getContent());
         result.put("total", p.getTotalElements());
         return result;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //廣告初始化
+    @RequestMapping("/advertiseinit")
+    @ResponseBody
+    public List<AdvertiseBean> advertiseinit(@RequestParam("location") String location) {
+        l.info("廣告初始化");
+        return BS.findAdvertiseByLocation(location);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //後台權限檢查
+    @RequestMapping("/HavePermission")
+    @ResponseBody
+    public boolean HavePermission(HttpServletRequest request) {
+        l.info("後台權限檢查");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            MemberBean memberBean = (MemberBean) authentication.getPrincipal();
+            String authorities = String.valueOf(memberBean.getAuthorities());
+             Assert.isTrue(authorities.indexOf("9") < 0,"沒有權限");
+        }catch (Exception e){
+            l.info("{} 後台登入失敗",request.getRemoteAddr());
+            return false;
+        }
+        l.info("{} 登入後台",request.getRemoteAddr());
+        return true;
     }
 
 }

@@ -106,7 +106,7 @@
                                 <!-- 中間廣告 -->
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <el-carousel trigger="click" height="400px" interval="10000" id="carouselMidd">
+                                        <el-carousel trigger="click" height="350px" interval="10000" id="carouselMidd">
                                             <el-carousel-item v-for="( s , index ) in middleAdvertise" :key="index">
                                                 <a :href="s.url" target="_blank">
                                                     <img :src="'${pageContext.request.contextPath}/file/'+s.img"
@@ -315,7 +315,7 @@
                         }
                     });
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
+                        url: '${pageContext.request.contextPath}/topic/advertiseinit?location=右',
                         type: 'get',
                         async: false,//同步請求
                         cache: false,//不快取頁面
@@ -327,7 +327,7 @@
                         }
                     });
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=中',
+                        url: '${pageContext.request.contextPath}/topic/advertiseinit?location=中',
                         type: 'get',
                         async: false,//同步請求
                         cache: false,//不快取頁面
@@ -371,12 +371,12 @@
         <style>
             @media (max-width:1700px) {
                 .el-carousel__container {
-                    height: 350px !important;
+                    height: 300px !important;
                 }
             }
             @media (max-width:1500px) {
                 .el-carousel__container {
-                    height: 300px !important;
+                    height: 250px !important;
                 }
             }
             @media (max-width:1300px) {

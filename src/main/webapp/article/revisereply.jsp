@@ -149,7 +149,7 @@
                     this.bean.content =`${article.content}`
                     //廣告
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/backstage/advertiseinit?location=右',
+                        url: '${pageContext.request.contextPath}/topic/advertiseinit?location=右',
                         type: 'get',
                         async: false,//同步請求
                         cache: false,//不快取頁面
