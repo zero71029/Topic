@@ -6,6 +6,8 @@ import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 
@@ -25,15 +26,14 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
 @RequestMapping("/article")
 public class ArticleController {
-    final ArticleService as;
+    Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
+    final ArticleService as;
     public ArticleController(ArticleService as) {
         this.as = as;
     }
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//預覽
+    //預覽
     @RequestMapping("/preview")
     public String Signout(Model model, ArticleBean articleBean, @RequestParam("content") String content) {
         System.out.println("*****預覽*****");
@@ -44,10 +44,10 @@ public class ArticleController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//發布文章
+    //發布文章
     @RequestMapping("/save")
     public String save(Model model, ArticleBean articleBean, @RequestParam("content") String content, HttpSession session) {
-        System.out.println("*****發布文章*****");
+        logger.info("*****發布文章*****{}",ZeroTools.getMemberBean().getName());
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
             articleBean.setArticleid(ZeroTools.getUUID());
             articleBean.setCreatetime(ZeroTools.getTime(new Date()));
@@ -72,19 +72,17 @@ public class ArticleController {
 //文章回復 儲存
     @RequestMapping(path = {"/saveReply"})
     public String saveReply(ArticleReplyBean arBean) {
-        System.out.println("*****文章回復儲存*****");
+        logger.info("文章回復 articleid:{}  name:{}",arBean.getArticleid(),ZeroTools.getMemberBean().getName());
         System.out.println(arBean);
         //新回復
-        if(arBean.getReplyid() == null ||  arBean.getReplyid().isEmpty()){
+        if (arBean.getReplyid() == null || arBean.getReplyid().isEmpty()) {
             arBean.setReplyid(ZeroTools.getUUID());
             arBean.setCreatetime(ZeroTools.getTime(new Date()));
             Integer floor = as.getArticleFloor(arBean.getArticleid());
             arBean.setFloor(floor + 2);
-
         }
         arBean.setState("未讀");
         ArticleReplyBean save = as.saveArticleReply(arBean);
-
         //計算積分
         new Thread(() -> as.Integral(save.getMemberid())).start();
         new Thread(() -> {
@@ -100,12 +98,10 @@ public class ArticleController {
     @ResponseBody
     public Map<String, Object> savemessage(ArticleReplyBean arBean, @RequestParam("article") String article, @RequestParam("p") Integer p) {
         p--;
-        System.out.println("*****儲存留言*****");
+        logger.info("儲存留言 articleid:{}  name:{}",article,ZeroTools.getMemberBean().getName());
         arBean.setReplyid(ZeroTools.getUUID());
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);
-        return as.getReplyList(article,p);
+        return as.getReplyList(article, p);
     }
-
-
 }

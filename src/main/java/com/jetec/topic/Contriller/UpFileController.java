@@ -4,6 +4,8 @@ import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.FileBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.UpFileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,7 @@ import java.util.Map;
 
 @Controller
 public class UpFileController {
-
+    Logger logger = LoggerFactory.getLogger(UpFileController.class);
 
     @Autowired
     UpFileService ufs;
@@ -30,7 +32,7 @@ public class UpFileController {
     @RequestMapping("/upfile")
     @ResponseBody
     public String upFile(MultipartHttpServletRequest multipartRequest, HttpSession session) {
-        System.out.println("*****上傳附件*****");
+        logger.info("上傳附件");
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         String uuid = ZeroTools.getUUID();
 
@@ -47,7 +49,7 @@ public class UpFileController {
                 System.out.println(lastname);
 
                 //檔案輸出
-                String path2 = "C:/CRMfile/" + uuid + lastname;
+                String path2 = "c:/file/Forum/" + uuid + lastname;
                 System.out.println("檔案輸出到" + path2);
                 fileMap.get("file").transferTo(new File(path2));
                 System.out.println("輸出成功");

@@ -79,7 +79,7 @@ public class LoginController {
 //新註冊
     @RequestMapping("/register")
     public String SaveAdmin(MemberBean bean, Model model, @RequestParam("g-recaptcha-response") String token) {
-        System.out.println("*****新註冊*****");
+        logger.info("新註冊 email:{} name:{}",bean.getEmail(),bean.getName());
         //使有輸入的資料能返回
         model.addAttribute("email", bean.getEmail());
         model.addAttribute("name", bean.getName());
@@ -131,14 +131,15 @@ public class LoginController {
                 //存權限
                 ls.savePermit(uuid, save.getMemberid(), 0);
 
-
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.info("新註冊失敗");
                 return "redirect:/error/error500.jsp";
             }
-
+            logger.info("新註冊 成功");
             return "redirect:/member/registerSuccess.jsp";
         }
+        logger.info("返回註冊");
         return "/member/register";
     }
 
@@ -169,7 +170,7 @@ public class LoginController {
     //忘記密碼
     @RequestMapping(path = {"/forget"})
     public String forget(@RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String recaptcha) {
-        System.out.println("*****忘記密碼*****");
+        logger.info("忘記密碼  {}",email);
         Map<String, String> errors = new HashMap<>();
         model.addAttribute("errors", errors);
         model.addAttribute("email", email);
@@ -213,14 +214,18 @@ public class LoginController {
                     mailTool.sendlineMail(bean.getEmail(), Subject, text);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    logger.info("寄信失敗");
                     return "redirect:/error/error500.jsp";
                 }
 //            zTools.mail(bean.getEmail(), text, Subject, maillist);
+                logger.info("寄信成功");
                 return "redirect:/member/forgetSend.jsp";
             }
+            logger.info("查不到這個Email");
             errors.put("email", "查不到這個Email");
             return "/member/forget";
         }
+        logger.info("認證未過");
         errors.put("recaptcha", "認證未過");
         return "/member/forget";
     }
@@ -232,9 +237,11 @@ public class LoginController {
     @ResponseBody
     public String reset(@RequestParam("id") String id, @RequestParam("password") String passwoed) {
         System.out.println("*****密碼重置*****");
+        logger.info("密碼重置 Aithorizeid : {}",id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+            logger.info("認證碼 {}",auth);
             return "認證碼" + auth + ",請重新申請";
         }
         //取出member  後儲存
@@ -243,8 +250,10 @@ public class LoginController {
             MemberBean mBean = op.get();
             mBean.setPassword(passwoed);
             ls.saveMember(mBean);
+            logger.info("修改成功");
             return "修改成功,請用新密碼登入";
         }
+        logger.info("找不到帳號");
         return "錯誤,請重新申請";
     }
 
@@ -252,15 +261,17 @@ public class LoginController {
     //點認證信
     @RequestMapping(path = {"/Certification"})
     public String certification(@RequestParam("id") String id, Model model) {
-        System.out.println("*****點認證信*****");
+        logger.info("點認證信 {}",id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+            logger.info("認證碼  {}  請重新申請 ",auth);
             model.addAttribute("error", "認證碼" + auth + ",請重新申請 ");
             return "/member/certification";
         }
         //取出member  新增權限
         ls.savePermit(ZeroTools.getUUID(), auth, 1);
+        logger.info("認證成功");
         model.addAttribute("message", "認證成功,歡迎您的加入");
         return "/member/certification";
     }
@@ -269,15 +280,17 @@ public class LoginController {
     //認證 and 訂閱Email
     @RequestMapping(path = {"/CertificationOrder"})
     public String CertificationOrder(@RequestParam("id") String id, Model model) {
-        System.out.println("*****認證 and 訂閱Email*****");
+        logger.info("認證 and 訂閱Email {}",id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+            logger.info("認證碼  {}  請重新申請 ",auth);
             model.addAttribute("error", "認證碼" + auth + ",請重新申請 ");
             return "/member/certification";
         }
         //取出member  新增權限
         ls.savePermit(ZeroTools.getUUID(), auth, 1);
+        logger.info("認證成功");
         model.addAttribute("message", "認證成功,歡迎您的加入");
         MemberBean mBean = ls.findMemberById(auth);
 
@@ -294,14 +307,14 @@ public class LoginController {
                 """.formatted(mBean.getName(), mBean.getEmail(), mBean.getCompany(), mBean.getPhone());
         try {
             String[] address = new String[3];
-
             address[0] = "jeter.tony56@gmail.com";
             address[1] = "marketing@mail-jetec.com.tw";
             address[2] = "jetec.co@msa.hinet.net";
-
             mailTool.sendlineMail(address, Subject, text);
+            logger.info("寄信成功");
         } catch (Exception e) {
             e.printStackTrace();
+            logger.info("寄信失敗");
         }
 
         return "/member/certification";
@@ -311,7 +324,7 @@ public class LoginController {
     //重寄認證信
     @RequestMapping(path = {"/reSend"})
     public String reSend(@RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String token) {
-        System.out.println("*****重寄認證信*****");
+        logger.info("重寄認證信  email:{}",email);
         //使有輸入的資料能返回
         model.addAttribute("email", email);
         // 錯誤輸出
@@ -319,6 +332,7 @@ public class LoginController {
         model.addAttribute("errors", errors);
         // 機器人判斷
         if (!ZeroTools.recaptcha(token)) {
+            logger.info("機器人判斷 未過");
             errors.put("recaptcha", "需要驗證");
         }
         if (!ls.existsMemberByEnail(email)) errors.put("email", "未找到Email");
@@ -355,8 +369,10 @@ public class LoginController {
             String Subject = "請在久德討論版認證您的Email";// 主題
             try {
                 mailTool.sendlineMail(mbean.getEmail(), Subject, text);
+                logger.info("寄信成功");
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.info("寄信失敗");
             }
             return "redirect:/member/registerSuccess.jsp";
         }

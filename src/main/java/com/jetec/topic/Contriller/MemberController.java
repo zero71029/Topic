@@ -1,16 +1,18 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.Tools.SystemCode;
+import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import java.util.Map;
 @RequestMapping("/member")
 public class MemberController {
 
+    Logger logger = LoggerFactory.getLogger(MemberController.class);
     @Autowired
     MemberService ms;
     @Autowired
@@ -37,7 +40,7 @@ public class MemberController {
     @RequestMapping("/mypage")
     @ResponseBody
     public Map<String, Object> Signout(HttpSession session) {
-        System.out.println("*****我的頁面*****");
+        logger.info("我的頁面  {}", ZeroTools.getMemberBean().getName());
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         as.Integral(memberBean.getMemberid());//計算積分
@@ -54,6 +57,7 @@ public class MemberController {
     @ResponseBody
     public Map<String, Object> myArticle(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
         System.out.println("*****我的文章*****");
+        logger.info("我的文章  {}",ZeroTools.getMemberBean().getName());
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         page--;
@@ -86,10 +90,10 @@ public class MemberController {
     @RequestMapping("/myReply")
     @ResponseBody
     public Map<String, Object> myReply(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
-        System.out.println("*****我的回復*****");
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         page--;
+        logger.info("我的回復  {}" ,memberBean.getName());
         return ms.myReply(memberBean,page,size);
     }
 
@@ -111,7 +115,7 @@ public class MemberController {
         result.put("replyNum", as.countReplyByMemberid(member.getMemberid()));//回復文章數
         result.put("articleNum", as.countByMemberid(member.getMemberid()));//發表文章數
         result.put(MemberBean.SESSIONID,save);
-
+        logger.info("修改我的資料 {}",bean.getName());
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -4,6 +4,8 @@ import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.BackstageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +24,7 @@ import java.util.*;
 
 @Controller
 public class TopicController {
-
+    Logger logger = LoggerFactory.getLogger(TopicController.class);
     @Autowired
     ArticleService as;
     @Autowired
@@ -69,7 +71,7 @@ public class TopicController {
     //進入文章細節
     @RequestMapping("/detail/{articleid}")
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model, HttpSession session) {
-        System.out.println("=====進入文章細節=====");
+        logger.info("進入文章細節 {}",articleid);
         model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
         model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
         //
@@ -92,7 +94,7 @@ public class TopicController {
     //修改回復文章
     @RequestMapping("/revise-reply/{replyid}")
     public String reply(@PathVariable("replyid") String replyid, Model model, HttpSession session) {
-        System.out.println("=====修改回復文章=====");
+        logger.info("進入 修改回復文章  {}",replyid);
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         if (as.hasReply(replyid)) {
@@ -101,8 +103,10 @@ public class TopicController {
         }
         if (memberBean == null) {
             model.addAttribute("error", "未登入");
+            logger.info("未登入");
             return "/error/error";
         }
+        logger.info("文章不存在");
         model.addAttribute("error", "文章不存在");
         return "/error/error";
     }
@@ -111,16 +115,19 @@ public class TopicController {
     //文章回復
     @RequestMapping(path = {"/reply/{articleid}"})
     public String reply(HttpSession session, @PathVariable("articleid") String articleid, Model model) {
+        logger.info("進入 文章回復  {}",articleid);
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         if (as.hasArticle(articleid)) {
             model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
         } else {
             model.addAttribute("error", "文章不存在");
+            logger.info("文章不存在");
             return "/error/error";
         }
         if (memberBean == null) {
             model.addAttribute("error", "未登入");
+            logger.info("未登入");
             return "/error/error";
         }
         return "/article/reply";
@@ -132,7 +139,7 @@ public class TopicController {
     @ResponseBody
     public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session, @RequestParam("p")Integer p) {
         p--;
-        System.out.println("*****細節初始化*****");
+        logger.info("文章細節初始化");
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = null;
         if(sci != null)memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
@@ -153,14 +160,14 @@ public class TopicController {
     @RequestMapping("/article/search")
     @ResponseBody
     public Map<String, Object> search(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("search") String search) {
-        System.out.println("*****搜索*****");
+        logger.info("搜索  {}",search);
         page--;
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
         return as.search(search, p);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //搜索
+    //讀取文章內容
     @RequestMapping("/article/getContent/{articleid}")
     @ResponseBody
     public Map<String, Object> getContent(@PathVariable("articleid") String articleid) {
@@ -244,7 +251,7 @@ public class TopicController {
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //搜索
+    //機器人檢查
     @RequestMapping("/recaptcha")
     @ResponseBody
     public Boolean recaptcha(@RequestBody String toke) {

@@ -368,22 +368,4 @@
                 },
             })
         </script>
-        <style>
-            @media (max-width:1700px) {
-                .el-carousel__container {
-                    height: 300px !important;
-                }
-            }
-            @media (max-width:1500px) {
-                .el-carousel__container {
-                    height: 250px !important;
-                }
-            }
-            @media (max-width:1300px) {
-                .el-carousel__container {
-                    height: 200px !important;
-                }
-            }  
-        </style>
-
         </html>

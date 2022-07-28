@@ -43,7 +43,6 @@ public class BackstageController {
     public Map<String, Object> init(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer size) {
         page--;
         System.out.println("初始化");
-
         return BS.init(page, size);
     }
 
