@@ -34,7 +34,7 @@ public class LoginController {
     @Autowired
     MailTool mailTool;
 
-    Logger logger = LoggerFactory.getLogger(LoginController.class);
+    Logger logger = LoggerFactory.getLogger("LoginController.class");
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //登入
