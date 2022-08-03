@@ -136,6 +136,7 @@ public class ArticleService {
         List<ArticleBean> a = l.stream()
                 .map(e -> ar.findById(e).orElse(null))
                 .filter(Objects::nonNull)
+                .filter(articleBean -> Objects.equals("允許",articleBean.getState()))
                 .filter(e->{
                     index.getAndIncrement();
                     return index.get() <= 5;
@@ -154,7 +155,7 @@ public class ArticleService {
         int integral = 0; //積分
         for (ArticleBean article : articleList) {
             //發表一個100分
-            integral = integral + 100;
+            integral = integral + 50;
             //被點讚一個10分  最多100分
             if (article.getThumbsuplist().size() > 10) {
                 integral = integral + 100;
@@ -162,10 +163,7 @@ public class ArticleService {
                 integral = integral + article.getThumbsuplist().size() * 10;
             }
         }
-        //回覆1個1分
-        Integer replyNum = arr.countByMemberidAndStateNot(memberid, "封鎖");
-        integral = integral + replyNum;
-        //
+        //插入結果
         mbean.setIntegral(integral);
         //儲存
         mr.save(mbean);

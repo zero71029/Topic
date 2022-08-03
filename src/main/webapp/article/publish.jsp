@@ -55,7 +55,8 @@
                             <div class="col-lg-10">
                                 <form action="${pageContext.request.contextPath}/article/save" method="post"
                                     id="articleform">
-                                    <input type="hidden" name="memberid" value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
+                                    <input type="hidden" name="memberid"
+                                        value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
                                     <input type="hidden" name="articleid" v-model="bean.articleid">
                                     <input type="hidden" name="createtime" v-model="bean.createtime">
                                     <input type="hidden" name="membername" v-model="bean.membername">
@@ -81,6 +82,17 @@
                                             <option value="application">應用</option>
                                         </select>
                                     </div>
+                                    <div style="padding: 5px;">
+                                        分類<span style="color: red;">*</span> <br>
+                                        <el-radio-group v-model="inOptin" size="medium" name="option">
+                                            <el-radio-button :label="s.libraryoption" v-for="(s, index) in option"
+                                                :key="index"></el-radio-button>
+                                        </el-radio-group>
+                                    </div>
+
+
+
+
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">內容</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1" name="content"
@@ -168,6 +180,8 @@
                 el: ".app",
                 data() {
                     return {
+                        inOptin: "",
+                        option: [],
                         nav: nav,
                         imgVisible: false,
                         bean: {
@@ -175,7 +189,6 @@
                             content: "",
                             agree: false,
                             articlegroup: "",
-
                         },
                     }
                 },
@@ -199,6 +212,7 @@
                         });
 
                     }
+                    //廣告
                     $.ajax({
                         url: '${pageContext.request.contextPath}/topic/advertiseinit?location=右',
                         type: 'get',
@@ -212,7 +226,25 @@
                             console.log(returndata);
                         }
                     });
+                    //option
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/topic/getOption/' + this.bean.articlegroup,
+                        type: 'get',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            console.log(response)
+                            if (response.code == 200) {
+                                console.log("option", response.data)
+                                this.option = response.data;
+                            }
 
+                            this.inOptin = this.option[0].libraryoption;
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
                 },
                 methods: {
                     //上傳成功
@@ -322,6 +354,10 @@
             .img-fluid {
                 max-width: 100px;
                 height: auto;
+                
+            }
+            .el-radio-button__inner{
+                border-left: 1px solid #DCDFE6;
             }
         </style>
 

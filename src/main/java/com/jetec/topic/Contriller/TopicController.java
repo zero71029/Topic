@@ -1,9 +1,12 @@
 package com.jetec.topic.Contriller;
 
+import com.jetec.topic.Tools.ResultBean;
+import com.jetec.topic.Tools.ZeroFactory;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.BackstageService;
+import com.jetec.topic.service.LibraryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,8 @@ public class TopicController {
     ArticleService as;
     @Autowired
     BackstageService BS;
+    @Autowired
+    LibraryService ls;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //文章列表
@@ -45,12 +50,12 @@ public class TopicController {
         List<ArticleBean> list = p.getContent();
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = null;
-        if(sci != null ){
+        if (sci != null) {
             memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         }
-        
+
         List<Map<String, Object>> a = new ArrayList<>();
-        for (ArticleBean e    :list ) {
+        for (ArticleBean e : list) {
             Map<String, Object> artlcle = new HashMap<>();
             if (memberBean != null) {
                 Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
@@ -59,7 +64,7 @@ public class TopicController {
             e.setTotal(as.countReplyArticle(e.getArticleid()));
             artlcle.put("bean", e);
             a.add(artlcle);
-        } 
+        }
         //a = { "bean" : articleBean , "watch" : i }
         result.put("list", a);
         result.put("total", p.getTotalElements());
@@ -71,7 +76,7 @@ public class TopicController {
     //進入文章細節
     @RequestMapping("/detail/{articleid}")
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model, HttpSession session) {
-        logger.info("進入文章細節 {}",articleid);
+        logger.info("進入文章細節 {}", articleid);
         model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
         model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
         //
@@ -80,7 +85,7 @@ public class TopicController {
         //存觀看時間
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean mBean = null;
-        if(sci != null)mBean = (MemberBean) sci.getAuthentication().getPrincipal();
+        if (sci != null) mBean = (MemberBean) sci.getAuthentication().getPrincipal();
         MemberBean finalMBean = mBean;
         new Thread(() -> {
             if (finalMBean != null) {
@@ -94,7 +99,7 @@ public class TopicController {
     //修改回復文章
     @RequestMapping("/revise-reply/{replyid}")
     public String reply(@PathVariable("replyid") String replyid, Model model, HttpSession session) {
-        logger.info("進入 修改回復文章  {}",replyid);
+        logger.info("進入 修改回復文章  {}", replyid);
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         if (as.hasReply(replyid)) {
@@ -115,7 +120,7 @@ public class TopicController {
     //文章回復
     @RequestMapping(path = {"/reply/{articleid}"})
     public String reply(HttpSession session, @PathVariable("articleid") String articleid, Model model) {
-        logger.info("進入 文章回復  {}",articleid);
+        logger.info("進入 文章回復  {}", articleid);
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         if (as.hasArticle(articleid)) {
@@ -137,15 +142,15 @@ public class TopicController {
     //細節初始化
     @RequestMapping("/article/detailInit/{articleid}")
     @ResponseBody
-    public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session, @RequestParam("p")Integer p) {
+    public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session, @RequestParam("p") Integer p) {
         p--;
         logger.info("文章細節初始化");
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = null;
-        if(sci != null)memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+        if (sci != null) memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         Map<String, Object> result = new HashMap<>();
-        result.put("replylist", as.getReplyList(articleid,p).get("list"));//回復
-        result.put("total", as.getReplyList(articleid,p).get("total"));//總數
+        result.put("replylist", as.getReplyList(articleid, p).get("list"));//回復
+        result.put("total", as.getReplyList(articleid, p).get("total"));//總數
         result.put("thumbsupNum", as.getThumbsupNum(articleid));//點讚數
         if (memberBean == null) {
             result.put("hasThumbsup", false);
@@ -160,7 +165,7 @@ public class TopicController {
     @RequestMapping("/article/search")
     @ResponseBody
     public Map<String, Object> search(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("search") String search) {
-        logger.info("搜索  {}",search);
+        logger.info("搜索  {}", search);
         page--;
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
         return as.search(search, p);
@@ -241,15 +246,16 @@ public class TopicController {
         //計算積分
         new Thread(() -> {
             ArticleBean abean = as.findById(articleid);
-            if(abean == null){
+            if (abean == null) {
                 ArticleReplyBean aReplyBean = as.findReplyById(articleid);
                 as.Integral(as.findById(aReplyBean.getArticleid()).getMemberid());
-            }else {
+            } else {
                 as.Integral(abean.getMemberid());
             }
         }).start();
         return result;
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //機器人檢查
     @RequestMapping("/recaptcha")
@@ -260,7 +266,6 @@ public class TopicController {
     }
 
 
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //廣告初始化
     @RequestMapping("/topic/advertiseinit")
@@ -269,5 +274,35 @@ public class TopicController {
         return BS.findAdvertiseByLocation(location);
     }
 
+    //取得選項
+    @RequestMapping("/topic/getOption/{group}")
+    @ResponseBody
+    public ResultBean getOption(@PathVariable("group") String group) {
+        System.out.println(group);
+
+        switch (group) {
+            case "apparatus":
+                group = "儀器儀錶";
+                break;
+            case "sensor":
+                group = "感測器";
+                break;
+            case "Netcom":
+                group = "網通裝置";
+                break;
+            case "software":
+                group = "軟體配件";
+                break;
+            case "controlbox":
+                group = "控制箱";
+                break;
+            case "application":
+                group = "應用";
+                break;
+        }
+
+
+        return ZeroFactory.buildResultBean(200, "取得選項成功", ls.getOption(group));
+    }
 
 }

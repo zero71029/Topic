@@ -110,9 +110,9 @@ public class LoginController {
                             style="width: 300px;"></p>
                         <p>%s 您好</p>
                         <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
-                        <a %s href="http://192.168.11.100:8080/Forum/CertificationOrder?id=%s" target="_blank">
+                        <a %s href="https://forum.jetec.com.tw/Forum/CertificationOrder?id=%s" target="_blank">
                         驗證您的Email並訂閱久德最新消息 </a>
-                        <p style="text-align: center;"><a href="http://192.168.11.100:8080/Forum/Certification?id=%s">驗證您的Email</a></p>
+                        <p style="text-align: center;"><a href="https://forum.jetec.com.tw/Forum/Certification?id=%s">驗證您的Email</a></p>
                         <br><br><br>
                         <p>謝謝您</p>
                         <p>久德電子有限公司敬上</p><br>
@@ -199,7 +199,7 @@ public class LoginController {
                               <p>這是管理者介面重設密碼通知信，要求變更久德討論版中 帳號 的管理者密碼，若不是您本人申請，請忽略此封信件。</p><br>
                               <p>如果您有重置密碼需求，請於申請後24小時內點選下方連結，並輸入新的密碼完成變更。
                                 若超過時間請重新申請重複申請以最新的信件為準。</p>
-                              <p style="text-align: center;"> <a href="http://192.168.11.100:8080/Forum/member/reset.jsp?id=%s" target="_blank">
+                              <p style="text-align: center;"> <a href="https://forum.jetec.com.tw/Forum/member/reset.jsp?id=%s" target="_blank">
                                   重置密碼</a></p>
                               <br><br><br>
                               <p>謝謝您</p>
@@ -353,9 +353,9 @@ public class LoginController {
                                 style="width: 300px;"></p>
                             <p>%s 您好</p>
                             <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
-                            <a %s href="http://192.168.11.100:8080/Forum/CertificationOrder?id=%s" target="_blank">
+                            <a %s href="https://forum.jetec.com.tw/Forum/CertificationOrder?id=%s" target="_blank">
                             驗證您的Email並訂閱久德最新消息 </a>
-                            <p style="text-align: center;"><a href="http://192.168.11.100:8080/Forum/Certification?id=%s">驗證您的Email</a></p>
+                            <p style="text-align: center;"><a href="https://forum.jetec.com.tw/Forum/Certification?id=%s">驗證您的Email</a></p>
                             <br><br><br>
                             <p>謝謝您</p>
                             <p>久德電子有限公司敬上</p><br>

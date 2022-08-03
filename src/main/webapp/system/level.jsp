@@ -42,9 +42,9 @@
                                     <div class="card-body">
                                         <h5 class="card-title">說明</h5>
                                         <p class="card-text">
-                                            1.發表文章 100 積分 <br>
+                                            1.發表文章 50 積分 <br>
                                             2.發表的文章被點讚10積分,最多100積分<br>
-                                            3.回覆文章 1 積分<br>
+                                     
                                         </p>
                                     </div>
                                 </div>
@@ -123,13 +123,10 @@
                                         <h5 class="card-title">傳奇</h5>
                                         <p class="card-text">積分90000
                                         </p>
-
-
                                     </div>
                                 </div>
                             </div>
                         </div><br>
-
                     </div>
                 </div>
                 <div class="row">
