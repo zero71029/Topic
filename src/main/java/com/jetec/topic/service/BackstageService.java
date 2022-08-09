@@ -212,7 +212,7 @@ public class BackstageService {
     }
 
     public List<AdvertiseBean> findAdvertiseByLocation(String location) {
-        return adr.findByLocation(location);
+        return adr.findByLocation(location,Sort.by(Sort.Direction.ASC,"sortable"));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

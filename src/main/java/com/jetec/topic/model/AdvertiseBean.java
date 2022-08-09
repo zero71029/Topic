@@ -19,6 +19,9 @@ public class AdvertiseBean {
     @Column(columnDefinition = "CHAR(10)")
     private String createtime;
 
+    @Column(columnDefinition = "tinyint")
+    private Integer sortable;
+
     public AdvertiseBean() {
     }
 
@@ -37,6 +40,15 @@ public class AdvertiseBean {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+
+    public Integer getSortable() {
+        return sortable;
+    }
+
+    public void setSortable(Integer sortable) {
+        this.sortable = sortable;
     }
 
     public String getAdvertiseid() {
