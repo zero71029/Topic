@@ -2,12 +2,24 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html lang="zh-TW">
+
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>積分說明</title>
+            <style>
+                @media (min-width : 992px) {
+                    .explain {
+                        height: 152px;
+                    }
+                    .explainImg{
+                        line-height: 152px;
+                    }
+                }
+            </style>
         </head>
+
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
             <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
@@ -32,11 +44,11 @@
                 <div class="row">
                     <div class="col-lg-3 "></div>
                     <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
-                        <div class="card col-lg-12" style="height: 152px;">
-                            <div class="row g-0">
-                                <div class="col-lg-2 position-relative">
+                        <div class="card col-lg-12 explain">
+                            <div class="row g-0 ">
+                                <div class="col-lg-2 explainImg">
                                     <img src="${pageContext.request.contextPath}/images/share-banner.png"
-                                        class="img-fluid rounded-start position-absolute top-50 start-50 translate-middle">
+                                        class="img-fluid rounded-start ">
                                 </div>
                                 <div class="col-lg-10">
                                     <div class="card-body">
@@ -44,7 +56,7 @@
                                         <p class="card-text">
                                             1.發表文章 50 積分 <br>
                                             2.發表的文章被點讚10積分,最多100積分<br>
-                                     
+
                                         </p>
                                     </div>
                                 </div>
@@ -136,4 +148,5 @@
                 </div>
             </div>
         </body>
+
         </html>

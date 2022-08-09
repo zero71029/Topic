@@ -281,6 +281,11 @@
                 max-width: 100px;
                 height: auto;
             }
+            @media (max-width : 920px) {                
+                .scenery{
+                    display: none;
+                }
+            }
         </style>
 
         </html>

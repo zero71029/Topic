@@ -24,6 +24,7 @@ public class ArticleBean {
     private String membername;
     @Transient
     private Integer total;
+    private String articleoption;
 
 
     @OneToMany(targetEntity = ArticleReplyBean.class, cascade = CascadeType.ALL)
@@ -41,6 +42,14 @@ public class ArticleBean {
     @JoinColumn(name = "memberid", referencedColumnName = "memberid", insertable = false, updatable = false)
     private MemberBean member;
 
+
+    public String getArticleoption() {
+        return articleoption;
+    }
+
+    public void setArticleoption(String articleoption) {
+        this.articleoption = articleoption;
+    }
 
     public List<ArticleReplyBean> getReplylist() {
         return replylist;

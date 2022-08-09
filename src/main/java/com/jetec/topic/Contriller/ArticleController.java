@@ -1,5 +1,6 @@
 package com.jetec.topic.Contriller;
 
+import com.jetec.topic.Tools.MailTool;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.model.ArticleContentBean;
@@ -8,6 +9,7 @@ import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
@@ -27,11 +29,15 @@ import java.util.Map;
 @RequestMapping("/article")
 public class ArticleController {
     Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    @Autowired
+    MailTool mail;
 
     final ArticleService as;
+
     public ArticleController(ArticleService as) {
         this.as = as;
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //預覽
     @RequestMapping("/preview")
@@ -47,7 +53,8 @@ public class ArticleController {
     //發布文章
     @RequestMapping("/save")
     public String save(Model model, ArticleBean articleBean, @RequestParam("content") String content, HttpSession session) {
-        logger.info("*****發布文章*****{}",ZeroTools.getMemberBean().getName());
+        logger.info("*****發布文章*****{}", ZeroTools.getMemberBean().getName());
+        System.out.println(articleBean.getArticleoption());
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
             articleBean.setArticleid(ZeroTools.getUUID());
             articleBean.setCreatetime(ZeroTools.getTime(new Date()));
@@ -57,6 +64,15 @@ public class ArticleController {
             articleBean.setMembername(memberBean.getName());
             articleBean.setState("未驗證");
             articleBean.setReplytime(articleBean.getCreatetime());
+
+            new Thread(() -> {
+                try {
+                    mail.sendSimpleMail("jeter.tony56@gmail.com", "久德討論版有新文章", "https://forum.jetec.com.tw/Backend/article/Detail?id=" + articleBean.getArticleid());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.info("發布文章  寄信失敗");
+                }
+            }).start();
             new Thread(() -> as.Integral(memberBean.getMemberid())).start();
         }
         ArticleBean save = as.save(articleBean);
@@ -72,7 +88,7 @@ public class ArticleController {
 //文章回復 儲存
     @RequestMapping(path = {"/saveReply"})
     public String saveReply(ArticleReplyBean arBean) {
-        logger.info("文章回復 articleid:{}  name:{}",arBean.getArticleid(),ZeroTools.getMemberBean().getName());
+        logger.info("文章回復 articleid:{}  name:{}", arBean.getArticleid(), ZeroTools.getMemberBean().getName());
         System.out.println(arBean);
         //新回復
         if (arBean.getReplyid() == null || arBean.getReplyid().isEmpty()) {
@@ -98,7 +114,7 @@ public class ArticleController {
     @ResponseBody
     public Map<String, Object> savemessage(ArticleReplyBean arBean, @RequestParam("article") String article, @RequestParam("p") Integer p) {
         p--;
-        logger.info("儲存留言 articleid:{}  name:{}",article,ZeroTools.getMemberBean().getName());
+        logger.info("儲存留言 articleid:{}  name:{}", article, ZeroTools.getMemberBean().getName());
         arBean.setReplyid(ZeroTools.getUUID());
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);

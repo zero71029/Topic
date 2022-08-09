@@ -70,10 +70,11 @@
                                             v-model="bean.name">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label"> 主題 <span style="color: red;">*</span><span
+                                        <label class="form-label"> 群組 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
                                         </label>
-                                        <select class="form-select" name="articlegroup" v-model="bean.articlegroup">
+                                        <select class="form-select" name="articlegroup" v-model="bean.articlegroup"
+                                            @change="changeGroup">
                                             <option value="sensor">感測器</option>
                                             <option value="apparatus">儀器儀表</option>
                                             <option value="Netcom">網通裝置</option>
@@ -84,9 +85,9 @@
                                     </div>
                                     <div style="padding: 5px;">
                                         分類<span style="color: red;">*</span> <br>
-                                        <el-radio-group v-model="inOptin" size="medium" name="option">
+                                        <el-radio-group v-model="inOptin" size="medium">
                                             <el-radio-button :label="s.libraryoption" v-for="(s, index) in option"
-                                                :key="index"></el-radio-button>
+                                                :key="index" name="articleoption"></el-radio-button>
                                         </el-radio-group>
                                     </div>
 
@@ -234,11 +235,13 @@
                         cache: false,//不快取頁面
                         success: response => {
                             console.log(response)
+                            if (response.code == 400) {
+                                location.href = "${pageContext.request.contextPath}/article/publish.jsp?nav=sensor";
+                            }
                             if (response.code == 200) {
                                 console.log("option", response.data)
                                 this.option = response.data;
                             }
-
                             this.inOptin = this.option[0].libraryoption;
                         },
                         error: function (returndata) {
@@ -333,15 +336,34 @@
                                 }
                             });
                         }
+                    },
+                    changeGroup() {
+                        //option
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/topic/getOption/' + this.bean.articlegroup,
+                            type: 'get',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                console.log(response)
+                                if (response.code == 400) {
+                                    location.href = "${pageContext.request.contextPath}/article/publish.jsp?nav=sensor";
+                                }
+                                if (response.code == 200) {
+                                    console.log("option", response.data)
+                                    this.option = response.data;
+                                }
+                                this.inOptin = this.option[0].libraryoption;
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
 
-
-                    }
+                    },
                 },
             })
         </script>
-
-
-
         <style>
             .el-upload {
                 width: 100%;
@@ -354,10 +376,17 @@
             .img-fluid {
                 max-width: 100px;
                 height: auto;
-                
+
             }
-            .el-radio-button__inner{
+
+            .el-radio-button__inner {
                 border-left: 1px solid #DCDFE6;
+            }
+
+            @media (max-width : 920px) {
+                .scenery {
+                    display: none;
+                }
             }
         </style>
 

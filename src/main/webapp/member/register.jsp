@@ -92,7 +92,11 @@
                                             value="${phone}">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">登入密碼 <span style="color: red;">*</span> </label>
+                                        <label class="form-label">登入密碼 
+                                            <span style="color: red;">*</span>
+                                            <span style="color: #AAA;">(必須10位以上)</span>
+                                        
+                                        </label>
                                         <input type="password" class="form-control" name="password" id="password"
                                             value="${password}">
                                     </div>
@@ -127,7 +131,8 @@
                                                             id="forum_rule" ${check?"checked":""} disabled
                                                             class="c-checkbox__input">
                                                         <label for="forum_rule" class="c-checkbox__original">
-                                                            <span>我已經閱讀 討論區規則並且同意註冊為會員</span><span style="color: red;">*</span>
+                                                            <span>我已經閱讀 討論區規則並且同意註冊為會員</span><span
+                                                                style="color: red;">*</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -198,7 +203,8 @@
                                                         <input type="checkbox" name="tos" value="1" id="tos"
                                                             ${check?"checked":""} class="c-checkbox__input" disabled>
                                                         <label for="tos" class="c-checkbox__original">
-                                                            <span>我已經閱讀 服務條款並且同意註冊為會員</span><span style="color: red;">*</span>
+                                                            <span>我已經閱讀 服務條款並且同意註冊為會員</span><span
+                                                                style="color: red;">*</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -250,20 +256,26 @@
                     } else {
                         $("#email").css("border", "1px solid #ced4da");
                     }
-                    if ($("#password").val() != $("#repassword").val()) {
-                        $("#password").css("border", "red 1px solid");
-                        $("#repassword").css("border", "red 1px solid");
-                        isok = false
-                    } else {
-                        $("#password").css("border", "1px solid #ced4da");
-                        $("#repassword").css("border", "1px solid #ced4da");
-                    }
                     if ($("#password").val() == null || $("#password").val() == "") {
                         $("#password").css("border", "red 1px solid");
                         isok = false
                     } else {
                         $("#password").css("border", "1px solid #ced4da");
                     }
+                    if ($("#password").val().trim().length < 10) {
+                        alert("密碼必須10為以上");
+                        isok = false;
+                        $("#password").css("border", "red 1px solid");
+                    }
+                    if ($("#password").val() != $("#repassword").val()) {
+                        alert("密碼驗證失敗")
+                        $("#repassword").css("border", "red 1px solid");
+                        isok = false
+                    } else {
+                       
+                        $("#repassword").css("border", "1px solid #ced4da");
+                    }
+
 
                     //勾選框
                     if ($("#forum_rule").is(":checked")) {

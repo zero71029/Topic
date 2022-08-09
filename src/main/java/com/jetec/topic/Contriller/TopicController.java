@@ -278,8 +278,7 @@ public class TopicController {
     @RequestMapping("/topic/getOption/{group}")
     @ResponseBody
     public ResultBean getOption(@PathVariable("group") String group) {
-        System.out.println(group);
-
+        System.out.println("取得選項");
         switch (group) {
             case "apparatus":
                 group = "儀器儀錶";
@@ -299,8 +298,9 @@ public class TopicController {
             case "application":
                 group = "應用";
                 break;
+            default :
+                return ZeroFactory.buildResultBean(400, "輸入錯誤");
         }
-
 
         return ZeroFactory.buildResultBean(200, "取得選項成功", ls.getOption(group));
     }
