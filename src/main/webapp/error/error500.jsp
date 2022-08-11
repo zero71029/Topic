@@ -44,7 +44,7 @@
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
                 <img src="${pageContext.request.contextPath}/images/page-05.png" style="max-width: 90%;"><br><br>
-                <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">抱歉!發生了錯誤</div>
+                <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">抱歉!發生了錯誤! ${message}</div>
                 <div class="row" style="font-size: 20px;color: #333;line-height:40px">
                     <p>下面的連結可能對你有幫助:</p>
                 </div>

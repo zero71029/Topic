@@ -317,6 +317,7 @@
 
 
             <script>
+                console.log("user","${SPRING_SECURITY_CONTEXT.authentication.principal.name}");
                 var id = '${article.articleid}';
                 var vm = new Vue({
                     el: ".app",

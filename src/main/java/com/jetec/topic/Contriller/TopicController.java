@@ -39,9 +39,10 @@ public class TopicController {
     //文章列表
     @RequestMapping("/topiclist")
     @ResponseBody
-    public Map<String, Object> topiclist(@RequestParam("nav") String nav, @RequestParam("pag") Integer pag, @RequestParam("size") Integer size, HttpSession session) {
+    public ResultBean topiclist(@RequestParam("nav") String nav, @RequestParam("pag") Integer pag, @RequestParam("size") Integer size, HttpSession session) {
         System.out.println("=====文章列表=====");
         pag--;
+        if (pag < 0) pag = 0;
         Pageable pageable = PageRequest.of(pag, size, Sort.Direction.DESC, "createtime");
         Page<ArticleBean> p = as.findByArticlegroup(nav, pageable);
         Map<String, Object> result = new HashMap<>();
@@ -69,7 +70,7 @@ public class TopicController {
         result.put("list", a);
         result.put("total", p.getTotalElements());
         result.put("totalPag", p.getTotalPages());
-        return result;
+        return ZeroFactory.success("文章列表", result);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,10 +78,14 @@ public class TopicController {
     @RequestMapping("/detail/{articleid}")
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model, HttpSession session) {
         logger.info("進入文章細節 {}", articleid);
-        model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
+        ArticleBean articleBean = as.findById(articleid);
+        if (articleBean == null) {
+            model.addAttribute("message", "找不到文章");
+            logger.info("找不到文章 {}", articleid);
+            return "error/error500";
+        }
+        model.addAttribute(ArticleBean.SESSIONID, articleBean);
         model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
-        //
-
         model.addAttribute(ArticleThumbsupBean.THUMBSUPID, as.findThumbsup(articleid));
         //存觀看時間
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -100,20 +105,23 @@ public class TopicController {
     @RequestMapping("/revise-reply/{replyid}")
     public String reply(@PathVariable("replyid") String replyid, Model model, HttpSession session) {
         logger.info("進入 修改回復文章  {}", replyid);
-        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
-        if (as.hasReply(replyid)) {
-            model.addAttribute(ArticleBean.SESSIONID, as.findReplyById(replyid));
-            return "/article/revisereply";
-        }
-        if (memberBean == null) {
+        try {
+            SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+            MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+            System.out.println(memberBean);
+        } catch (Exception e) {
             model.addAttribute("error", "未登入");
             logger.info("未登入");
             return "/error/error";
         }
+        if (as.hasReply(replyid)) {
+            model.addAttribute(ArticleBean.SESSIONID, as.findReplyById(replyid));
+            return "/article/revisereply";
+        }
+
         logger.info("文章不存在");
-        model.addAttribute("error", "文章不存在");
-        return "/error/error";
+        model.addAttribute("message", "文章不存在");
+        return "/error/error500";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,21 +129,27 @@ public class TopicController {
     @RequestMapping(path = {"/reply/{articleid}"})
     public String reply(HttpSession session, @PathVariable("articleid") String articleid, Model model) {
         logger.info("進入 文章回復  {}", articleid);
-        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
-        if (as.hasArticle(articleid)) {
-            model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
-        } else {
-            model.addAttribute("error", "文章不存在");
-            logger.info("文章不存在");
-            return "/error/error";
-        }
-        if (memberBean == null) {
+        //登入檢查
+        try {
+            SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+            MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+            System.out.println(memberBean);
+        } catch (Exception e) {
             model.addAttribute("error", "未登入");
             logger.info("未登入");
             return "/error/error";
         }
-        return "/article/reply";
+
+        //
+        if (as.hasArticle(articleid)) {
+            model.addAttribute(ArticleBean.SESSIONID, as.findById(articleid));
+            return "/article/reply";
+        }
+        model.addAttribute("message", "文章不存在");
+        logger.info("文章不存在");
+        return "/error/error500";
+
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,6 +181,7 @@ public class TopicController {
     public Map<String, Object> search(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("search") String search) {
         logger.info("搜索  {}", search);
         page--;
+        if(page < 0)page = 0 ;
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
         return as.search(search, p);
     }
@@ -183,10 +198,10 @@ public class TopicController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //文章回報
+    //進入文章回報
     @RequestMapping("/article/articleReturn/{articleid}")
     public String articleReturn(@PathVariable("articleid") String articleid, Model model) {
-        System.out.println("*****文章回報*****");
+        System.out.println("*****進入文章回報*****");
         ArticleBean aBean = as.findById(articleid);
         model.addAttribute("article", aBean);
         model.addAttribute("articleid", aBean.getArticleid());
@@ -195,10 +210,10 @@ public class TopicController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //回復回報
+    //進入回復回報
     @RequestMapping("/article/replyReturn/{replyid}")
     public String replyReturn(@PathVariable("replyid") String replyid, Model model) {
-        System.out.println("*****回復回報*****");
+        System.out.println("*****進入回復回報*****");
         Optional<ArticleReplyBean> op = as.getReplyByReplyid(replyid);
         op.ifPresent(e -> {
             ArticleBean aBean = as.findById(e.getArticleid());
@@ -298,7 +313,7 @@ public class TopicController {
             case "application":
                 group = "應用";
                 break;
-            default :
+            default:
                 return ZeroFactory.buildResultBean(400, "輸入錯誤");
         }
 

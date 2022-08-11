@@ -122,8 +122,16 @@
                         async: false,//同步請求
                         cache: false,//不快取頁面
                         success: response => {
-                            this.list = response.list;
-                            this.total = response.total;
+                            if (response.code == 200) {
+                                this.list = response.data.list;
+                                this.total = response.data.total;
+                            }
+                            
+
+
+
+
+
                         },
                         error: function (returndata) {
                             console.log(returndata);

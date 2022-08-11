@@ -1,12 +1,15 @@
-<html><body>
+<html>
+
+<body>
   <div id="root" style="width: 700px; position: relative; margin: auto;font-weight: 900;">
     <p style="text-align: center;"> <img src="https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
         style="width: 300px;"></p>
     <p>%s 您好</p>
     <p>請點擊下面按鈕來驗證您的電子信箱 <span style="color: #0d6efd;">%s</span> ，已開通久德討論版的會員帳號，發表新文和個性化內容。</p>
-    <a  style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'     href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank" >
-   驗證您的Email並訂閱久德最新消息   
-  </a>
+    <a style='width: 100%;height: 40px;background-color: #0d6efd;color: #fff;border-radius: 5px;border-color: #0d6efd;display: block; text-decoration: none;text-align:center;line-height: 40px;'
+      href="http://192.168.11.100:8080/topic/CertificationOrder?id=%s" target="_blank">
+      驗證您的Email並訂閱久德最新消息
+    </a>
     <p style="text-align: center;"><a href="http://192.168.11.100:8080/topic/Certification?id=%s">驗證您的Email</a></p>
     <br><br><br>
     <p>謝謝您</p>
@@ -14,4 +17,33 @@
     <p>注意：該封郵件是由系統自動寄送的通知信，請不要直接回覆此信。
       若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
   </div>
-</body></html>
+
+<!-- 收集失敗頁面 -->
+<script>
+  var formData = new FormData();
+  formData.append("url", location.href);
+  $.ajax({
+    url: '/zeroPageNotFind.php',//接受請求的Servlet地址
+    type: 'POST',
+    data: formData,
+    // async: false,//同步請求
+    cache: false,//不快取頁面
+    contentType: false,//當form以multipart/form-data方式上傳檔案時，需要設定為false
+    processData: false,//如果要傳送Dom樹資訊或其他不需要轉換的資訊，請設定為false
+    success: function (url) {
+      console.log(url);
+    },
+    error: function (returndata) {
+      console.log(returndata);
+    }
+  })
+</script>
+
+
+
+
+
+
+</body>
+
+</html>

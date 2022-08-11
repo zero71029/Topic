@@ -48,8 +48,7 @@ public class ArticleService {
     }
 
     public ArticleBean findById(String articleid) {
-        Optional<ArticleBean> op = ar.findById(articleid);
-        return op.orElse(null);
+        return ar.findById(articleid).orElse(null);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
