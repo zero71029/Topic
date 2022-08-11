@@ -1,6 +1,7 @@
 package com.jetec.topic.Contriller;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,6 +10,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +21,13 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class LoginControllerTest {
 
-    @Autowired  
+    @Autowired
     private MockMvc mockMvc;
 
     HttpSession session;
@@ -108,8 +109,9 @@ class LoginControllerTest {
                         .session((MockHttpSession) session)
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/index"))  ;
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/index"));
     }
+
     @Test
     void signout() throws Exception {
         System.out.println("=======================================================================================");
@@ -119,8 +121,9 @@ class LoginControllerTest {
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/index"))
-                .andExpect(MockMvcResultMatchers.request().sessionAttributeDoesNotExist("SPRING_SECURITY_CONTEXT")) ;
+                .andExpect(MockMvcResultMatchers.request().sessionAttributeDoesNotExist("SPRING_SECURITY_CONTEXT"));
     }
+
     @Test
     @Transactional
     @Rollback
@@ -173,9 +176,11 @@ class LoginControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/error/error500.jsp"));
     }
+
     @Test
     @Transactional
     @Rollback
+    @DisplayName("寄 忘記密碼")
     void forget() throws Exception {
         System.out.println("=======================================================================================");
         System.out.println("認證碼錯誤");
@@ -219,18 +224,39 @@ class LoginControllerTest {
     }
 
     @Test
-    void reset() {
+    @DisplayName("密碼重設")
+    void reset() throws Exception {
+        mockMvc
+                .perform(post("/reset")
+                        .param("id", "dddddddddddd")
+                        .param("password", "AAAbbbccc")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("認證碼錯誤,請重新申請"));
+        System.out.println("================================================================");
+        System.out.println("正確 未測");
     }
 
     @Test
-    void certification() {
+    void certification() throws Exception {
+        mockMvc
+                .perform(post("/Certification")
+                        .param("id", "dddddddddddd")
+                )
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("/member/certification"))
+                .andExpect(MockMvcResultMatchers.model().attribute("error","認證碼錯誤,請重新申請"));
+        System.out.println("================================================================");
+        System.out.println("正確 未測");
     }
 
     @Test
     void certificationOrder() {
+        System.out.println("認證 and 訂閱Email");
     }
 
     @Test
     void reSend() {
+        System.out.println("重寄認證信");
     }
 }

@@ -266,7 +266,7 @@ public class LoginController {
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
             logger.info("認證碼  {}  請重新申請 ",auth);
-            model.addAttribute("error", "認證碼" + auth + ",請重新申請 ");
+            model.addAttribute("error", "認證碼" + auth + ",請重新申請");
             return "/member/certification";
         }
         //取出member  新增權限

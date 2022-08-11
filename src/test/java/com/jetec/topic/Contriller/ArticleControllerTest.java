@@ -103,7 +103,6 @@ class ArticleControllerTest {
     @Transactional
     @Rollback
     void savemessage() throws Exception {
-
         System.out.println("=======================================================================================");
         mockMvc
                 .perform(post("/article/savemessage")
