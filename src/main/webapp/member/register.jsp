@@ -28,13 +28,12 @@
 
                 html,
                 body {
-
                     height: 100%;
                     padding: 0;
                     margin: 0;
                     font-size: 16px;
                     line-height: 1.5;
-                    color: #222;
+
                     font-family: Arial, "Microsoft JhengHei", Helvetica, sans-serif;
                 }
             </style>
@@ -73,6 +72,11 @@
                                                 style="color: red;">${errors.username}</span>
                                         </label>
                                         <input type="text" class="form-control" name="name" id="name" value="${name}">
+                                        <span style="color: rgb(0, 81, 255);cursor: pointer;"                                            
+                                            onclick="checkName()">暱稱檢查</span> 
+                                            <span id="checkmessage" style="color: blue;"></span>
+
+
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">公司-組織</label>
@@ -92,10 +96,10 @@
                                             value="${phone}">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">登入密碼 
+                                        <label class="form-label">登入密碼
                                             <span style="color: red;">*</span>
                                             <span style="color: #AAA;">(必須10位以上)</span>
-                                        
+
                                         </label>
                                         <input type="password" class="form-control" name="password" id="password"
                                             value="${password}">
@@ -272,7 +276,7 @@
                         $("#repassword").css("border", "red 1px solid");
                         isok = false
                     } else {
-                       
+
                         $("#repassword").css("border", "1px solid #ced4da");
                     }
 
@@ -320,6 +324,55 @@
                         }
                     });
                 })
+                function checkName() {
+                    if ($("#name").val() == "") {
+                        alert("暱稱未輸入");
+                        return null;
+                    }
+
+
+                    let formData = new FormData();
+                    formData.append('name',$("#name").val())
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/login/checkName',//接受請求的Servlet地址
+                        type: 'POST',
+                        data: formData,
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        contentType: false,//當form以multipart/form-data方式上傳檔案時，需要設定為false
+                        processData: false,//如果要傳送Dom樹資訊或其他不需要轉換的資訊，請設定為false
+                        success: function (url) {                            
+                            if("(暱稱可以使用)" == url.message){
+                                $("#checkmessage").css("color","blue")
+                            }
+                            if("(暱稱已存在)" == url.message){
+                                $("#checkmessage").css("color","red")
+                            }
+                            $("#checkmessage").text(url.message)
+                           
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }
+                    });
+
+
+
+
+
+
+           
+
+
+                }
+
+
+
+
+
+
+
+
 
             </script>
 

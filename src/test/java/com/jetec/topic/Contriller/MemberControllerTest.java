@@ -33,7 +33,6 @@ class MemberControllerTest {
         session = mockMvc.perform(post("/login")
                         .param("username", "AAA@AAA.com")
                         .param("password", "AAA")
-
                 )
                 .andReturn()
                 .getRequest()

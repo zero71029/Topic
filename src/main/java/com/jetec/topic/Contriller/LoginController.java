@@ -1,6 +1,7 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.Tools.MailTool;
+import com.jetec.topic.Tools.ResultBean;
 import com.jetec.topic.Tools.ZeroFactory;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.LoginIpBean;
@@ -47,7 +48,7 @@ public class LoginController {
         LoginIpBean loginIpBean = ZeroFactory.buildLoginIp(memberBean.getMemberid(), ip);
         as.saveLoginIp(loginIpBean);
         logger.info("{} 登入成功", ip);
-        logger.info("暱稱:{} ;Email:{}",memberBean.getName(),memberBean.getEmail());
+        logger.info("暱稱:{} ;Email:{}", memberBean.getName(), memberBean.getEmail());
 //        Object principal = authentication.getPrincipal();
 //        String Username;
 //        if (principal instanceof UserDetails userDetails) {
@@ -71,6 +72,7 @@ public class LoginController {
     @RequestMapping(path = {"/Signout"})
     public String Signout(HttpSession session) {
         System.out.println("*****登出*****");
+        logger.info("登出");
         session.invalidate();
         return "redirect:/index";
     }
@@ -79,7 +81,7 @@ public class LoginController {
 //新註冊
     @RequestMapping("/register")
     public String SaveAdmin(MemberBean bean, Model model, @RequestParam("g-recaptcha-response") String token) {
-        logger.info("新註冊 email:{} name:{}",bean.getEmail(),bean.getName());
+        logger.info("新註冊 email:{} name:{}", bean.getEmail(), bean.getName());
         //使有輸入的資料能返回
         model.addAttribute("email", bean.getEmail());
         model.addAttribute("name", bean.getName());
@@ -170,7 +172,7 @@ public class LoginController {
     //忘記密碼
     @RequestMapping(path = {"/forget"})
     public String forget(@RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String recaptcha) {
-        logger.info("忘記密碼  {}",email);
+        logger.info("忘記密碼  {}", email);
         Map<String, String> errors = new HashMap<>();
         model.addAttribute("errors", errors);
         model.addAttribute("email", email);
@@ -237,11 +239,11 @@ public class LoginController {
     @ResponseBody
     public String reset(@RequestParam("id") String id, @RequestParam("password") String passwoed) {
         System.out.println("*****密碼重置*****");
-        logger.info("密碼重置 Aithorizeid : {}",id);
+        logger.info("密碼重置 Aithorizeid : {}", id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
-            logger.info("認證碼 {}",auth);
+            logger.info("認證碼 {}", auth);
             return "認證碼" + auth + ",請重新申請";
         }
         //取出member  後儲存
@@ -261,11 +263,11 @@ public class LoginController {
     //點認證信
     @RequestMapping(path = {"/Certification"})
     public String certification(@RequestParam("id") String id, Model model) {
-        logger.info("點認證信 {}",id);
+        logger.info("點認證信 {}", id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
-            logger.info("認證碼  {}  請重新申請 ",auth);
+            logger.info("認證碼  {}  請重新申請 ", auth);
             model.addAttribute("error", "認證碼" + auth + ",請重新申請");
             return "/member/certification";
         }
@@ -280,11 +282,11 @@ public class LoginController {
     //認證 and 訂閱Email
     @RequestMapping(path = {"/CertificationOrder"})
     public String CertificationOrder(@RequestParam("id") String id, Model model) {
-        logger.info("認證 and 訂閱Email {}",id);
+        logger.info("認證 and 訂閱Email {}", id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
         if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
-            logger.info("認證碼  {}  請重新申請 ",auth);
+            logger.info("認證碼  {}  請重新申請 ", auth);
             model.addAttribute("error", "認證碼" + auth + ",請重新申請 ");
             return "/member/certification";
         }
@@ -324,7 +326,7 @@ public class LoginController {
     //重寄認證信
     @RequestMapping(path = {"/reSend"})
     public String reSend(@RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String token) {
-        logger.info("重寄認證信  email:{}",email);
+        logger.info("重寄認證信  email:{}", email);
         //使有輸入的資料能返回
         model.addAttribute("email", email);
         // 錯誤輸出
@@ -377,5 +379,16 @@ public class LoginController {
             return "redirect:/member/registerSuccess.jsp";
         }
         return "/member/reSend";
+    }
+
+    //暱稱檢查
+    @RequestMapping(path = {"/login/checkName"})
+    @ResponseBody
+    public ResultBean checkName(@RequestParam("name") String name) {
+        logger.info("暱稱檢查 {}", name);
+        if(ls.existsMemberByName(name)){
+            return ZeroFactory.success("(暱稱已存在)",name);
+        }
+        return ZeroFactory.success("(暱稱可以使用)",name);
     }
 }

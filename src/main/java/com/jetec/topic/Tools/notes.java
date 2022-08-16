@@ -1,5 +1,13 @@
 package com.jetec.topic.Tools;
 
+import com.jetec.topic.model.MemberBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 public class notes {
     // 筆記
     // TRACE < DEBUG < INFO < WARN < ERROR < FATAL
@@ -84,4 +92,41 @@ public class notes {
 //        StringRedisTemplate stringRedisTemplate;
 
     //stringRedisTemplate.opsForHash()
+
+
+    //      docker run -itd --name redis -p 6379:6379 redis
+
+//    docker run --name tomcat -p 8888:8080 -v C:\Work\Docker\tomcat\webapps:/usr/local/tomcat/webapps -v C:\Work\Docker\tomcat\conf:/usr/local/tomcat/conf -d tomcat:9.0
+
+   // docker run -d --name eureka8761 -p 8761:8761 springcloud/eureka
+
+//    docker run --name tomcat -p 8888:8080 -v C:\Work\Docker\tomcat\webapps:/usr/local/tomcat/webapps    -d tomcat:jdk17
+
+    //docker update --restart=always a39b1323202cff9eba0a3a63400ef327bd93e570b8df7e77f588cc32406a4635
+
+    ////////////////////////////////////////////////////
+    //Spring Boot Security 取得登入者
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    MemberBean memberBean = (MemberBean) authentication.getPrincipal();
+//
+//    HttpSession session;
+//    SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+//    memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+//    ${SPRING_SECURITY_CONTEXT.authentication.principal.name}
+
+    ////////////////////////////////////////////////////
+    //取得ip
+//    HttpServletRequest request;
+//    String ip = request.getRemoteAddr();//得到来访者的IP地址
+
+//    　        　getRequestURL方法返回客户端发出请求时的完整URL。
+//            　　getRequestURI方法返回请求行中的资源名部分。
+//            　　getQueryString 方法返回请求行中的参数部分。
+//            　　getPathInfo方法返回请求URL中的额外路径信息。额外路径信息是请求URL中的位于Servlet的路径之后和查询参数之前的内容，它以“/”开头。
+//            　　getRemoteAddr方法返回发出请求的客户机的IP地址。
+//            　　getRemoteHost方法返回发出请求的客户机的完整主机名。
+//            　　getRemotePort方法返回客户机所使用的网络端口号。
+//            　　getLocalAddr方法返回WEB服务器的IP地址。
+//            　　getLocalName方法返回WEB服务器的主机名。
+
 }

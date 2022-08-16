@@ -56,7 +56,6 @@ public class MemberController {
     @RequestMapping("/myArticle")
     @ResponseBody
     public Map<String, Object> myArticle(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
-        System.out.println("*****我的文章*****");
         logger.info("我的文章  {}",ZeroTools.getMemberBean().getName());
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();

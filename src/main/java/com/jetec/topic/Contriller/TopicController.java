@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -203,6 +205,21 @@ public class TopicController {
     public String articleReturn(@PathVariable("articleid") String articleid, Model model) {
         System.out.println("*****進入文章回報*****");
         ArticleBean aBean = as.findById(articleid);
+        if(aBean == null){
+            logger.info("文章不存在 {}",articleid);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication ==null ){
+                logger.info("未登入");
+            }else {
+                MemberBean memberBean = (MemberBean) authentication.getPrincipal();
+                logger.info("登入者 {}", memberBean.getName());
+            }
+            model.addAttribute("message","文章不存在");
+            return "error/error500";
+        }
+
+
+
         model.addAttribute("article", aBean);
         model.addAttribute("articleid", aBean.getArticleid());
         model.addAttribute("replyid", aBean.getArticleid());
@@ -232,11 +249,14 @@ public class TopicController {
     @RequestMapping("/article/saveReturn")
     public String saveReturn(ArticleReturnBean articleReturnBean, HttpSession session) {
         System.out.println("*****儲存回報*****");
-        //將人轉成 舉報人
-        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-        MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         articleReturnBean.setState("未處裡");
-        if (memberBean == null) {
+        MemberBean memberBean;
+        //將人轉成 舉報人
+        //登入檢查
+        try {
+            SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+            memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
+        } catch (Exception e) {
             articleReturnBean.setMemberid("");
             articleReturnBean.setMembername("路人");
             as.saveArticleReturn(articleReturnBean);

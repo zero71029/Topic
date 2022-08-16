@@ -28,7 +28,7 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('1') OR hasAuthority('2') OR hasAuthority('3')OR hasAuthority('4')OR hasAuthority('5')OR hasAuthority('6')OR hasAuthority('7')OR hasAuthority('8')OR hasAuthority('9')")
 @RequestMapping("/article")
 public class ArticleController {
-    Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    Logger logger = LoggerFactory.getLogger("ArticleController.class");
     @Autowired
     MailTool mail;
 
@@ -52,7 +52,7 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //發布文章
     @RequestMapping("/save")
-    public String save(Model model, ArticleBean articleBean, @RequestParam("content") String content, HttpSession session) {
+    public String save(ArticleBean articleBean, @RequestParam("content") String content, HttpSession session) {
         logger.info("*****發布文章*****{}", ZeroTools.getMemberBean().getName());
         System.out.println(articleBean.getArticleoption());
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
@@ -80,7 +80,6 @@ public class ArticleController {
             ArticleContentBean acBean = new ArticleContentBean(save.getArticleid(), content);
             as.saveArticleContent(acBean);
         }
-        model.addAttribute(ArticleBean.SESSIONID, articleBean);
         return "redirect:/article/success.jsp";
     }
 

@@ -7,8 +7,6 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/icons/bootstrap-icons.css">
         <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.rtl.min.css"> -->
 
-
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid " style="position: relative;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">首頁</a>
