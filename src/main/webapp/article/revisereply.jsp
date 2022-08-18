@@ -67,8 +67,8 @@
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> ,<a href=""
-                                                target="_blank">本站服務條款</a>與<a href="" target="_blank">個人資料保護法</a>
+                                            我已經閱讀並同意遵守 <a href="${pageContext.request.contextPath}/detail/1ed1dd9499ed6addabc0dfbec63a6d48" target="_blank">討論區規則</a> ,<a href=""
+                                                target="_blank">本站服務條款</a>與<a href="${pageContext.request.contextPath}/detail/1ed1dd98a38f60deabc0b3dcb2aa2070" target="_blank">個人資料保護法</a>
                                         </label>
                                     </div>
                                     <br>

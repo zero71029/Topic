@@ -52,23 +52,31 @@
                                                     :src="level" alt="line" style="width: 100px;">
                                             </a>
                                         </div>
-                                        <div class="col-lg-3 text-center">
+                                        <div class="col-lg-3 text-center" style="padding-top: 13px;">
                                             <a href="${pageContext.request.contextPath}/member/myArticle.jsp">
-                                                <i class="bi bi-file-earmark-text" style="font-size: 60px;"></i><br>
-                                                <span>發表文章</span><br>
+                                                <img src="${pageContext.request.contextPath}/images/myArticle.svg" style="width: 80px; margin-bottom: 10px;">
+
+                                                
+                                               <br>
+                                                <span style="font-size: 20px;">發表文章</span><br>
                                                 <span style="font-size: 20px;"><b>{{articleNum}}</b></span>
                                             </a>
                                         </div>
-                                        <div class="col-lg-3 text-center">
+                                        <div class="col-lg-3 text-center" style="padding-top: 13px;">
                                             <a href="${pageContext.request.contextPath}/member/myReply.jsp">
-                                                <i class="bi bi-chat-text" style="font-size: 60px;"></i><br>
-                                                <span>回覆文章</span><br>
+                                                <img src="${pageContext.request.contextPath}/images/myReply.svg" style="width: 80px;margin-bottom: 10px;">
+
+                                               <br>
+                                                <span style="font-size: 20px;">回覆文章</span><br>
                                                 <span style="font-size: 20px;"><b>{{replyNum}}</b></span>
                                             </a>
                                         </div>
-                                        <div class="col-lg-3 text-center">
-                                            <i class="bi bi-trophy" style="font-size: 60px;"></i><br>
-                                            <span>獲得積分</span><br>
+                                        <div class="col-lg-3 text-center" style="padding-top: 13px;">
+                                            <img src="${pageContext.request.contextPath}/images/trophy.svg" style="width: 80px;margin-bottom: 10px;">
+                                            
+                                            
+                                            <br>
+                                            <span style="font-size: 20px;">獲得積分</span><br>
                                             <span style="font-size: 20px;"><b>{{bean.integral}}</b></span>
                                         </div>
                                     </div>
@@ -80,8 +88,8 @@
                                     <form action="" method="post" id="reviseForm">
                                         
                                         <div class="mb-3">
-                                            <label for="exampleFormControlInput1" class="form-label">暱稱</label>
-                                            <input type="text" class="form-control" name="name" v-model.trim="bean.name">
+                                            <label for="exampleFormControlInput1" class="form-label" >暱稱</label>
+                                            <input type="text" class="form-control" name="name" v-model.trim="bean.name" disabled>
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">組資單位</label>
@@ -192,7 +200,6 @@
                                 console.log(returndata);
                             }
                         });
-
                     }
                 },
             })

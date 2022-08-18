@@ -52,8 +52,10 @@
                             <div class="col-lg-10">
                                 <form action="${pageContext.request.contextPath}/article/saveReply" method="post"
                                     id="articleform">
-                                    <input type="hidden" name="memberid" value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
-                                    <input type="hidden" name="membername" value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
+                                    <input type="hidden" name="memberid"
+                                        value="${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
+                                    <input type="hidden" name="membername"
+                                        value="${SPRING_SECURITY_CONTEXT.authentication.principal.name}">
                                     <input type="hidden" name="articleid" value="${article.articleid}">
                                     <p style="font-size: 18px;"><span
                                             style="width: 80px; display: inline-block;">討論區</span> {{group}}</p>
@@ -67,7 +69,10 @@
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            我已經閱讀並同意遵守 <a href="" target="_blank">討論區規則</a> 與<a href=""
+                                            我已經閱讀並同意遵守 <a
+                                                href="${pageContext.request.contextPath}/detail/1ed1dd9499ed6addabc0dfbec63a6d48"
+                                                target="_blank">討論區規則</a> 與<a
+                                                href="${pageContext.request.contextPath}/detail/1ed1dd98a38f60deabc0b3dcb2aa2070"
                                                 target="_blank">本站服務條款</a>
                                         </label>
                                     </div>
@@ -233,7 +238,7 @@
 
 
 
-                        
+
                         const formData = new FormData(document.getElementById("articleform"));
                         const recap = formData.get("g-recaptcha-response");
                         if (recap.length > 0) {
@@ -255,7 +260,7 @@
                                         $("#articleform").attr("action", "${pageContext.request.contextPath}/article/saveReply");
                                         $("#articleform").submit();
 
-                                    }else{
+                                    } else {
                                         this.$message.error('檢查錯誤');
                                     }
                                 },
@@ -281,8 +286,9 @@
                 max-width: 100px;
                 height: auto;
             }
-            @media (max-width : 920px) {                
-                .scenery{
+
+            @media (max-width : 920px) {
+                .scenery {
                     display: none;
                 }
             }

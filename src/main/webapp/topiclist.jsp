@@ -27,6 +27,9 @@
             </style>
         </head>
 
+
+
+
         <body>
             <div class="container-fluid">
                 <div class="row">
@@ -50,36 +53,41 @@
                         <div class="row ">
                             <div class="col-lg-12">&nbsp;</div>
                         </div>
-
                         <div class="row ">
-                            <div class="col-lg-10">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">主題</th>
-                                            <th scope="col" style="width: 150px;text-align: center;">發布時間</th>
-                                            <th scope="col" style="width: 150px;text-align: center;">最後回覆</th>
-                                            <th scope="col" style="width: 90px;text-align: center;">回覆數</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(s, index) in list" :key="index" class="article">
-                                            <td>
-                                                <a
-                                                    :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">{{s.bean.name}}
-                                                </a>
-                                            </td>
-                                            <td>{{s.bean.createtime}}</td>
-                                            <td>{{s.bean.replytime}}</td>
-                                            <td style="text-align: center;">
-                                                {{s.bean.total}}
-                                                <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
-                                                    NEW {{ s.watch }}
-                                                </el-tag>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="col-lg-12">
+                                <el-breadcrumb separator="/">
+                                    <el-breadcrumb-item><a href="#">首頁</a></el-breadcrumb-item>
+                                    <el-breadcrumb-item id="navname"> </el-breadcrumb-item>
+
+                                </el-breadcrumb>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-lg-12">&nbsp;</div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-lg-9">
+                                <div class="row text-center" id="caption">
+                                    <div class="col-lg-6">主題</div>
+                                    <div class="col-lg-2">發布時間</div>
+                                    <div class="col-lg-2">最後回覆</div>
+                                    <div class="col-lg-2">回覆數</div>
+                                </div>
+                                <hr style="color: #000;">
+                                <div class="row article" v-for="(s, index) in list" :key="index" style="line-height: 40px;"
+                                    >
+                                    <div class="col-lg-6"> <a
+                                            :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid"
+                                            style="text-decoration: none;">{{s.bean.name}}
+                                        </a></div>
+                                    <div class="col-lg-2"><span class="caption2">發布時間 </span>{{s.bean.createtime}}</div>
+                                    <div class="col-lg-2"><span class="caption2">最後回覆 </span>{{s.bean.replytime}}</div>
+                                    <div class="col-lg-2"><span class="caption2">回覆數 </span>{{s.bean.total}}
+                                        <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
+                                            NEW {{ s.watch }}
+                                        </el-tag>
+                                    </div>
+                                </div>
                                 <!-- 分頁 -->
                                 <p style="text-align: center;">
 
@@ -88,22 +96,56 @@
                                         :page-size="pageSize" layout=" sizes, prev, pager, next, jumper" :total="total">
                                     </el-pagination>
                                 </p>
-
                             </div>
+
                             <!-- 右邊廣告 -->
                             <div class="col-lg-2">
                                 <!-- 右邊廣告 -->
                                 <jsp:include page="/widget/advertise.jsp"></jsp:include>
                             </div>
+
                         </div>
+
                     </div>
                 </div>
+            </div>
             </div>
         </body>
 
         <script>
+            function changGrop(e) {
+                switch (e) {
+                    case 'sensor':
+                        return "感測器";
+                    case 'apparatus':
+                        return "儀器儀表";
+                    case 'Netcom':
+                        return "網通裝置";
+                    case 'software':
+                        return "軟體配件";
+                    case 'controlbox':
+                        return "控制箱";
+                    case 'application':
+                        return "應用";
+                    case 'system':
+                        return "系統";
+                }
+            };
+            //按鈕顏色
             const url = new URL(location.href);
             const nav = url.searchParams.get("nav");
+            if (nav != "system") {
+                const e = document.getElementById(nav);
+                e.style.background = "#7F7F7F";
+                e.style.borderRadius = "4px";
+                document.querySelector("#" + nav + " a").style.color = "#fff";
+                console.log(document.getElementsByTagName('h1')[0].innerText);
+                document.getElementsByTagName('h1')[0].innerText=changGrop(nav)+"討論區";
+                document.getElementsByTagName('title')[0].innerText=changGrop(nav)+"討論區";
+            }
+            //
+            const navname = document.getElementById("navname");
+            navname.textContent = changGrop(nav);
             var vm = new Vue({
                 el: ".app",
                 data() {
@@ -126,12 +168,6 @@
                                 this.list = response.data.list;
                                 this.total = response.data.total;
                             }
-                            
-
-
-
-
-
                         },
                         error: function (returndata) {
                             console.log(returndata);
@@ -163,8 +199,8 @@
                             async: false,//同步請求
                             cache: false,//不快取頁面
                             success: response => {
-                                this.list = response.list;
-                                this.total = response.total;
+                                this.list = response.data.list;
+                                this.total = response.data.total;
                             },
                             error: function (returndata) {
                                 console.log(returndata);
@@ -179,8 +215,8 @@
                             async: false,//同步請求
                             cache: false,//不快取頁面
                             success: response => {
-                                this.list = response.list;
-                                this.total = response.total;
+                                this.list = response.data.list;
+                                this.total = response.data.total;
                             },
                             error: function (returndata) {
                                 console.log(returndata);
@@ -192,6 +228,12 @@
         </script>
 
         <style>
+            .article:hover {
+                background-color: #E9F9FF;
+            }
+            .article a:hover {
+                color: #1C77AF
+            }
             tr td a {
                 display: -webkit-box;
                 max-height: 1.5em;
@@ -205,6 +247,22 @@
                 text-decoration: none;
                 outline: 0;
                 background-color: transparent;
+            }
+
+            @media (max-width:996px) {
+                #caption {
+                    display: none;
+                }
+
+                .caption2 {
+                    display: initial;
+                }
+            }
+
+            @media (min-width:996px) {
+                .caption2 {
+                    display: none;
+                }
             }
         </style>
 

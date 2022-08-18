@@ -218,8 +218,6 @@ public class TopicController {
             return "error/error500";
         }
 
-
-
         model.addAttribute("article", aBean);
         model.addAttribute("articleid", aBean.getArticleid());
         model.addAttribute("replyid", aBean.getArticleid());

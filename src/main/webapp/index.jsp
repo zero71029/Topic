@@ -23,6 +23,14 @@
             <!-- 廣告 -->
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
             <style>
+                .article:hover {
+                    background-color: #E9F9FF;
+                }
+
+                .article a:hover {
+                    color: #1C77AF
+                }
+
                 tr td a {
                     text-decoration: none;
                     line-height: 30px;
@@ -64,11 +72,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             最新文章</div>
                                         <table class="table">
                                             <tbody>
-                                                <tr v-for="(s, index) in news" :key="index">
+                                                <tr class="article" v-for="(s, index) in news" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -84,11 +92,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             熱門討論</div>
                                         <table class="table">
                                             <tbody>
-                                                <tr v-for="(s, index) in popular" :key="index">
+                                                <tr class="article" v-for="(s, index) in popular" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -119,11 +127,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             感測器</div>
                                         <table class="table" style="height: 450px;">
                                             <tbody>
-                                                <tr v-for="(s, index) in sensor" :key="index">
+                                                <tr class="article" v-for="(s, index) in sensor" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -141,11 +149,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             儀器儀表</div>
                                         <table class="table" style="height: 450px;">
                                             <tbody>
-                                                <tr v-for="(s, index) in apparatus" :key="index">
+                                                <tr class="article" v-for="(s, index) in apparatus" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -161,11 +169,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             網通裝置</div>
                                         <table class="table" style="height: 450px;">
                                             <tbody>
-                                                <tr v-for="(s, index) in Netcom" :key="index">
+                                                <tr class="article" v-for="(s, index) in Netcom" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -181,11 +189,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             軟體配件</div>
                                         <table class="table" style="height: 450px;">
                                             <tbody>
-                                                <tr v-for="(s, index) in software" :key="index">
+                                                <tr class="article" v-for="(s, index) in software" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -201,11 +209,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             控制箱</div>
                                         <table class="table" style="height: 450px;">
                                             <tbody>
-                                                <tr v-for="(s, index) in controlbox" :key="index">
+                                                <tr class="article" v-for="(s, index) in controlbox" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -221,11 +229,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div
-                                            style="width: 100%;background-color: #1c8cee;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
+                                            style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             應用</div>
                                         <table class="table" style="height: 450px;">
                                             <tbody>
-                                                <tr v-for="(s, index) in application" :key="index">
+                                                <tr class="article" v-for="(s, index) in application" :key="index">
                                                     <td>
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
@@ -252,6 +260,11 @@
 
         </body>
         <script>
+
+
+
+
+
             var vm = new Vue({
                 el: ".app",
                 data() {
@@ -368,4 +381,5 @@
                 },
             })
         </script>
+
         </html>

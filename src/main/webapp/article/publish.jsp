@@ -105,9 +105,9 @@
                                             v-model="bean.agree">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             我已經閱讀並同意遵守 <a
-                                                href="${pageContext.request.contextPath}/detail/22302ed22b7642708a397063ce0f1010"
+                                                href="${pageContext.request.contextPath}/detail/1ed1dd9499ed6addabc0dfbec63a6d48"
                                                 target="_blank">討論區規則</a> 與<a
-                                                href="${pageContext.request.contextPath}/detail/162a4c5c62b646639af82accdf25527f"
+                                                href="${pageContext.request.contextPath}/detail/1ed1dd98a38f60deabc0b3dcb2aa2070"
                                                 target="_blank">本站服務條款</a>
                                         </label>
                                     </div>

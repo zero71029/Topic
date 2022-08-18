@@ -16,33 +16,33 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
+                        <li class="nav-item"  id="sensor">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor">感測器</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="apparatus">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=apparatus">儀器儀表</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="Netcom">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=Netcom">網通裝置</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="software">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=software">軟體配件</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="controlbox">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=controlbox">控制箱</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="application">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=application">應用</a>
                         </li>
                         <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                             <c:if test="${pageContext.request.requestURI == '/Forum/topiclist.jsp'}">
-                                <li class="nav-item" style="background-color: blue;border-radius: 4px;" id="publish">
+                                <li class="nav-item" style="background-color: #074F8F;border-radius: 4px;" id="publish">
                                     <a class="nav-link" style="color: white;"
                                         href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">
                                         發布文章

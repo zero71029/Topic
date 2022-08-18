@@ -32,9 +32,14 @@ public class test {
 
     @Test
     void test2() {
-        int[] nums = {1, 1, 2, 2, 3, 4, 5, 5, 6};
-
-
+        int[] prices = {7,1,5,3,6,4};
+        int x = 0;
+        for (int i = 0; i < prices.length-1; i++) {
+            if(prices[i] < prices[i+1]){
+                x = x + (prices[i+1] -prices[i] );
+            }
+        }
+        System.out.println(x);
 
 
 
