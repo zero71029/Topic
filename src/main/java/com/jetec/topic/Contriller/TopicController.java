@@ -81,11 +81,26 @@ public class TopicController {
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model, HttpSession session) {
         logger.info("進入文章細節 {}", articleid);
         ArticleBean articleBean = as.findById(articleid);
+
+
         if (articleBean == null) {
             model.addAttribute("message", "找不到文章");
             logger.info("找不到文章 {}", articleid);
             return "error/error500";
         }
+        //
+        List<PermitBean> permitBeanList = articleBean.getMember().getPermitList();
+        for (PermitBean e : permitBeanList) {
+            if(Objects.equals(e.getLevel(),9)){
+                model.addAttribute("isManage",true);
+                break;
+            }
+        }
+
+
+
+
+
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
         model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
         model.addAttribute(ArticleThumbsupBean.THUMBSUPID, as.findThumbsup(articleid));
@@ -156,7 +171,7 @@ public class TopicController {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //細節初始化
-    @RequestMapping("/article/detailInit/{articleid}")
+    @RequestMapping("/topic/detailInit/{articleid}")
     @ResponseBody
     public Map<String, Object> detailInit(@PathVariable("articleid") String articleid, HttpSession session, @RequestParam("p") Integer p) {
         p--;

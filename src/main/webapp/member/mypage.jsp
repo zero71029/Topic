@@ -136,78 +136,10 @@
             </div>
         </body>
         <script>
-            const vm = new Vue({
-                el: ".app",
-                data() {
-                    return {
-                        bean:{},
-                        replyNum: 0,//回覆文章數
-                        articleNum: 0,//發表文章數
-                        integral: 0,//獲得積分
-                        show: false,
-                        birthday: "${SPRING_SECURITY_CONTEXT.authentication.principal.birthday}",
-                        level: "${pageContext.request.contextPath}/images/青銅.png"
-                    }
-                },
-                created() {
-                    $.ajax({
-                        url: '${pageContext.request.contextPath}/member/mypage',
-                        type: 'POST',
-                        async: false,//同步請求
-                        cache: false,//不快取頁面
-                        success: response => {
-                            this.bean = response.member;
-                            this.articleNum = response.articleNum;
-                            this.replyNum = response.replyNum;
-                            this.integral = this.bean.integral;
-                        },
-                        error: function (returndata) {
-                            console.log(returndata);
-                        }
-                    });
-
-                    if (this.integral >= 90000) {
-                        this.level = '${pageContext.request.contextPath}/images/傳奇.png';
-                    } else if (this.integral >= 30000) {
-                        this.level = '${pageContext.request.contextPath}/images/鉑金.png';
-                    } else if (this.integral >= 10000) {
-                        this.level = '${pageContext.request.contextPath}/images/黃金.png';
-                    } else if (this.integral >= 1000) {
-                        this.level = '${pageContext.request.contextPath}/images/白銀.png';
-                    }
-
-                },
-                mounted() {
-                    this.show = true
-                },
-                methods: {
-                    //修改個人資料
-                    revise() {
-                        var data = new FormData(document.getElementById("reviseForm"));
-                        console.log(data.get("name"));
-                        $.ajax({
-                            url: '${pageContext.request.contextPath}/member/revise',
-                            type: 'POST',
-                            data: data,
-                            async: false,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: response => {
-                                this.$message.success("修改成功");
-                            },
-                            error: function (returndata) {
-                                console.log(returndata);
-                            }
-                        });
-                    }
-                },
-            })
-            $("input[name='birthday']").addClass("form-control");
-            if (permit.indexOf("1") > 0) {
-                $("#reSend").hide();
-            } 
+            const contextPath = "${pageContext.request.contextPath}";
+            const birthday ="${SPRING_SECURITY_CONTEXT.authentication.principal.birthday}";        
         </script>
+        <script src="${pageContext.request.contextPath}/js/member/mypage.js"></script>
         <style>
             .el-date-editor.el-input {
                 width: 100%;

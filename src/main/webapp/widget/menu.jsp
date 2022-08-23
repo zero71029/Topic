@@ -16,7 +16,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"  id="sensor">
+                        <li class="nav-item" id="sensor">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor">感測器</a>
                         </li>
@@ -78,9 +78,14 @@
         </nav>
         <c:if test='${not empty SPRING_SECURITY_CONTEXT.authentication.principal}'>
             <script>
-                const permit ='${SPRING_SECURITY_CONTEXT.authentication.principal.authorities}' 
-                if(permit.indexOf("1") < 0){                 
+                const permit = '${SPRING_SECURITY_CONTEXT.authentication.principal.authorities}'
+                if (permit.indexOf("1") < 0) {
                     $("#publish").hide();
                 }
+            </script>
+        </c:if>
+        <c:if test='${ empty SPRING_SECURITY_CONTEXT.authentication.principal}'>
+            <script>
+                const permit = '';
             </script>
         </c:if>

@@ -44,63 +44,63 @@ public class MemberController {
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         as.Integral(memberBean.getMemberid());//計算積分
-        Map<String, Object> result =new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("code", SystemCode.ISOK);//回復文章數
         result.put("replyNum", as.countReplyByMemberid(memberBean.getMemberid()));//回復文章數
         result.put("articleNum", as.countByMemberid(memberBean.getMemberid()));//發表文章數
-        result.put(MemberBean.SESSIONID,ms.getMemberById(memberBean.getMemberid()));
+        result.put(MemberBean.SESSIONID, ms.getMemberById(memberBean.getMemberid()));
         return result;
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的文章
     @RequestMapping("/myArticle")
     @ResponseBody
-    public Map<String, Object> myArticle(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
-        logger.info("我的文章  {}",ZeroTools.getMemberBean().getName());
+    public Map<String, Object> myArticle(HttpSession session, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        logger.info("我的文章  {}", ZeroTools.getMemberBean().getName());
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         page--;
         Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
-        Page<ArticleBean> pa =ms.myArticle(memberBean,p);
+        Page<ArticleBean> pa = ms.myArticle(memberBean, p);
         Map<String, Object> result = new HashMap<>();
 
         //取 未看 回復數
         List<ArticleBean> list = pa.getContent();
-        List<Map<String, Object>> a = new ArrayList();
-        if (memberBean != null) {
-            list.forEach(e -> {
-                Map<String, Object> artlcle = new HashMap<>();
-                Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
-                artlcle.put("bean", e);
-                artlcle.put("watch", i);
-                a.add(artlcle);
-            });
-        }
+        List<Map<String, Object>> a = new ArrayList<>();
+        list.forEach(e -> {
+            Map<String, Object> artlcle = new HashMap<>();
+            Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
+            artlcle.put("bean", e);
+            artlcle.put("watch", i);
+            a.add(artlcle);
+        });
+
         //a = { "bean" : articleBean , "watch" : i }
 
 
-
-        result.put("list",  a );
-        result.put("total",  pa.getTotalElements()  );
+        result.put("list", a);
+        result.put("total", pa.getTotalElements());
         return result;
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的回復
     @RequestMapping("/myReply")
     @ResponseBody
-    public Map<String, Object> myReply(HttpSession session, @RequestParam("page")Integer page , @RequestParam("size")Integer size) {
+    public Map<String, Object> myReply(HttpSession session, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
         page--;
-        logger.info("我的回復  {}" ,memberBean.getName());
-        return ms.myReply(memberBean,page,size);
+        logger.info("我的回復  {}", memberBean.getName());
+        return ms.myReply(memberBean, page, size);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //修改我的資料
     @RequestMapping("/revise")
     @ResponseBody
-    public Map<String, Object> revise(HttpSession session,MemberBean bean) {
+    public Map<String, Object> revise(HttpSession session, MemberBean bean) {
         System.out.println("*****修改我的資料*****");
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean member = (MemberBean) sci.getAuthentication().getPrincipal();
@@ -110,11 +110,11 @@ public class MemberController {
         bean.setCreatetime(member.getCreatetime());
         bean.setIntegral(member.getIntegral());
         MemberBean save = ms.save(bean);
-        Map<String, Object> result =new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("replyNum", as.countReplyByMemberid(member.getMemberid()));//回復文章數
         result.put("articleNum", as.countByMemberid(member.getMemberid()));//發表文章數
-        result.put(MemberBean.SESSIONID,save);
-        logger.info("修改我的資料 {}",bean.getName());
+        result.put(MemberBean.SESSIONID, save);
+        logger.info("修改我的資料 {}", bean.getName());
         return result;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

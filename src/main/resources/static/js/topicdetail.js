@@ -19,13 +19,13 @@ function changGrop(e) {
 //麵包屑
 const navname = document.getElementById("navname");
 navname.textContent = changGrop(nav);
-navname.href = contextPath+"/topiclist.jsp?nav=" + nav;
+navname.href = contextPath + "/topiclist.jsp?nav=" + nav;
 //按鈕顏色
 if (nav != "system") {
     const e = document.getElementById(nav);
-    e.style.background = "#7F7F7F";  
+    e.style.background = "#7F7F7F";
     e.style.borderRadius = "10px";
-    document.querySelector("#"+nav+" a").style.color="#fff";  
+    document.querySelector("#" + nav + " a").style.color = "#fff";
 }
 
 //
@@ -35,7 +35,6 @@ var vm = new Vue({
         return {
             currentPage: 1,
             total: 15,
-
             dialogVisible: false,
             thumbsupNum: 0,
             hasThumbsup: false,
@@ -49,7 +48,6 @@ var vm = new Vue({
         }
     },
     created() {
-
         this.currentPage = p;
         $.ajax({
             url: u,
@@ -79,6 +77,8 @@ var vm = new Vue({
             this.level = contextPath + '/images/小白銀.svg';
         }
 
+
+
         //判斷 瀏覽者是否點讚(回覆)
         this.replylist.forEach(reply => {
             if (reply.state == "封鎖") {
@@ -102,9 +102,18 @@ var vm = new Vue({
             } else if (reply.member.integral >= 1000) {
                 reply.level = contextPath + '/images/小白銀.svg';
             }
+            //管理員改圖
+            reply.showIntegral = true;
+            for (const e of reply.member.permitList) {
+                if (e.level == 9) {
+                    reply.level = contextPath + '/images/Moderator.svg';
+                    reply.showIntegral = false;
+                    break;
+                }
+            }
         });
         if (this.hasThumbsup) {
-            $(".main").css("color", "#0d6efd")
+            $(".main").css("color", "#0d6efd");
         }
         //廣告                        
         $.ajax({
@@ -119,15 +128,13 @@ var vm = new Vue({
                 console.log(returndata);
             }
         });
-    }, mounted() {
-
     },
     methods: {
         //下拉工具
         handleCommand(command) {
             this.$message('click on item ' + command);
             if (command == "a") {
-                this.dialogVisible = true
+                this.dialogVisible = true;
             } else {
                 location.href = contextPath + "/article/" + command;
             }
@@ -272,7 +279,7 @@ var vm = new Vue({
                 contentType: false,
                 processData: false,
                 success: (response) => {
-                    location.reload()
+                    location.reload();
                 },
                 error: (returndata) => {
                     this.$message.error('電子郵件或密碼錯誤');
@@ -281,7 +288,7 @@ var vm = new Vue({
         },
         //分頁
         handleCurrentChange(val) {
-            location.href = contextPath + "/detail/" + id + "?p=" + val
+            location.href = contextPath + "/detail/" + id + "?p=" + val;
         }
 
     },

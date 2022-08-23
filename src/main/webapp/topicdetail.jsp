@@ -24,8 +24,6 @@
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
                 <meta property="og:image" content="${pageContext.request.contextPath}/images/share-banner.png" />
-
-
             </head>
 
             <body>
@@ -33,19 +31,23 @@
                     [v-cloak] {
                         display: none;
                     }
+
                     span a {
                         color: #000;
                         text-decoration: none;
                     }
+
                     span .icon:hover,
                     span a .icon:hover {
                         cursor: pointer;
                         color: #0d6efd;
 
                     }
+
                     .thumbsup {
                         color: #0d6efd;
                     }
+
                     @media (max-width:990px) {
                         .scenery {
                             display: none;
@@ -55,7 +57,8 @@
                 <div class="container-fluid ">
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            <h1>久德討論版</h1>
+                            <h1>久德討論版                              
+                            </h1>
                         </div>
                     </div>
                     <div class="row">
@@ -67,7 +70,7 @@
                         <!-- <%-- 右邊工具列--%> -->
                         <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                     </div>
-                    <div class="row app">
+                    <div class="row app" v-cloak>
                         <!-- 彈窗 -->
                         <el-dialog title="分享" :visible.sync="dialogVisible" width="30%" v-cloak>
                             <a href="https://social-plugins.line.me/lineit/share?url=<%=url%>/detail/${article.articleid}"
@@ -96,7 +99,7 @@
                             </span>
                         </el-dialog>
                         <!--  -->
-                        <div class="col-lg-12 " v-cloak>
+                        <div class="col-lg-12 ">
                             <div class="row">
                                 <div class="col-lg-2 scenery">
                                 </div>
@@ -130,14 +133,23 @@
                                                 <div class="col-lg-3 text-center">
                                                     <span
                                                         style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
-                                                    <span style="color: #379cf4;">${article.membername} </span><br>
-                                                    積分:${article.member.integral}
+
+                                                    <span style="color: #379cf4;">${article.membername} </span>
+
                                                     <br>
                                                     <!-- <div class="fb-share-button"
                                                         data-href="https://www.your-domain.com/your-page.html"
                                                         data-layout="button_count">
                                                     </div> -->
-                                                    <img :src="level" style="width: 60px;">
+                                                    <c:if test="${isManage}">
+                                                        <img src="${pageContext.request.contextPath}/images/Moderator.svg" style="width: 60px;">
+                                                    </c:if>
+                                                    <c:if test="${!isManage}">
+                                                        <img :src="level" style="width: 60px;">
+                                                        <br>
+                                                        <span id="integral">積分:${article.member.integral}</span>
+                                                    </c:if>
+
 
                                                 </div>
                                                 <!-- 主文 -->
@@ -204,10 +216,8 @@
                                                         <span
                                                             style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.floor}}樓</span><br>
                                                         <span style="color: #379cf4;">{{s.membername}}</span><br>
-                                                        積分:{{s.member.integral}} <br>
-
-                                                        <img :src="s.level" style="width: 60px;">
-
+                                                        <img :src="s.level" style="width: 60px;"><br>
+                                                        <span v-show="s.showIntegral">積分:{{s.member.integral}}</span>
                                                     </div>
                                                     <div class="col-lg-9 ">
                                                         <div class="row" :id="s.replyid">
@@ -312,20 +322,21 @@
                 </div>
             </body>
 
-
             </html>
-
-
             <script>
                 var id = '${article.articleid}';
                 const nav = '${article.articlegroup}';
-                const integral = '${article.member.integral}';  
+                const integral = '${article.member.integral}';
                 const url = new URL(location.href);
                 var p = url.searchParams.get("p");
                 if (p == null) p = 1;
-                const u = '${pageContext.request.contextPath}/article/detailInit/${article.articleid}?p=' + p;
+                const u = '${pageContext.request.contextPath}/topic/detailInit/${article.articleid}?p=' + p;
                 const contextPath = "${pageContext.request.contextPath}";
                 const name = "${SPRING_SECURITY_CONTEXT.authentication.principal.name}";
-                const memberid ='${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}';
+                const memberid = '${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}';
+
             </script>
             <script src="${pageContext.request.contextPath}/js/topicdetail.js"></script>
+
+
+
