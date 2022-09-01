@@ -129,4 +129,9 @@ public class notes {
 //            　　getLocalAddr方法返回WEB服务器的IP地址。
 //            　　getLocalName方法返回WEB服务器的主机名。
 
+
+    //Security 讀取使用者
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    AdminBean adminBean = (AdminBean) authentication.getPrincipal();
+
 }

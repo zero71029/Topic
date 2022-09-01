@@ -81,7 +81,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -101,7 +101,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -137,7 +137,7 @@
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span>
                                                             <a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}
                                                             </a>
                                                         </span>
                                                         <span
@@ -158,7 +158,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -178,7 +178,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -198,7 +198,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -218,7 +218,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>
@@ -238,7 +238,7 @@
                                                         <a class="tdname"
                                                             :href="'${pageContext.request.contextPath}/detail/'+s.articleid">{{s.name}}</a><br>
                                                         <span><a
-                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup+'&pag=1'">{{s.group}}</a>
+                                                                :href="'${pageContext.request.contextPath}/topiclist.jsp?nav='+s.articlegroup">{{s.group}}</a>
                                                         </span>
                                                         <span
                                                             style="float: right;color: #888;line-height: 25px;">{{s.createtime}}</span>

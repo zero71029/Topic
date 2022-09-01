@@ -57,7 +57,7 @@
                 <div class="container-fluid ">
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            <h1>久德討論版                              
+                            <h1>久德討論版
                             </h1>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             </span>
                         </el-dialog>
                         <!--  -->
-                        <div class="col-lg-12 ">
+                        <div class="col-lg-12 " v-cloak>
                             <div class="row">
                                 <div class="col-lg-2 scenery">
                                 </div>
@@ -110,8 +110,11 @@
                                     <div class="row ">
                                         <div class="col-lg-12">
                                             <el-breadcrumb separator="/">
-                                                <el-breadcrumb-item><a href="#">首頁</a></el-breadcrumb-item>
-                                                <el-breadcrumb-item><a href="#" id="navname">t</a></el-breadcrumb-item>
+                                                <el-breadcrumb-item><a href="${pageContext.request.contextPath}/">首頁</a>
+                                                </el-breadcrumb-item>
+                                                <el-breadcrumb-item><a
+                                                        href="${pageContext.request.contextPath}/topiclist.jsp?nav=${article.articlegroup}&pag=1"
+                                                        id="navname">t</a></el-breadcrumb-item>
                                                 <el-breadcrumb-item>${article.name}</el-breadcrumb-item>
                                             </el-breadcrumb>
                                         </div>
@@ -142,15 +145,14 @@
                                                         data-layout="button_count">
                                                     </div> -->
                                                     <c:if test="${isManage}">
-                                                        <img src="${pageContext.request.contextPath}/images/Moderator.svg" style="width: 60px;">
+                                                        <img src="${pageContext.request.contextPath}/images/Moderator.svg"
+                                                            style="width: 60px;">
                                                     </c:if>
                                                     <c:if test="${!isManage}">
                                                         <img :src="level" style="width: 60px;">
                                                         <br>
                                                         <span id="integral">積分:${article.member.integral}</span>
                                                     </c:if>
-
-
                                                 </div>
                                                 <!-- 主文 -->
                                                 <div class="col-lg-9 ">
@@ -159,15 +161,11 @@
                                                             <h3 id="articlename">${article.name}</h3>
                                                             <p>${article.createtime}
                                                                 <span style="float: right;">
-                                                                    <c:if
-                                                                        test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
-                                                                        <i class="bi bi-hand-thumbs-up icon  main"
-                                                                            @click="clickThumbsup">讚
-                                                                            {{thumbsupNum}}
-                                                                        </i>
-                                                                        &nbsp; | &nbsp;
+                                                                    <i class="bi bi-hand-thumbs-up icon  main"
+                                                                        @click="clickThumbsup">讚
+                                                                        {{thumbsupNum}}
+                                                                    </i> &nbsp; | &nbsp;
 
-                                                                    </c:if>
                                                                     <c:if
                                                                         test="${article.memberid == SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
                                                                         <a
@@ -340,3 +338,79 @@
 
 
 
+
+
+            <!-- description代碼 -->
+            <script>
+                const metaRobots = document.createElement('meta');
+                metaRobots.name = 'description';
+                metaRobots.content = '${article.name}';
+                document.head.appendChild(metaRobots);
+            </script><!-- description代碼結束 -->
+            <!-- SEO代碼 -->
+            <script type="text/javascript">
+                var ga = document.createElement('script'); ga.type = 'application/ld+json';
+                ga.textContent = `[{
+      "@context": "http://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement":
+        [{
+          "@type": "ListItem",
+          "position": 1,           
+          "item": {
+                  "@type": "WebPage",
+                  "@id": "https://www.jetec.com.tw/",
+                  "name": "傳感器的專家"
+            }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,           
+          "item": {
+                  "@type": "WebPage",
+                  "@id": "https://forum.jetec.com.tw/Forum/",
+                  "name": "久德討論版"
+            }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,           
+          "item": {
+                  "@type": "WebPage",
+                  "@id": "https://forum.jetec.com.tw/Forum/topiclist.jsp?nav=${article.articlegroup}",
+                  "name": "`+ changGrop('${article.articlegroup}') + `討論區"
+            }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+                  "@type": "WebPage",
+                  "@id": "`+ location.href + `",
+                  "name": "${article.name}"
+            }
+        }]
+    },{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "${article.name}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "`+ location.href + `"
+    },
+    "headline": "${article.name}",
+    "datePublished": "${article.createtime}",
+    "dateModified": "${article.createtime}",
+    "author": {
+      "@type": "Person",
+      "name": "Zero Chen",
+      "url": "https://forum.jetec.com.tw/Forum/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "久德討論版",
+      "logo": "https://www.jetec.com.tw/sites/default/files/LOGO1126_1.png"
+    },
+    "description": "${article.name}"}]`;
+                document.head.appendChild(ga);
+            </script><!-- SEO代碼結束 -->

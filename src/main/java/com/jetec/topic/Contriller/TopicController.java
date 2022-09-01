@@ -100,7 +100,6 @@ public class TopicController {
 
 
 
-
         model.addAttribute(ArticleBean.SESSIONID, articleBean);
         model.addAttribute(ArticleContentBean.SESSIONID, as.findArticleContentByArticleid(articleid));
         model.addAttribute(ArticleThumbsupBean.THUMBSUPID, as.findThumbsup(articleid));

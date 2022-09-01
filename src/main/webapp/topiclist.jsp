@@ -26,10 +26,6 @@
                 }
             </style>
         </head>
-
-
-
-
         <body>
             <div class="container-fluid">
                 <div class="row">
@@ -56,9 +52,8 @@
                         <div class="row ">
                             <div class="col-lg-12">
                                 <el-breadcrumb separator="/">
-                                    <el-breadcrumb-item><a href="#">首頁</a></el-breadcrumb-item>
+                                    <el-breadcrumb-item><a href="${pageContext.request.contextPath}/">首頁</a></el-breadcrumb-item>
                                     <el-breadcrumb-item id="navname"> </el-breadcrumb-item>
-
                                 </el-breadcrumb>
                             </div>
                         </div>
@@ -74,15 +69,15 @@
                                     <div class="col-lg-2">回覆數</div>
                                 </div>
                                 <hr style="color: #000;">
-                                <div class="row article" v-for="(s, index) in list" :key="index" style="line-height: 40px;"
-                                    >
+                                <div class="row article" v-for="(s, index) in list" :key="index"
+                                    style="line-height: 40px;">
                                     <div class="col-lg-6"> <a
                                             :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid"
                                             style="text-decoration: none;">{{s.bean.name}}
                                         </a></div>
                                     <div class="col-lg-2"><span class="caption2">發布時間 </span>{{s.bean.createtime}}</div>
                                     <div class="col-lg-2"><span class="caption2">最後回覆 </span>{{s.bean.replytime}}</div>
-                                    <div class="col-lg-2"><span class="caption2">回覆數 </span>{{s.bean.total}}
+                                    <div class="col-lg-2 text-center"><span class="caption2">回覆數 </span>{{s.bean.total}}
                                         <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
                                             NEW {{ s.watch }}
                                         </el-tag>
@@ -112,16 +107,18 @@
             </div>
         </body>
 
-        <script>const contextPath ="${pageContext.request.contextPath}";</script>
+        <script>const contextPath = "${pageContext.request.contextPath}";</script>
         <script src="${pageContext.request.contextPath}/js/topiclist.js"></script>
 
         <style>
             .article:hover {
                 background-color: #E9F9FF;
             }
+
             .article a:hover {
                 color: #1C77AF
             }
+
             tr td a {
                 display: -webkit-box;
                 max-height: 1.5em;
@@ -153,5 +150,8 @@
                 }
             }
         </style>
+
+
+
 
         </html>

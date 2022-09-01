@@ -19,7 +19,7 @@ public class MailTool {
 
 //    String users[] = {"xxxxx@qq.com","xxxxx@126.com"};
 
-    public void sendSimpleMail(String to, String Subject,String text) throws Exception {
+    public void sendSimpleMail(String to, String Subject,String text)  {
         SimpleMailMessage message = new SimpleMailMessage();
 //        message.setFrom("jeter.tony56@gmail.com");
 //        message.setTo("my.msn@msn.com", "my.gmail@gmail.com");//群發

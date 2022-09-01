@@ -296,7 +296,7 @@ public class LoginController {
         model.addAttribute("message", "認證成功,歡迎您的加入");
         MemberBean mBean = ls.findMemberById(auth);
 
-        String Subject = "訂閱Email";
+        String Subject = "訂閱Email  討論版發出";
         String text = """
                 訂閱Email by 討論版<br>
                 <br>
@@ -305,7 +305,7 @@ public class LoginController {
                 暱稱 : %s<br>
                 Email : %s<br>
                 公司-組織 : %s<br>
-                連絡電話 : %s<br>                                
+                連絡電話 : %s<br>
                 """.formatted(mBean.getName(), mBean.getEmail(), mBean.getCompany(), mBean.getPhone());
         try {
             String[] address = new String[3];
