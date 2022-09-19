@@ -43,7 +43,7 @@
                         <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                             <c:if test="${pageContext.request.requestURI == '/Forum/topiclist.jsp'}">
                                 <li class="nav-item" style="background-color: #074F8F;border-radius: 4px;" id="publish">
-                                    <a class="nav-link" style="color: white;"
+                                    <a class="nav-link" style="color: white;" rel="nofollow"
                                         href="${pageContext.request.contextPath}/article/publish.jsp?nav=${param.nav}">
                                         發布文章
                                     </a>
@@ -58,17 +58,17 @@
                     </form>
                     &nbsp;&nbsp;&nbsp;
                     <c:if test="${empty SPRING_SECURITY_CONTEXT.authentication.principal }">
-                        <a href="${pageContext.request.contextPath}/member/register.jsp">註冊</a>/ <a
-                            href="${pageContext.request.contextPath}/member/login.jsp">登入</a>
+                        <a rel="nofollow" href="${pageContext.request.contextPath}/member/register.jsp">註冊</a>/ <a
+                        rel="nofollow"   href="${pageContext.request.contextPath}/member/login.jsp">登入</a>
                     </c:if>
                     <c:if test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                 aria-expanded="false"><i class="bi bi-person-circle" style="font-size: 28px;"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item"
+                                <li><a class="dropdown-item" rel="nofollow"
                                         href="${pageContext.request.contextPath}/member/mypage.jsp">我的頁面</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">登出</a>
+                                <li><a rel="nofollow" class="dropdown-item" href="${pageContext.request.contextPath}/logout">登出</a>
                                 </li>
                             </ul>
                         </div>
@@ -89,3 +89,12 @@
                 const permit = '';
             </script>
         </c:if>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C5T2M9CZ10"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-C5T2M9CZ10');
+        </script>

@@ -46,7 +46,7 @@ const vm = new Vue({
         //修改個人資料
         revise() {
             var data = new FormData(document.getElementById("reviseForm"));
-            console.log(data.get("name"));
+            data.set("name",this.bean.name);
             $.ajax({
                 url: contextPath+'/member/revise',
                 type: 'POST',

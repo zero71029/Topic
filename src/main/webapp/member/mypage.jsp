@@ -89,7 +89,7 @@
                                         
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label" >暱稱</label>
-                                            <input type="text" class="form-control" name="name" v-model.trim="bean.name" disabled>
+                                            <input type="text" class="form-control" name="name" v-model="bean.name" disabled>
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">組資單位</label>

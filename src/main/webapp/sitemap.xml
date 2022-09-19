@@ -43,7 +43,51 @@
   <url>
     <loc>https://forum.jetec.com.tw/Forum/topiclist.jsp?nav=controlbox</loc>
     <lastmod>2022-08-05T15:18:47+00:00</lastmod>
-    <priority>0.8</priority>
-   
+    <priority>0.8</priority>   
   </url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed2d95dfa70698c91c46920305a4b70</loc>
+    <lastmod>2022-09-12T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed2cce0188764aca11cbf627d04a806</loc>
+    <lastmod>2022-09-12T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed238e8de1466b3bb2b1b7ccf442807</loc>
+    <lastmod>2022-09-12T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed2f3d9ee5c6b4a9dbbfd96dad2d051</loc>
+    <lastmod>2022-09-12T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed2cc0e240d6e99a11c6bb25c5e7d92</loc>
+    <lastmod>2022-09-12T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed32726feff6ddeac6c37d43a56410a</loc>
+    <lastmod>2022-09-13T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed3337f1335624299992b1aac0406ef</loc>
+    <lastmod>2022-09-13T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed3595b8b7c644b99997f6f30923da3</loc>
+    <lastmod>2022-09-14T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
+<url>
+    <loc>https://forum.jetec.com.tw/Forum/detail/1ed37d97a2496b5a99998f3fcf6b9418</loc>
+    <lastmod>2022-09-19T15:18:47+00:00</lastmod>
+    <priority>0.6</priority>   
+</url>
 </urlset>

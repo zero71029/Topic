@@ -39,15 +39,19 @@ public class MemberController {
     //我的頁面
     @RequestMapping("/mypage")
     @ResponseBody
-    public Map<String, Object> Signout(HttpSession session) {
+    public Map<String, Object> signout(HttpSession session) {
         logger.info("我的頁面  {}", ZeroTools.getMemberBean().getName());
         SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
-        as.Integral(memberBean.getMemberid());//計算積分
+        //計算積分
+        as.Integral(memberBean.getMemberid());
         Map<String, Object> result = new HashMap<>();
-        result.put("code", SystemCode.ISOK);//回復文章數
-        result.put("replyNum", as.countReplyByMemberid(memberBean.getMemberid()));//回復文章數
-        result.put("articleNum", as.countByMemberid(memberBean.getMemberid()));//發表文章數
+
+        result.put("code", SystemCode.ISOK);
+        //回復文章數
+        result.put("replyNum", as.countReplyByMemberid(memberBean.getMemberid()));
+        //發表文章數
+        result.put("articleNum", as.countByMemberid(memberBean.getMemberid()));
         result.put(MemberBean.SESSIONID, ms.getMemberById(memberBean.getMemberid()));
         return result;
     }
@@ -111,8 +115,10 @@ public class MemberController {
         bean.setIntegral(member.getIntegral());
         MemberBean save = ms.save(bean);
         Map<String, Object> result = new HashMap<>();
-        result.put("replyNum", as.countReplyByMemberid(member.getMemberid()));//回復文章數
-        result.put("articleNum", as.countByMemberid(member.getMemberid()));//發表文章數
+        //回復文章數
+        result.put("replyNum", as.countReplyByMemberid(member.getMemberid()));
+        //發表文章數
+        result.put("articleNum", as.countByMemberid(member.getMemberid()));
         result.put(MemberBean.SESSIONID, save);
         logger.info("修改我的資料 {}", bean.getName());
         return result;

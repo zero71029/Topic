@@ -73,20 +73,20 @@
                     <div class="row app" v-cloak>
                         <!-- 彈窗 -->
                         <el-dialog title="分享" :visible.sync="dialogVisible" width="30%" v-cloak>
-                            <a href="https://social-plugins.line.me/lineit/share?url=<%=url%>/detail/${article.articleid}"
+                            <a rel="nofollow" href="https://social-plugins.line.me/lineit/share?url=<%=url%>/detail/${article.articleid}"
                                 target="_blank">
                                 <img src="${pageContext.request.contextPath}/images/lint-small.png" alt="line">
                             </a>
                             &nbsp;
-                            <a href="https://www.facebook.com/sharer.php?u=<%=url%>/detail/${article.articleid}&quote=${article.name}"
+                            <a rel="nofollow" href="https://www.facebook.com/sharer.php?u=<%=url%>/detail/${article.articleid}&quote=${article.name}"
                                 target="_blank">
                                 <img src="${pageContext.request.contextPath}/images/FB.png" />
                             </a>&nbsp;
-                            <a href="mailto:?subject:${article.name}＆body=<a href='<%=url%>/detail/${article.articleid}'>${article.name}</a>"
+                            <a rel="nofollow" href="mailto:?subject:${article.name}＆body=<a href='<%=url%>/detail/${article.articleid}'>${article.name}</a>"
                                 target="_blank">
                                 <img src="${pageContext.request.contextPath}/images/Mail.png" />
                             </a>&nbsp;
-                            <a href
+                            <a rel="nofollow" href
                                 onclick="event.preventDefault();navigator.clipboard.writeText(window.location.href).then(() => alert('複製網址'));"
                                 target="_blank">
                                 <div class="text-center"
@@ -168,7 +168,7 @@
 
                                                                     <c:if
                                                                         test="${article.memberid == SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
-                                                                        <a
+                                                                        <a rel="nofollow"
                                                                             href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
                                                                                 class="bi bi-pencil-square">修改</i></a>
                                                                         &nbsp;|
@@ -235,7 +235,7 @@
 
                                                                     </c:if>
 
-                                                                    <a v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid"
+                                                                    <a rel="nofollow" v-show="'${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}' == s.memberid"
                                                                         :href="'${pageContext.request.contextPath}/revise-reply/'+s.replyid"><i
                                                                             class="bi bi-pencil-square">修改</i></a>
                                                                     <span
@@ -346,6 +346,7 @@
                 metaRobots.name = 'description';
                 metaRobots.content = '${article.name}';
                 document.head.appendChild(metaRobots);
+                
             </script><!-- description代碼結束 -->
             <!-- SEO代碼 -->
             <script type="text/javascript">

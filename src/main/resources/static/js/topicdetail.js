@@ -88,7 +88,7 @@ var vm = new Vue({
             reply.thumbsupNum = reply.thumbsuplist.length;
             reply.see = false;
             reply.thumbsuplist.forEach(e => {
-                if (e.memberid == '${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}') {
+                if (e.memberid == memberid) {
                     reply.isthumbs = true;
                 }
             })
@@ -227,12 +227,12 @@ var vm = new Vue({
             if (this.text.trim() != "") {
                 var data = new FormData();
                 data.append("articleid", reply.replyid);
-                data.append("memberid", "${SPRING_SECURITY_CONTEXT.authentication.principal.memberid}");
+                data.append("memberid", memberid);
                 data.append("membername", name);
                 data.append("content", this.text);
                 data.append("article", id);
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/article/savemessage?p=' + this.currentPage,
+                    url: contextPath+'/article/savemessage?p=' + this.currentPage,
                     type: 'POST',
                     data: data,
                     async: false,
