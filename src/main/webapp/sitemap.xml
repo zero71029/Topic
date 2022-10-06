@@ -90,4 +90,17 @@
     <lastmod>2022-09-19T15:18:47+00:00</lastmod>
     <priority>0.6</priority>   
 </url>
+<url>
+  <loc>https://forum.jetec.com.tw/Forum/detail/1ed3f9fd68166ed091dadf3cdfcf37ed</loc>
+  <lastmod>2022-09-29T15:18:47+00:00</lastmod>
+  <priority>0.8</priority>
+   <news:news>
+    <news:publication>
+      <news:name>久德電子</news:name>
+      <news:language>zh-tw</news:language>
+    </news:publication>
+    <news:publication_date>2022-09-29</news:publication_date>
+    <news:title>如何選擇流量計</news:title>
+  </news:news>
+</url>
 </urlset>

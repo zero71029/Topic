@@ -17,7 +17,7 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
-            <meta name="robots" content="noindex">
+          
         </head>
 
         <body>
@@ -65,7 +65,6 @@
                                         <div class="col-lg-3 text-center" style="padding-top: 13px;">
                                             <a href="${pageContext.request.contextPath}/member/myReply.jsp">
                                                 <img src="${pageContext.request.contextPath}/images/myReply.svg" style="width: 80px;margin-bottom: 10px;">
-
                                                <br>
                                                 <span style="font-size: 20px;">回覆文章</span><br>
                                                 <span style="font-size: 20px;"><b>{{replyNum}}</b></span>
@@ -73,7 +72,6 @@
                                         </div>
                                         <div class="col-lg-3 text-center" style="padding-top: 13px;">
                                             <img src="${pageContext.request.contextPath}/images/trophy.svg" style="width: 80px;margin-bottom: 10px;">
-                                            
                                             
                                             <br>
                                             <span style="font-size: 20px;">獲得積分</span><br>
@@ -144,7 +142,6 @@
             .el-date-editor.el-input {
                 width: 100%;
             }
-
             a {
                 text-decoration: none;
             }

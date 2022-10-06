@@ -13,13 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -262,7 +265,13 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //點認證信
     @RequestMapping(path = {"/Certification"})
-    public String certification(@RequestParam("id") String id, Model model) {
+    public String certification(HttpServletRequest request,@RequestParam("id") String id, Model model) {
+        try {
+            //登出
+            request.logout();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         logger.info("點認證信 {}", id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
@@ -275,13 +284,21 @@ public class LoginController {
         ls.savePermit(ZeroTools.getUUID(), auth, 1);
         logger.info("認證成功");
         model.addAttribute("message", "認證成功,歡迎您的加入");
+
         return "/member/certification";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //認證 and 訂閱Email
     @RequestMapping(path = {"/CertificationOrder"})
-    public String CertificationOrder(@RequestParam("id") String id, Model model) {
+    public String CertificationOrder(HttpServletRequest request,@RequestParam("id") String id, Model model) {
+
+        try {
+            //登出
+            request.logout();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         logger.info("認證 and 訂閱Email {}", id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
@@ -318,15 +335,20 @@ public class LoginController {
             e.printStackTrace();
             logger.info("寄信失敗");
         }
-
         return "/member/certification";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //重寄認證信
     @RequestMapping(path = {"/reSend"})
-    public String reSend(@RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String token) {
+    public String reSend(HttpServletRequest request, @RequestParam("email") String email, Model model, @RequestParam("g-recaptcha-response") String token) {
         logger.info("重寄認證信  email:{}", email);
+        try {
+            //登出
+            request.logout();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         //使有輸入的資料能返回
         model.addAttribute("email", email);
         // 錯誤輸出
@@ -386,9 +408,9 @@ public class LoginController {
     @ResponseBody
     public ResultBean checkName(@RequestParam("name") String name) {
         logger.info("暱稱檢查 {}", name);
-        if(ls.existsMemberByName(name)){
-            return ZeroFactory.success("(暱稱已存在)",name);
+        if (ls.existsMemberByName(name)) {
+            return ZeroFactory.success("(暱稱已存在)", name);
         }
-        return ZeroFactory.success("(暱稱可以使用)",name);
+        return ZeroFactory.success("(暱稱可以使用)", name);
     }
 }

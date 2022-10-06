@@ -93,7 +93,7 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1"
                                     class='form-label ${empty  error.pass  ? "":"red" }'>登入密碼 ${error.pass}</label>
-                                <input type="text" class="form-control ${empty error.pass  ? '':' is-error' }"
+                                <input type="password" class="form-control ${empty error.pass  ? '':' is-error' }"
                                     id="password" name="password" value="${password}">
                             </div>
                             <br>
