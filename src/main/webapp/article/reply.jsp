@@ -153,7 +153,8 @@
                             articlegroup: '${article.articlegroup}',
 
                         },
-                        group: ""
+                        group: "",
+                        recap:"",
                     }
                 },
                 created() {
@@ -215,6 +216,8 @@
                     preview() {
                         $("#articleform").attr("target", "_blank");
                         $("#articleform").attr("action", "${pageContext.request.contextPath}/article/preview");
+                        const formData = new FormData(document.getElementById("articleform"));
+                        this.recap = formData.get("g-recaptcha-response");
                         $("#articleform").submit();
                     },
                     submitForm() {
@@ -235,13 +238,12 @@
                             $(".tox-tinymce").css("border", "1px solid #ced4da");
                         }
 
+                        if (this.recap == "") {
+                            const formData = new FormData(document.getElementById("articleform"));
+                            this.recap = formData.get("g-recaptcha-response");
+                        }
 
-
-
-
-                        const formData = new FormData(document.getElementById("articleform"));
-                        const recap = formData.get("g-recaptcha-response");
-                        if (recap.length > 0) {
+                        if (this.recap.length > 0) {
                             $(".g-recaptcha").css("border", "1px solid #ced4da");
                         } else {
                             isok = false;
@@ -251,7 +253,7 @@
                             $.ajax({
                                 url: '${pageContext.request.contextPath}/recaptcha',
                                 type: 'post',
-                                data: recap,
+                                data: this.recap,
                                 async: false,//同步請求
                                 cache: false,//不快取頁面
                                 success: response => {

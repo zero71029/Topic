@@ -16,6 +16,8 @@
             <!-- 引入element-ui组件库 -->
             <script src="${pageContext.request.contextPath}/js/element-ui.js"></script>
             <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
+            <meta name="description"
+                content="久德討論區是一結合傳感器與生活的論壇，討論範疇從傳感器介紹到技術問題，從開箱到應用分享，涉及了各項溫濕度、壓力、液位、氣體、氣象站、光照、流量、顯示看板、控制器...等傳感領域，各種傳感器問題都能來此找到解答，是傳感器專業分享與討論文的集散地。">
             <meta property="og:locale" content="zh_TW">
             <meta property="og:type" content="website" />
             <meta property="og:title" content="${article.name}" />
@@ -54,6 +56,7 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <h1>久德討論版</h1>
+                        <span style="font-size: 0;">久德討論區是一結合傳感器與生活的論壇，討論範疇從傳感器介紹到技術問題，從開箱到應用分享，涉及了各項溫濕度、壓力、液位、氣體、氣象站、光照、流量、顯示看板、控制器...等傳感領域，各種傳感器問題都能來此找到解答，是傳感器專業分享與討論文的集散地。</span>
                     </div>
                 </div>
                 <div class="row">
@@ -263,4 +266,5 @@
             const contextPath = '${pageContext.request.contextPath}';
         </script>
         <script src="${pageContext.request.contextPath}/js/index.js"></script>
+
         </html>

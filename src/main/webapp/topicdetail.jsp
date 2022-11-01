@@ -367,14 +367,16 @@
 
             <style>
                 .el-loading-mask {
-                    background: linear-gradient(TO TOP, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0.3) 65%, rgba(255, 255, 255, 0));
+                    background: linear-gradient(TO TOP, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0));
                 }
 
                 .el-loading-spinner {
-                    top: 35%;
+                    top: 25%;
                 }
                 /* 
                 
+                
+
                  */
             </style>
 
@@ -569,7 +571,7 @@
                                     url: contextPath + '/article/thumbsup/' + replyBean.replyid,
                                     type: 'POST',
                                     success: (boo) => {
-                                        if (boo) {
+                                        if (boo) {mask
                                             replyBean.isthumbs = true;
                                             replyBean.thumbsupNum++;
                                             this.$forceUpdate();

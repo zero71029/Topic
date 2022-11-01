@@ -112,7 +112,7 @@ const vm = new Vue({
     },
 });
 
-//SEO代碼
+//SEO代碼.
 var ga = document.createElement('script');
 ga.type = 'application/ld+json';
 ga.textContent = `{
