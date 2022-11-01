@@ -712,6 +712,7 @@
 
 
                 $(function () {
+                    sessionStorage.setItem("url", location.href);
                     let spinner = $(".el-loading-spinner");
                     spinner.empty();
                     spinner.append("<button onclick=javascript:location.href='${pageContext.request.contextPath}/member/login.jsp'   style='background-color: #094c88;color: #FFF; border: 0;margin :5%; font-size: 24px;'>登入觀看更多內容</button>");

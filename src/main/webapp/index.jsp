@@ -263,6 +263,7 @@
 
         </body>
         <script>
+            sessionStorage.setItem("url", location.href);
             const contextPath = '${pageContext.request.contextPath}';
         </script>
         <script src="${pageContext.request.contextPath}/js/index.js"></script>

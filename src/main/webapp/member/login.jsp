@@ -83,7 +83,8 @@
                 <div class="row">
                     <div class="col-lg-3 "></div>
                     <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
-                        <form action="${pageContext.request.contextPath}/login" method="post">
+                        <form action="${pageContext.request.contextPath}/login" method="post" id="loginForm">
+                            <input type="hidden" name="url" id="inURL" value="">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1"
                                     class='form-label ${empty error.user  ? "":"red" }'>電子郵件 ${error.user} </label>
@@ -99,6 +100,7 @@
                             <br>
                             <div class="row">
                                 <div class="col-lg-12 ">
+
                                     <input class="form-check-input" type="checkbox" id="remember-me" name='remember-me'>
                                     <label class="form-check-label" for="remember-me">記住我</label>
                                     <a href="${pageContext.request.contextPath}/member/forget.jsp"
@@ -134,8 +136,15 @@
         </body>
 
 
-        <style>
+        <script>
+            if (sessionStorage.getItem("url") != null) {
+                let inURL = document.getElementById("inURL");
+                inURL.value = sessionStorage.getItem("url");
+            } 
+        </script>
 
+
+        <style>
             .red {
                 color: red;
             }

@@ -43,7 +43,7 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //登入
     @RequestMapping("/home")
-    public String login(HttpServletRequest request) {
+    public String login(HttpServletRequest request,@RequestParam("url")String url) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String ip = request.getRemoteAddr();//得到来访者的IP地址
         System.out.println(ip);
@@ -52,21 +52,13 @@ public class LoginController {
         as.saveLoginIp(loginIpBean);
         logger.info("{} 登入成功", ip);
         logger.info("暱稱:{} ;Email:{}", memberBean.getName(), memberBean.getEmail());
-//        Object principal = authentication.getPrincipal();
-//        String Username;
-//        if (principal instanceof UserDetails userDetails) {
-//            Username = userDetails.getUsername();
-//        } else {
-//            Username = principal.toString();
-//        }
-//        System.out.println(Username);
-//        MemberBean mBean = ls.findByEmail(Username);
-//        session.setAttribute(MemberBean.SESSIONID, mBean);
-//        SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-
 
         //計算積分
         new Thread(() -> as.Integral(memberBean.getMemberid())).start();
+
+        if(url != null || url.isEmpty()){
+            return "redirect:"+url;
+        }
         return "redirect:/index";
     }
 

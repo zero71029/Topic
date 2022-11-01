@@ -26,6 +26,7 @@
                 }
             </style>
         </head>
+
         <body>
             <div class="container-fluid">
                 <div class="row">
@@ -52,7 +53,8 @@
                         <div class="row ">
                             <div class="col-lg-12">
                                 <el-breadcrumb separator="/">
-                                    <el-breadcrumb-item><a href="${pageContext.request.contextPath}/">首頁</a></el-breadcrumb-item>
+                                    <el-breadcrumb-item><a href="${pageContext.request.contextPath}/">首頁</a>
+                                    </el-breadcrumb-item>
                                     <el-breadcrumb-item id="navname"> </el-breadcrumb-item>
                                 </el-breadcrumb>
                             </div>
@@ -107,7 +109,10 @@
             </div>
         </body>
 
-        <script>const contextPath = "${pageContext.request.contextPath}";</script>
+        <script>
+            sessionStorage.setItem("url", location.href);
+            const contextPath = "${pageContext.request.contextPath}";
+        </script>
         <script src="${pageContext.request.contextPath}/js/topiclist.js"></script>
 
         <style>
