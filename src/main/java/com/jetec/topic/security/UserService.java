@@ -32,10 +32,17 @@ public class UserService implements UserDetailsService {
                 MemberBean mBean = op.get();
                 List<PermitBean> permitList = mBean.getPermitList();
                 StringBuffer permit = new StringBuffer();
-                permitList.forEach(e-> {
+
+                for (PermitBean e : permitList) {
                     permit.append(e.getLevel());
                     permit.append(",");
-                });
+
+
+                    //黑名單禁止進入
+                    if(e.getLevel() == 255){
+                        return new User("null","null",AuthorityUtils.commaSeparatedStringToAuthorityList(""));
+                    }
+                }
                 permit.append("aa");
                 mBean.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(permit.toString()));
                 return mBean;

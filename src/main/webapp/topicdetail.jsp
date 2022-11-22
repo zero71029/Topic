@@ -102,7 +102,7 @@
                             </span>
                         </el-dialog>
                         <!--  -->
-                        <div class="col-lg-12 " v-cloak v-loading="loading">
+                        <div class="col-lg-12 " v-cloak>
                             <div class="row">
                                 <div class="col-lg-2 scenery">
                                 </div>
@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="row ">
                                         <!-- 中間主體 -->
-                                        <div class="col-lg-10">
+                                        <div class="col-lg-10" v-loading="loading">
                                             <div class="row ">
 
                                                 <c:if
@@ -291,7 +291,7 @@
                                                             v-show="s.see">
                                                             <div class="col-lg-10" style="padding: 0px;">
                                                                 <el-input type="text" placeholder="請輸入内容"
-                                                                    maxlength="100" v-model="text" show-word-limit>
+                                                                     v-model="text" show-word-limit>
                                                                 </el-input>
                                                             </div>
                                                             <div class="col-lg-2" style="padding: 0px;">
@@ -305,8 +305,8 @@
                                                             <div class="col-lg-2 ">
                                                                 {{r.membername}}
                                                             </div>
-                                                            <div class="col-lg-7 text-break">
-                                                                {{r.content}}
+                                                            <div class="col-lg-7 text-break" v-html="r.content">
+                                                            
                                                             </div>
                                                             <div class="col-lg-3 text-end">{{r.createtime}}</div>
                                                         </div>
@@ -367,25 +367,38 @@
 
             <style>
                 .el-loading-mask {
-                    background: linear-gradient(TO TOP, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0));
+                    /* top: 10%;
+                    height: 90%;
+                    background-color: #fff; */
+                    background: linear-gradient(TO TOP, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 0.3) 90%, rgba(255, 255, 255, 0));
                 }
 
                 .el-loading-spinner {
-                    top: 25%;
+                    top: 10%;
                 }
+
                 /* 
-                
+
+
+
+
+
+
+
                 
 
                  */
             </style>
-
-
-
-
-
             <script>
 
+                $(function () {
+                    if (location.href.indexOf("1ed5b2657f096a9cb7e40f9c87e68177") > 0) {
+                        document.getElementsByClassName("el-loading-mask")[0].style.background = "linear-gradient(TO TOP, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 0.3) 90%, rgba(255, 255, 255, 0))";
+                        document.getElementsByClassName("el-loading-spinner")[0].style.top = "12%";
+                    }
+
+
+                })
 
 
                 function changGrop(e) {
@@ -439,7 +452,7 @@
                         }
                     },
                     created() {
-                        //封鎖例外
+                        //封鎖例外, , 
                         if (location.href == 'https://forum.jetec.com.tw/Forum/detail/1ed1dd98a38f60deabc0b3dcb2aa2070' ||
                             location.href == 'https://forum.jetec.com.tw/Forum/detail/1ed1dd9499ed6addabc0dfbec63a6d48') {
                             this.loading = false;
@@ -531,9 +544,10 @@
                         });
                     },
                     mounted() {
+
                     },
                     methods: {
-                        //下拉工具
+                        //下拉工具..
                         handleCommand(command) {
                             this.$message('click on item ' + command);
                             if (command == "a") {
@@ -571,7 +585,7 @@
                                     url: contextPath + '/article/thumbsup/' + replyBean.replyid,
                                     type: 'POST',
                                     success: (boo) => {
-                                        if (boo) {mask
+                                        if (boo) {
                                             replyBean.isthumbs = true;
                                             replyBean.thumbsupNum++;
                                             this.$forceUpdate();
@@ -715,13 +729,12 @@
                     sessionStorage.setItem("url", location.href);
                     let spinner = $(".el-loading-spinner");
                     spinner.empty();
-                    spinner.append("<button onclick=javascript:location.href='${pageContext.request.contextPath}/member/login.jsp'   style='background-color: #094c88;color: #FFF; border: 0;margin :5%; font-size: 24px;'>登入觀看更多內容</button>");
-
-                    // spinner.innerHTML = '<button>登入</button>';
+                    spinner.append(` <button
+                       onclick=javascript:location.href='${pageContext.request.contextPath}/member/login.jsp'
+                       style='background-color: #094c88;color: #FFF; border: 0;margin :5%; font-size: 24px;width:400px;padding: 10px 0;'>
+                       <strong>登入觀看更多內容</strong> <br>
+                       <span style="font-size: 14px;">查看全部`+vm.replylist.length+`則留言,一起加入討論吧!</span>`);
                 })
-
-
-
 
             </script>
 

@@ -132,7 +132,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             感測器</div>
-                                        <table class="table" style="height: 450px;">
+                                        <table class="table" >
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in sensor" :key="index">
                                                     <td>
@@ -154,7 +154,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             儀器儀表</div>
-                                        <table class="table" style="height: 450px;">
+                                        <table class="table" >
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in apparatus" :key="index">
                                                     <td>
@@ -174,7 +174,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             網通裝置</div>
-                                        <table class="table" style="height: 450px;">
+                                        <table class="table" >
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in Netcom" :key="index">
                                                     <td>
@@ -194,7 +194,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             軟體配件</div>
-                                        <table class="table" style="height: 450px;">
+                                        <table class="table" >
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in software" :key="index">
                                                     <td>
@@ -214,7 +214,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             控制箱</div>
-                                        <table class="table" style="height: 450px;">
+                                        <table class="table" >
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in controlbox" :key="index">
                                                     <td>
@@ -234,7 +234,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             應用</div>
-                                        <table class="table" style="height: 450px;">
+                                        <table class="table" >
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in application" :key="index">
                                                     <td>

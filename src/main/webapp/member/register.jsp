@@ -2,7 +2,6 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html lang="zh-TW">
-
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,11 +20,9 @@
                     overflow-y: scroll;
                     overflow-x: hidden;
                 }
-
                 .l-articleReply {
                     border: 1px solid #DADADA;
                 }
-
                 html,
                 body {
                     height: 100%;
@@ -33,11 +30,9 @@
                     margin: 0;
                     font-size: 16px;
                     line-height: 1.5;
-
                     font-family: Arial, "Microsoft JhengHei", Helvetica, sans-serif;
                 }
             </style>
-
         </head>
 
         <body>
@@ -59,7 +54,6 @@
 
                 <!-- 中間主體 -->
                 <div class="row">
-
                     <div class="col-lg-3 "></div>
                     <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
                         <br><br>
@@ -75,8 +69,6 @@
                                         <span style="color: rgb(0, 81, 255);cursor: pointer;"                                            
                                             onclick="checkName()">暱稱檢查</span> 
                                             <span id="checkmessage" style="color: blue;"></span>
-
-
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">公司-組織</label>
@@ -106,15 +98,13 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">密碼驗證</label>
-                                        <input type="password" class="form-control" name="repassword" id="repassword">
+                                        <input type="password" class="form-control" name="repassword" id="repassword" oninput="verify()">
                                     </div>
-
                                     <br><br>
                                     <div class="l-formRow ">
                                         <label class="l-formRow__title l-formRow__title--lg">註冊確認</label>
                                         <div class="l-formRow__content ">
                                             <div class="o-formDesc"><span>請仔細閱讀完版規、服務條款，並勾選【我已經閱讀】</span></div>
-
                                             <div class="l-articleReply rule_wrap" id="forum_rule_wrap">
                                                 久德電子討論區規則，並同時適用於會員名稱、會員個人頭像、會員個人簽名檔及私人訊息<br>
                                                 本站對會員發布的文字、圖片或檔案保有片面修改或移除的權利。當會員使用本網站服務時，代表會員已經詳細閱讀並完全了解，並同意配合下述規定：<br>
@@ -214,24 +204,20 @@
                                                 </div>
                                                 <div class="o-formError"><span></span></div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <br>
-
                                     <div class="row">
                                         <div class="col-lg-12 position-relative">
                                             <div class="g-recaptcha "
                                                 style='width: 304px;display: inline-block; ${empty errors.recaptcha?"":"border: 1px red solid;"}'
                                                 data-sitekey="6Ldhf4kgAAAAAN2ExQc-EBZROSpa2xoA69Z2TPrJ"></div>
-
                                             <button type="button"
                                                 class="btn btn-primary position-absolute bottom-0 end-0"
                                                 onclick="formSubmit()">開始註冊</button>
                                             <p style="color: red;">${errors.recaptcha}</p>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                             <div class="col-lg-1 ">
@@ -240,10 +226,17 @@
                     </div>
                     <div class="col-lg-3 "></div>
                 </div>
-
             </div>
-
             <script>
+                //驗證密碼
+                function verify(){
+                    var repassword = document.getElementById("repassword");
+                    if(document.getElementById("password").value != repassword.value ){
+                        repassword.style.border ="red 1px solid";
+                    }else{
+                        repassword.style.border ="#ced4da 1px solid";
+                    }
+                }
                 //提交檢查
                 function formSubmit() {
                     var isok = true;
@@ -253,7 +246,6 @@
                     } else {
                         $("#name").css("border", "1px solid #ced4da");
                     }
-
                     if ($("#email").val() == null || $("#email").val() == "") {
                         $("#email").css("border", "red 1px solid");
                         isok = false
@@ -276,11 +268,8 @@
                         $("#repassword").css("border", "red 1px solid");
                         isok = false
                     } else {
-
                         $("#repassword").css("border", "1px solid #ced4da");
                     }
-
-
                     //勾選框
                     if ($("#forum_rule").is(":checked")) {
                         $(".c-checkbox1 ").css("border", "red 0px solid");
@@ -288,23 +277,18 @@
                         isok = false;
                         $(".c-checkbox1 ").css("border", "red 1px solid");
                     }
-
                     if ($("#tos").is(":checked")) {
                         $(".c-checkbox2 ").css("border", "red 0px solid");
                     } else {
                         isok = false;
                         $(".c-checkbox2 ").css("border", "red 1px solid");
                     }
-
-
-
                     if (isok) {
                         $("#registerForm").submit();
                     } else {
                         alert("紅框需輸入");
                     }
                 }
-
                 $(document).ready(function () {
                     //捲到底 才能勾選
                     $('#tos_wrap').scroll(function () {
@@ -329,53 +313,30 @@
                         alert("暱稱未輸入");
                         return null;
                     }
-
-
                     let formData = new FormData();
                     formData.append('name',$("#name").val())
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/login/checkName',//接受請求的Servlet地址
+                        url: '${pageContext.request.contextPath}/login/checkName',
                         type: 'POST',
                         data: formData,
-                        async: false,//同步請求
-                        cache: false,//不快取頁面
-                        contentType: false,//當form以multipart/form-data方式上傳檔案時，需要設定為false
-                        processData: false,//如果要傳送Dom樹資訊或其他不需要轉換的資訊，請設定為false
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
                         success: function (url) {                            
                             if("(暱稱可以使用)" == url.message){
-                                $("#checkmessage").css("color","blue")
+                                $("#checkmessage").css("color","blue");
                             }
                             if("(暱稱已存在)" == url.message){
-                                $("#checkmessage").css("color","red")
+                                $("#checkmessage").css("color","red");
                             }
-                            $("#checkmessage").text(url.message)
-                           
+                            $("#checkmessage").text(url.message);                           
                         },
                         error: function (returndata) {
                             console.log(returndata);
                         }
                     });
-
-
-
-
-
-
-           
-
-
                 }
-
-
-
-
-
-
-
-
-
             </script>
-
         </body>
-
         </html>

@@ -87,7 +87,8 @@
                             <input type="hidden" name="url" id="inURL" value="">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1"
-                                    class='form-label ${empty error.user  ? "":"red" }'>電子郵件 ${error.user} </label>
+                                    class='form-label ${empty error.user  ? "":"red" }'>電子郵件 ${error.user} <span
+                                        style="color: red;">${error.blockade}</span></label>
                                 <input type="email" class="form-control ${empty error.user  ? '':' is-error' }"
                                     id="username" name="username" value="${username}">
                             </div><br>
@@ -100,7 +101,6 @@
                             <br>
                             <div class="row">
                                 <div class="col-lg-12 ">
-
                                     <input class="form-check-input" type="checkbox" id="remember-me" name='remember-me'>
                                     <label class="form-check-label" for="remember-me">記住我</label>
                                     <a href="${pageContext.request.contextPath}/member/forget.jsp"
@@ -134,16 +134,12 @@
                 </div>
             </div>
         </body>
-
-
         <script>
             if (sessionStorage.getItem("url") != null) {
                 let inURL = document.getElementById("inURL");
                 inURL.value = sessionStorage.getItem("url");
-            } 
+            }
         </script>
-
-
         <style>
             .red {
                 color: red;
@@ -154,8 +150,5 @@
                 background-color: #ffdbdb;
             }
         </style>
-
-
-
 
         </html>

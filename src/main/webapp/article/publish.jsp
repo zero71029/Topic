@@ -228,19 +228,17 @@
                             console.log(returndata);
                         }
                     });
-                    //option
+                    //option 分類
                     $.ajax({
                         url: '${pageContext.request.contextPath}/topic/getOption/' + this.bean.articlegroup,
                         type: 'get',
-                        async: false,//同步請求
-                        cache: false,//不快取頁面
-                        success: response => {
-                            console.log(response)
+                        async: false,
+                        cache: false,
+                        success: response => {                      
                             if (response.code == 400) {
                                 location.href = "${pageContext.request.contextPath}/article/publish.jsp?nav=sensor";
                             }
-                            if (response.code == 200) {
-                                console.log("option", response.data)
+                            if (response.code == 200) {                           
                                 this.option = response.data;
                             }
                             this.inOptin = this.option[0].libraryoption;
@@ -249,6 +247,9 @@
                             console.log(returndata);
                         }
                     });
+                },
+                mounted() {
+                    
                 },
                 methods: {
                     //上傳成功

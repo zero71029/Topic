@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
+ * 機器人驗證
  * @author jetec
  */
 @Component
@@ -46,6 +47,7 @@ public class LoginFilter extends OncePerRequestFilter {
                 return;
             }
         }
+        //1小時刷新400次 封鎖
         if (request.getRequestURI().indexOf("js") < 0 && request.getRequestURI().indexOf("css") < 0 && request.getRequestURI().indexOf("file") < 0 && request.getRequestURI().indexOf("icons") < 0 && request.getRequestURI().indexOf("advertiseinit") < 0 && request.getRequestURI().indexOf("images") < 0) {
             logger.info(request.getRemoteAddr() + " : " + request.getRequestURI());
             try {
