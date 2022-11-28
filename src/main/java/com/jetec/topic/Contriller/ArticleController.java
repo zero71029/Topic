@@ -103,6 +103,18 @@ public class ArticleController {
         new Thread(() -> {
             ArticleBean abean = as.findById(save.getArticleid());
             as.Integral(abean.getMemberid());
+            //寄送通知
+            String content = """
+                    文章回復 <br>
+                    文章:   <a  href="https://forum.jetec.com.tw/Forum/detail/%s" target="_blank">
+                            文章鏈接 </a><br>     
+                    回復:   %S<br>
+                    """.formatted(arBean.getArticleid(), arBean.getContent());
+            try {
+                mail.sendlineMail("jeter.tony56@gmail.com", "討論區文章回復", content);
+            } catch (Exception e) {
+                logger.info("文章回復 articleid:{}  name:{}  寄信失敗", arBean.getArticleid(), ZeroTools.getMemberBean().getName());
+            }
         }).start();
         return "redirect:/detail/" + arBean.getArticleid();
     }
@@ -114,9 +126,31 @@ public class ArticleController {
     public Map<String, Object> savemessage(ArticleReplyBean arBean, @RequestParam("article") String article, @RequestParam("p") Integer p) {
         p--;
         logger.info("儲存留言 articleid:{}  name:{}", article, ZeroTools.getMemberBean().getName());
+        System.out.println(arBean.getContent());
         arBean.setReplyid(ZeroTools.getUUID());
         arBean.setCreatetime(ZeroTools.getTime(new Date()));
         as.saveArticleReply(arBean);
+        ArticleReplyBean aBean = as.findReplyById(arBean.getArticleid());
+        if (aBean != null) {
+            aBean.setState("未讀");
+            as.saveArticleReply(aBean);
+            //寄送留言
+            new Thread(() -> {
+                String content = """
+                        文章留言 <br>
+                        文章:   <a  href="https://forum.jetec.com.tw/Forum/detail/%s" target="_blank">
+                                文章鏈接 </a><br>     
+                        留言:   %S<br>
+                        """.formatted(aBean.getArticleid(), aBean.getContent());
+                try {
+//                    mail.sendlineMail("jeter.tony56@gmail.com", "討論區文章留言", content);
+                } catch (Exception e) {
+                    logger.info("文章留言 articleid:{}  name:{}  寄信失敗", aBean.getArticleid(), ZeroTools.getMemberBean().getName());
+                }
+
+            }).start();
+        }
+
         return as.getReplyList(article, p);
     }
 }

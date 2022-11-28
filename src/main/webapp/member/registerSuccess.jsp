@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"  %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <!DOCTYPE html>
     <html lang="zh-TW">
 
@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>註冊成功</title>
+        <title>認證</title>
         <!-- 禁止SEO -->
         <meta name="robots" content="noindex">
     </head>
@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h1>註冊成功</h1> 
+                    <h1>認證</h1>
                 </div>
             </div>
             <!-- 抬頭分類 -->
@@ -29,49 +29,46 @@
             </div>
             <!-- 中間主體 -->
             <div class="row">
+                <img style="padding: 0px;" src="${pageContext.request.contextPath}/images/register-02.svg"
+                    alt="步驟2請前往查收認證信">
                 <div class="col-lg-12 text-center">
                     <h1></h1>
                 </div>
             </div>
-            <div class="row ">
-                <div class="col-lg-2 "></div>
-                <div class="col-lg-4 ">
+            <div class="row" >
+                <div class="col-lg-1 "></div>
+                <div class="col-lg-4" style="margin-right: 75px;">
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
-                    <div class="row ">
+                    <div class="row" style="background-color: #fff;">
                         <div class="col-lg-2 "></div>
                         <div class="col-lg-10 ">
-                            <img src="${pageContext.request.contextPath}/images/page-08.png"
+                            <img src="${pageContext.request.contextPath}/images/register-04.svg"
                                 style="max-width: 100%; text-align: center;">
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                
+                <div class="col-lg-6" style="background-color: #fff;">
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
-                    <img src="${pageContext.request.contextPath}/images/page-09.png" style="max-width: 90%;"><br><br>
-                    <div class="row" style="font-size:35px;line-height: 50px;font-weight:bold">註冊成功 我們已經寄了認證信給你
-                       <br> 請查收你的郵箱</div>
+                    <div class="row" style="height: 70%;display: flex;align-items: center;">
+                        <span style="font-size:90px;line-height: 90px;font-weight:bold">請前往查收認證信</span>
+                        <hr style="border: 2px solid #000; opacity: 1;">
+                        <span style="font-size:50px;line-height: 50px;"> 離成功就差一小步了</span>
+                        <br>
+                        <span style="font-size:50px;line-height: 50px;">趕快前往信箱確認認證信吧!</span>
+                    </div>
+                </div>
 
-                    <div style="font-size: 18px;color: #333;line-height:40px">
-                        <ul>
-                            <li><a href="${pageContext.request.contextPath}/index" tabindex="-1">首頁</a></li>
-                            <li><a href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor" tabindex="-1">感測器</a></li>
-                            <li><a href="${pageContext.request.contextPath}/topiclist.jsp?nav=apparatus" tabindex="-1">儀器儀表</a></li>
-                            <li><a href="${pageContext.request.contextPath}/topiclist.jsp?nav=Netcom" tabindex="-1">網通裝置</a></li>
-                        </ul>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h1></h1>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1></h1>
-                </div>
-            </div>
-        </div>
     </body>
 
     </html>

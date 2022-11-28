@@ -20,6 +20,11 @@
                 <script src="${pageContext.request.contextPath}/js/zh-TW.js"></script>
                 <!-- 廣告 -->
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/advertise.css">
+                <!-- tinymce -->
+                <script src="${pageContext.request.contextPath}/tinymce/js/tinymce.min.js"></script>
+                <script>
+                    ELEMENT.locale(ELEMENT.lang.zhTW)
+                </script>
                 <meta property="og:locale" content="zh_TW">
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="${article.name}" />
@@ -230,7 +235,7 @@
                                                         <span v-show="s.showIntegral">積分:{{s.member.integral}}</span>
                                                     </div>
                                                     <div class="col-lg-9 ">
-                                                        <div class="row" :id="s.replyid">
+                                                        <div class="row">
                                                             <div class="col-lg-12 text-break" v-html="s.content"
                                                                 style="min-height: 100px;"></div>
 
@@ -287,16 +292,21 @@
                                                                 </span>
                                                             </p>
                                                         </div>
-                                                        <div class="row align-items-center" style="height: 50px;"
-                                                            v-show="s.see">
-                                                            <div class="col-lg-10" style="padding: 0px;">
-                                                                <el-input type="text" placeholder="請輸入内容"
-                                                                     v-model="text" show-word-limit>
-                                                                </el-input>
-                                                            </div>
-                                                            <div class="col-lg-2" style="padding: 0px;">
+                                                        <div class="row align-items-center" v-show="s.see">
+                                                            <div class="col-lg-12" style="padding: 0px;">
+
+                                                              
+                                                                    <textarea placeholder="請輸入内容"
+                                                                        name="content"></textarea>
+                                                          
+
+
+
+
+
                                                                 <button type="button" style="width: 100%;"
-                                                                    @click="savemessage(s)" class="btn btn-secondary">留言
+                                                                    @click="savemessage(s,index)"
+                                                                    class="btn ">留言
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -306,7 +316,7 @@
                                                                 {{r.membername}}
                                                             </div>
                                                             <div class="col-lg-7 text-break" v-html="r.content">
-                                                            
+
                                                             </div>
                                                             <div class="col-lg-3 text-end">{{r.createtime}}</div>
                                                         </div>
@@ -364,6 +374,18 @@
             </script>
             <script src="${pageContext.request.contextPath}/js/topicdetail.js"></script>
 
+
+            <script>
+                tinymce.init({
+                    selector: 'textarea', 
+                    // plugins: ["autosave preview code link media hr charmap emoticons"],
+                    // toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink selectiveDateButton media |   preview code',
+
+                    language: 'zh_TW',
+                 
+                    height: '300',
+                });
+            </script>
 
             <style>
                 .el-loading-mask {
@@ -640,42 +662,44 @@
                             }
                             this.$forceUpdate();
                         },
-                        savemessage(reply) {
-                            if (this.text.trim() != "") {
-                                var data = new FormData();
-                                data.append("articleid", reply.replyid);
-                                data.append("memberid", memberid);
-                                data.append("membername", name);
-                                data.append("content", this.text);
-                                data.append("article", id);
-                                $.ajax({
-                                    url: contextPath + '/article/savemessage?p=' + this.currentPage,
-                                    type: 'POST',
-                                    data: data,
-                                    async: false,
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    success: (response) => {
-                                        console.log(response);
-                                        this.replylist = response.list;
-                                    },
-                                    error: function (returndata) {
-                                        console.log(returndata);
+                        savemessage(reply, index) {
+
+                            var data = new FormData();
+                            data.append("articleid", reply.replyid);
+                            data.append("memberid", memberid);
+                            data.append("membername", name);
+                            data.append("content", tinyMCE.editors[index].getContent());
+                            data.append("article", id);
+                            console.log(con);
+                            $.ajax({
+                                url: contextPath + '/article/savemessage?p=' + this.currentPage,
+                                type: 'POST',
+                                data: data,
+                                async: false,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: (response) => {
+                                    console.log(response);
+                                    tinyMCE.editors[index].setContent("");
+                                    this.replylist = response.list;
+                                },
+                                error: function (returndata) {
+                                    console.log(returndata);
+                                }
+                            });
+                            //判斷 瀏覽者是否點讚
+                            this.replylist.forEach(reply => {
+                                reply.thumbsupNum = reply.thumbsuplist.length;
+                                reply.see = false;
+                                reply.thumbsuplist.forEach(e => {
+                                    if (e.memberid == memberid) {
+                                        reply.isthumbs = true;
                                     }
-                                });
-                                //判斷 瀏覽者是否點讚
-                                this.replylist.forEach(reply => {
-                                    reply.thumbsupNum = reply.thumbsuplist.length;
-                                    reply.see = false;
-                                    reply.thumbsuplist.forEach(e => {
-                                        if (e.memberid == memberid) {
-                                            reply.isthumbs = true;
-                                        }
-                                    })
-                                });
-                                this.$forceUpdate();
-                            }
+                                })
+                            });
+                            this.$forceUpdate();
+
                         },
                         clickReply() {
                             if (name == '') {
@@ -733,7 +757,7 @@
                        onclick=javascript:location.href='${pageContext.request.contextPath}/member/login.jsp'
                        style='background-color: #094c88;color: #FFF; border: 0;margin :5%; font-size: 24px;width:400px;padding: 10px 0;'>
                        <strong>登入觀看更多內容</strong> <br>
-                       <span style="font-size: 14px;">查看全部`+vm.replylist.length+`則留言,一起加入討論吧!</span>`);
+                       <span style="font-size: 14px;">查看全部`+ vm.replylist.length + `則留言,一起加入討論吧!</span>`);
                 })
 
             </script>

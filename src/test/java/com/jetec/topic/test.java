@@ -46,18 +46,18 @@ public class test {
         int[] nums = {1, 5, 9, 9, 5, 3, 33, 33, 33, 65, 65};
         String[] sss = {"E", "A", "D", "H"};
 
-        Map<Integer,String> ddd = new HashMap<>();
+        Map<Integer, String> ddd = new HashMap<>();
         ddd.put(1, "E");
         ddd.put(2, "A");
         ddd.put(3, "D");
         ddd.put(4, "H");
 
 
-        List<Map.Entry<Integer,String>> aaa = new ArrayList<>(ddd.entrySet());
+        List<Map.Entry<Integer, String>> aaa = new ArrayList<>(ddd.entrySet());
         aaa.sort(Map.Entry.comparingByValue());
         System.out.println(aaa);
 
-        List<Map.Entry<Integer,String>> list = new ArrayList<>(ddd.entrySet());
+        List<Map.Entry<Integer, String>> list = new ArrayList<>(ddd.entrySet());
         list.sort(Map.Entry.comparingByValue());
 
 
@@ -119,9 +119,26 @@ public class test {
     }
 
     @Test
-    void ttt(){
-        int[] nums = {5,3,6,9,8,7,4,1,2};
-        containsDuplicate( nums);
+    void ttt() {
+
+        String s = "This is a book";
+        char[] sss = s.toCharArray();
+        int left = 0;
+        int right = sss.length-1;
+        while (left < right){
+            char t = sss[right];
+            sss[right] = sss[left];
+            sss[left] = t;
+            left++;
+            right--;
+        }
+        String  re = new String(sss);
+        System.out.println(re);
+
+
+
+        int[] nums = {5, 3, 6, 9, 8, 7, 4, 1, 2};
+        containsDuplicate(nums);
     }
 
 
@@ -131,8 +148,8 @@ public class test {
 
         Long timeap = Long.valueOf("1235698745811");
         SimpleDateFormat sff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(sff.format(new Date(timeap )));
-        LocalDateTime ldt = LocalDateTime.ofEpochSecond(timeap/1000,0,ZoneOffset.ofHours(8));
+        System.out.println(sff.format(new Date(timeap)));
+        LocalDateTime ldt = LocalDateTime.ofEpochSecond(timeap / 1000, 0, ZoneOffset.ofHours(8));
         System.out.println(ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 
@@ -144,8 +161,6 @@ public class test {
         }
         return false;
     }
-
-
 
 
 }

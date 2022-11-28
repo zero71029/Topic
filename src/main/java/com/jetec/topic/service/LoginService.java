@@ -84,7 +84,7 @@ public class LoginService {
             authorizeRepository.delete(auth);
             return auth.getMemberid();
         }
-        return "錯誤";
+        return "錯誤,已被使用過";
     }
 
     public Optional<MemberBean> getMemberById(String id) {

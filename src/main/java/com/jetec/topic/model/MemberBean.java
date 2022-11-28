@@ -26,6 +26,7 @@ public class MemberBean implements UserDetails {
     private Integer integral;
     private String address;
     private String birthday;
+    private String reality;
     private String createtime;
     @Column(name = "create_time",updatable = false)
     private Date create;
@@ -36,6 +37,13 @@ public class MemberBean implements UserDetails {
     private List<PermitBean> permitList;
 
 
+    public String getReality() {
+        return reality;
+    }
+
+    public void setReality(String reality) {
+        this.reality = reality;
+    }
 
     public Date getCreate() {
         return create;

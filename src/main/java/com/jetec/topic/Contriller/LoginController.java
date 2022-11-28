@@ -43,7 +43,7 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //登入
     @RequestMapping("/home")
-    public String login(HttpServletRequest request,@RequestParam("url")String url) {
+    public String login(HttpServletRequest request, @RequestParam("url") String url) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String ip = request.getRemoteAddr();//得到来访者的IP地址
         System.out.println(ip);
@@ -56,8 +56,8 @@ public class LoginController {
         //計算積分
         new Thread(() -> as.Integral(memberBean.getMemberid())).start();
 
-        if(url != null || url.isEmpty()){
-            return "redirect:"+url;
+        if (url != null || url.isEmpty()) {
+            return "redirect:" + url;
         }
         return "redirect:/index";
     }
@@ -78,12 +78,22 @@ public class LoginController {
     public String SaveAdmin(MemberBean bean, Model model, @RequestParam("g-recaptcha-response") String token) {
         logger.info("新註冊 email:{} name:{}", bean.getEmail(), bean.getName());
         //使有輸入的資料能返回
+        System.out.println("==========");
+        System.out.println(bean.getPassword());
+        System.out.println(bean.getPassword().matches("^[a-z0-9A-Z]{8,50}?$"));
+        System.out.println("==========");
         model.addAttribute("email", bean.getEmail());
         model.addAttribute("name", bean.getName());
         model.addAttribute("password", bean.getPassword());
         model.addAttribute("phone", bean.getPhone());
         model.addAttribute("company", bean.getCompany());
+        model.addAttribute("reality", bean.getReality());
         model.addAttribute("check", true);
+
+        if(token == null || token.isEmpty()){
+            System.out.println("token is null");
+            token = "aaaa";
+        }
 
         // 錯誤輸出
         Map<String, String> errors = new HashMap<>();
@@ -92,10 +102,20 @@ public class LoginController {
         // 機器人判斷
         if (!(ZeroTools.recaptcha(token) || (Objects.equals("AAA", token)))) {
             errors.put("recaptcha", "需要驗證");
+            logger.info("機器人驗證失敗");
         }
-
-        if (ls.existsMemberByName(bean.getName())) errors.put("username", "暱稱被使用過");
-        if (ls.existsMemberByEnail(bean.getEmail())) errors.put("email", "Email被使用過");
+        if (!bean.getPassword().matches("^[a-z0-9A-Z]{8,50}?$")) {
+            errors.put("password", "密碼錯誤");
+            logger.info("密碼錯誤");
+        }
+        if (ls.existsMemberByName(bean.getName())) {
+            errors.put("username", "暱稱被使用過");
+            logger.info("暱稱被使用過");
+        }
+        if (ls.existsMemberByEnail(bean.getEmail())) {
+            errors.put("email", "Email被使用過");
+            logger.info("Email被使用過");
+        }
         //沒有錯誤, 儲存資料 ,存權限 ,寄認證信
         if (errors.isEmpty()) {
             String uuid = ZeroTools.getUUID();
@@ -257,7 +277,7 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //點認證信
     @RequestMapping(path = {"/Certification"})
-    public String certification(HttpServletRequest request,@RequestParam("id") String id, Model model) {
+    public String certification(HttpServletRequest request, @RequestParam("id") String id, Model model) {
         try {
             //登出
             request.logout();
@@ -267,7 +287,7 @@ public class LoginController {
         logger.info("點認證信 {}", id);
         //檢查認證碼
         String auth = ls.checkAithorize(id);
-        if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤")) {
+        if (Objects.equals(auth, "時效過期") || Objects.equals(auth, "錯誤,已被使用過")) {
             logger.info("認證碼  {}  請重新申請 ", auth);
             model.addAttribute("error", "認證碼" + auth + ",請重新申請");
             return "/member/certification";
@@ -275,7 +295,7 @@ public class LoginController {
         //取出member  新增權限
         ls.savePermit(ZeroTools.getUUID(), auth, 1);
         logger.info("認證成功");
-        model.addAttribute("message", "認證成功,歡迎您的加入");
+        model.addAttribute("message", "認證成功,歡迎您的加入 <br> 請重新登入");
 
         return "/member/certification";
     }
@@ -283,7 +303,7 @@ public class LoginController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //認證 and 訂閱Email
     @RequestMapping(path = {"/CertificationOrder"})
-    public String CertificationOrder(HttpServletRequest request,@RequestParam("id") String id, Model model) {
+    public String CertificationOrder(HttpServletRequest request, @RequestParam("id") String id, Model model) {
 
         try {
             //登出

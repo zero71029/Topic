@@ -2,6 +2,7 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html lang="zh-TW">
+
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,9 +21,11 @@
                     overflow-y: scroll;
                     overflow-x: hidden;
                 }
+
                 .l-articleReply {
                     border: 1px solid #DADADA;
                 }
+
                 html,
                 body {
                     height: 100%;
@@ -54,51 +57,65 @@
 
                 <!-- 中間主體 -->
                 <div class="row">
+                    <img style="padding: 0px;" src="${pageContext.request.contextPath}/images/register-01.svg" alt="步驟1填寫會員資料">
                     <div class="col-lg-3 "></div>
                     <div class="col-lg-6 " style="background-color: white; --bs-bg-opacity: 1;">
                         <br><br>
                         <div class="row">
                             <div class="col-lg-11">
+                              
                                 <form action="${pageContext.request.contextPath}/register" method="post"
                                     id="registerForm">
                                     <div class="mb-3">
                                         <label class="form-label"> 暱稱 <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.username}</span>
                                         </label>
-                                        <input type="text" class="form-control" name="name" id="name" value="${name}">
-                                        <span style="color: rgb(0, 81, 255);cursor: pointer;"                                            
-                                            onclick="checkName()">暱稱檢查</span> 
-                                            <span id="checkmessage" style="color: blue;"></span>
+                                        <input type="text" class="form-control" name="name" id="name" value="${name}"
+                                            maxlength="95">
+                                        <span style="color: rgb(0, 81, 255);cursor: pointer;"
+                                            onclick="checkName()">暱稱檢查</span>
+                                        <span id="checkmessage" style="color: blue;"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">姓名<span style="color: red;">*</span></label>
+                                        <input type="text" class="form-control" name="reality" id="reality"
+                                            value="${reality}" maxlength="100">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">公司-組織</label>
+                                        <label class="form-label">公司-組織
+                                            <br> <span style="color: #AAA;">(填寫正確的組織單位名稱,能讓我們提供更貼近於您的產品應用與建議唷~)</span>
+                                          </label>
                                         <input type="text" class="form-control" name="company" id="company"
-                                            value="${company}">
+                                            value="${company}" maxlength="190">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Email <span style="color: red;">*</span><span
                                                 style="color: red;">${errors.email}</span>
                                         </label>
                                         <input type="email" class="form-control" name="email" id="email"
-                                            value="${email}">
+                                            value="${email}" maxlength="200">
                                     </div><br>
                                     <div class="mb-3">
-                                        <label class="form-label">連絡電話 </label>
-                                        <input type="text" class="form-control" name="phone" id="phone"
-                                            value="${phone}">
+                                        <label class="form-label">連絡電話 <br> <span style="color: #AAA;">(不定期舉辦抽獎活動將會以電話放式聯繫中獎用戶!)</span>
+                                        </label>
+                                        <input type="text" class="form-control" name="phone" id="phone" value="${phone}"
+                                            maxlength="50">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">登入密碼
-                                            <span style="color: red;">*</span>
-                                            <span style="color: #AAA;">(必須10位以上)</span>
+                                            <span style="color: red;">*</span><span
+                                            style="color: red;">${errors.password}</span>
+                                            <span style="color: #AAA;">(必須8位以上,不含特殊符號)</span>
 
                                         </label>
                                         <input type="password" class="form-control" name="password" id="password"
-                                            value="${password}">
+                                            value="${password}" maxlength="50">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">密碼驗證</label>
-                                        <input type="password" class="form-control" name="repassword" id="repassword" oninput="verify()">
+                                        <input type="password" class="form-control" name="repassword" id="repassword"
+                                            oninput="verify()">
                                     </div>
                                     <br><br>
                                     <div class="l-formRow ">
@@ -229,24 +246,46 @@
             </div>
             <script>
                 //驗證密碼
-                function verify(){
+                function verify() {
                     var repassword = document.getElementById("repassword");
-                    if(document.getElementById("password").value != repassword.value ){
-                        repassword.style.border ="red 1px solid";
-                    }else{
-                        repassword.style.border ="#ced4da 1px solid";
+                    if (document.getElementById("password").value != repassword.value) {
+                        repassword.style.border = "red 1px solid";
+                    } else {
+                        repassword.style.border = "#ced4da 1px solid";
                     }
                 }
                 //提交檢查
                 function formSubmit() {
+
+
+
                     var isok = true;
+
+                    if ($("#reality").val() == null || $("#reality").val() == "") {
+                        $("#reality").css("border", "red 1px solid");
+                        isok = false
+                    } else {
+                        $("#reality").css("border", "1px solid #ced4da");
+                    }
+                    // if ($("#company").val() == null || $("#company").val() == "") {
+                    //     $("#company").css("border", "red 1px solid");
+                    //     isok = false
+                    // } else {
+                    //     $("#company").css("border", "1px solid #ced4da");
+                    // }
+                    // if ($("#phone").val() == null || $("#phone").val() == "") {
+                    //     $("#phone").css("border", "red 1px solid");
+                    //     isok = false
+                    // } else {
+                    //     $("#phone").css("border", "1px solid #ced4da");
+                    // }
                     if ($("#name").val() == null || $("#name").val() == "") {
                         $("#name").css("border", "red 1px solid");
                         isok = false
                     } else {
                         $("#name").css("border", "1px solid #ced4da");
                     }
-                    if ($("#email").val() == null || $("#email").val() == "") {
+                    if ($("#email").val() == null || $("#email").val() == "" || $("#email").val().indexOf("@") < 0  ) {
                         $("#email").css("border", "red 1px solid");
                         isok = false
                     } else {
@@ -254,22 +293,29 @@
                     }
                     if ($("#password").val() == null || $("#password").val() == "") {
                         $("#password").css("border", "red 1px solid");
-                        isok = false
+                        isok = false;
                     } else {
                         $("#password").css("border", "1px solid #ced4da");
                     }
-                    if ($("#password").val().trim().length < 10) {
-                        alert("密碼必須10為以上");
+                    if ($("#password").val().search(/^[a-z0-9A-Z]{8,50}?$/) < 0) {
+                        alert("密碼必須8為以上,不含特殊符號");
                         isok = false;
                         $("#password").css("border", "red 1px solid");
-                    }
-                    if ($("#password").val() != $("#repassword").val()) {
-                        alert("密碼驗證失敗")
-                        $("#repassword").css("border", "red 1px solid");
-                        isok = false
                     } else {
-                        $("#repassword").css("border", "1px solid #ced4da");
+                        $("#password").css("border", "1px solid #ced4da");
                     }
+                    //密碼驗證
+                    var repassword = document.getElementById("repassword");
+                    if (document.getElementById("password").value != repassword.value) {
+                        isok = false;
+                        repassword.style.border = "red 1px solid";
+                    } else {
+                        repassword.style.border = "#ced4da 1px solid";
+                    }
+
+
+
+
                     //勾選框
                     if ($("#forum_rule").is(":checked")) {
                         $(".c-checkbox1 ").css("border", "red 0px solid");
@@ -283,14 +329,26 @@
                         isok = false;
                         $(".c-checkbox2 ").css("border", "red 1px solid");
                     }
+
+
                     if (isok) {
                         $("#registerForm").submit();
                     } else {
                         alert("紅框需輸入");
                     }
                 }
+
+
+
+
+
+
+
+
+
+
                 $(document).ready(function () {
-                    //捲到底 才能勾選
+                    //捲到底 才能勾選..
                     $('#tos_wrap').scroll(function () {
                         var scrollTop = $(this).scrollTop();
                         var scrollHeight = $(this).prop("scrollHeight");
@@ -314,7 +372,7 @@
                         return null;
                     }
                     let formData = new FormData();
-                    formData.append('name',$("#name").val())
+                    formData.append('name', $("#name").val())
                     $.ajax({
                         url: '${pageContext.request.contextPath}/login/checkName',
                         type: 'POST',
@@ -323,14 +381,14 @@
                         cache: false,
                         contentType: false,
                         processData: false,
-                        success: function (url) {                            
-                            if("(暱稱可以使用)" == url.message){
-                                $("#checkmessage").css("color","blue");
+                        success: function (url) {
+                            if ("(暱稱可以使用)" == url.message) {
+                                $("#checkmessage").css("color", "blue");
                             }
-                            if("(暱稱已存在)" == url.message){
-                                $("#checkmessage").css("color","red");
+                            if ("(暱稱已存在)" == url.message) {
+                                $("#checkmessage").css("color", "red");
                             }
-                            $("#checkmessage").text(url.message);                           
+                            $("#checkmessage").text(url.message);
                         },
                         error: function (returndata) {
                             console.log(returndata);
@@ -339,4 +397,5 @@
                 }
             </script>
         </body>
+
         </html>
