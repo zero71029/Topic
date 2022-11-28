@@ -295,21 +295,19 @@
                                                         <div class="row align-items-center" v-show="s.see">
                                                             <div class="col-lg-12" style="padding: 0px;">
 
-                                                              
-                                                                    <textarea placeholder="請輸入内容"
-                                                                        name="content"></textarea>
-                                                          
 
-
+                                                                <textarea placeholder="請輸入内容" name="content"></textarea>
 
 
 
                                                                 <button type="button" style="width: 100%;"
                                                                     @click="savemessage(s,index)"
-                                                                    class="btn ">留言
+                                                                    class="btn btn-primary">留言
                                                                 </button>
+                                                                <p>&nbsp;</p>
                                                             </div>
                                                         </div>
+
                                                         <div class="row" v-for="(r, index) in s.replylist" :key="index"
                                                             style="background-color: #e8e8e8;line-height: 30px;">
                                                             <div class="col-lg-2 ">
@@ -377,12 +375,10 @@
 
             <script>
                 tinymce.init({
-                    selector: 'textarea', 
-                    // plugins: ["autosave preview code link media hr charmap emoticons"],
-                    // toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink selectiveDateButton media |   preview code',
-
+                    selector: 'textarea',
+                    plugins: ["autosave preview code link media hr charmap emoticons"],
+                    toolbar: 'undo redo |  bold italic fontsizeselect | forecolor backcolor charmap emoticons| alignleft aligncenter alignright alignjustify hr | outdent indent   | link unlink  |   preview code',
                     language: 'zh_TW',
-                 
                     height: '300',
                 });
             </script>
@@ -398,18 +394,6 @@
                 .el-loading-spinner {
                     top: 10%;
                 }
-
-                /* 
-
-
-
-
-
-
-
-                
-
-                 */
             </style>
             <script>
 
@@ -418,11 +402,7 @@
                         document.getElementsByClassName("el-loading-mask")[0].style.background = "linear-gradient(TO TOP, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 0.3) 90%, rgba(255, 255, 255, 0))";
                         document.getElementsByClassName("el-loading-spinner")[0].style.top = "12%";
                     }
-
-
                 })
-
-
                 function changGrop(e) {
                     switch (e) {
                         case 'sensor':
@@ -479,9 +459,6 @@
                             location.href == 'https://forum.jetec.com.tw/Forum/detail/1ed1dd9499ed6addabc0dfbec63a6d48') {
                             this.loading = false;
                         }
-
-
-
 
                         //
                         this.currentPage = p;
@@ -665,12 +642,13 @@
                         savemessage(reply, index) {
 
                             var data = new FormData();
+
                             data.append("articleid", reply.replyid);
                             data.append("memberid", memberid);
                             data.append("membername", name);
                             data.append("content", tinyMCE.editors[index].getContent());
                             data.append("article", id);
-                            console.log(con);
+
                             $.ajax({
                                 url: contextPath + '/article/savemessage?p=' + this.currentPage,
                                 type: 'POST',
