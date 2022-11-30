@@ -88,13 +88,22 @@ public class TopicController {
             logger.info("找不到文章 {}", articleid);
             return "error/error500";
         }
-        //
+        //管理員改圖
         List<PermitBean> permitBeanList = articleBean.getMember().getPermitList();
         for (PermitBean e : permitBeanList) {
             if(Objects.equals(e.getLevel(),9)){
                 model.addAttribute("isManage",true);
                 break;
             }
+            if(Objects.equals(e.getLevel(),8)){
+                model.addAttribute("isMarketingStaff",true);
+                break;
+            }
+            if(Objects.equals(e.getLevel(),7)){
+                model.addAttribute("isCustomerService",true);
+                break;
+            }
+
         }
 
 

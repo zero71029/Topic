@@ -153,7 +153,6 @@
                                                         style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
 
                                                     <span style="color: #379cf4;">${article.membername} </span>
-
                                                     <br>
                                                     <!--...... <div class="fb-share-button"
                                                         data-href="https://www.your-domain.com/your-page.html"
@@ -163,13 +162,19 @@
                                                         <img src="${pageContext.request.contextPath}/images/Moderator.svg"
                                                             style="width: 60px;">
                                                     </c:if>
-                                                    <c:if test="${!isManage}">
+                                                    <c:if test="${isMarketingStaff}">
+                                                        <img src="${pageContext.request.contextPath}/images/MarketingStaff.svg"
+                                                            style="width: 95px;">
+                                                    </c:if>
+                                                    <c:if test="${isCustomerService}">
+                                                        <img src="${pageContext.request.contextPath}/images/CustomerService.svg"
+                                                            style="width: 95px;">
+                                                    </c:if>
+                                                    <c:if test="${!(isManage || isMarketingStaff || isCustomerService)}">
                                                         <img :src="level" style="width: 60px;">
                                                         <br>
                                                         <span id="integral">積分:${article.member.integral}</span>
                                                     </c:if>
-
-
                                                 </div>
                                                 <!-- 主文 -->
                                                 <div class="col-lg-9 ">
@@ -231,7 +236,12 @@
                                                         <span
                                                             style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.floor}}樓</span><br>
                                                         <span style="color: #379cf4;">{{s.membername}}</span><br>
-                                                        <img :src="s.level" style="width: 60px;"><br>
+                                                        <img :src="s.level" style="width: 60px;"  v-show="!(s.level.indexOf('MarketingStaff.svg')>0 || s.level.indexOf('CustomerService.svg')>0)">
+
+                                                        <img :src="s.level" style="width: 95px;"  v-show="s.level.indexOf('MarketingStaff.svg')>0 || s.level.indexOf('CustomerService.svg')>0"><br>
+
+
+
                                                         <span v-show="s.showIntegral">積分:{{s.member.integral}}</span>
                                                     </div>
                                                     <div class="col-lg-9 ">
@@ -294,8 +304,6 @@
                                                         </div>
                                                         <div class="row align-items-center" v-show="s.see">
                                                             <div class="col-lg-12" style="padding: 0px;">
-
-
                                                                 <textarea placeholder="請輸入内容" name="content"></textarea>
 
 
@@ -523,6 +531,17 @@
                                     reply.showIntegral = false;
                                     break;
                                 }
+                                if (e.level == 8) {
+                                    reply.level = contextPath + '/images/MarketingStaff.svg';
+                                    reply.showIntegral = false;
+                                    break;
+                                }
+                                if (e.level == 7) {
+                                    reply.level = contextPath + '/images/CustomerService.svg';
+                                    reply.showIntegral = false;
+                                    break;
+                                }
+
                             }
                         });
                         if (this.hasThumbsup) {
