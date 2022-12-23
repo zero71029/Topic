@@ -6,6 +6,7 @@ import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.*;
 import com.jetec.topic.service.ArticleService;
 import com.jetec.topic.service.BackstageService;
+import com.jetec.topic.service.CollectService;
 import com.jetec.topic.service.LibraryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,15 @@ public class TopicController {
     BackstageService BS;
     @Autowired
     LibraryService ls;
+    @Autowired
+    CollectService cs;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //文章列表
     @RequestMapping("/topiclist")
     @ResponseBody
     public ResultBean topiclist(@RequestParam("nav") String nav, @RequestParam("pag") Integer pag, @RequestParam("size") Integer size, HttpSession session) {
-        System.out.println("=====文章列表=====");
+        logger.info("{} 文章列表", ZeroTools.getMemberBean().getName());
         pag--;
         if (pag < 0) pag = 0;
         Pageable pageable = PageRequest.of(pag, size, Sort.Direction.DESC, "createtime");
@@ -81,8 +84,6 @@ public class TopicController {
     public String topicdetailt(@PathVariable("articleid") String articleid, Model model, HttpSession session) {
         logger.info("進入文章細節 {}", articleid);
         ArticleBean articleBean = as.findById(articleid);
-
-
         if (articleBean == null) {
             model.addAttribute("message", "找不到文章");
             logger.info("找不到文章 {}", articleid);
@@ -193,8 +194,10 @@ public class TopicController {
         result.put("thumbsupNum", as.getThumbsupNum(articleid));//點讚數
         if (memberBean == null) {
             result.put("hasThumbsup", false);
+            result.put("hasCollect", false);
         } else {
             result.put("hasThumbsup", as.hasThumbsup(articleid, memberBean.getMemberid()));//登入者是否點讚203
+            result.put("hasCollect", cs.hasCollect(articleid, memberBean.getMemberid()));
         }
         return result;
     }

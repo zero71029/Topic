@@ -1,5 +1,7 @@
 package com.jetec.topic.model;
 
+import com.jetec.topic.Tools.ZeroTools;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -88,7 +90,8 @@ public class ArticleBean {
     }
 
     public void setName(String name) {
-        this.name = name;
+        //預防基本XSS
+        this.name = ZeroTools.xssEncode(name);
     }
 
 

@@ -75,7 +75,7 @@
                                     style="line-height: 40px;">
                                     <div class="col-lg-6"> <a
                                             :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid"
-                                            style="text-decoration: none;">{{s.bean.name}}
+                                            style="text-decoration: none;" v-html="s.bean.name">
                                         </a></div>
                                     <div class="col-lg-2"><span class="caption2">發布時間 </span>{{s.bean.createtime}}</div>
                                     <div class="col-lg-2"><span class="caption2">最後回覆 </span>{{s.bean.replytime}}</div>
@@ -108,6 +108,7 @@
             </div>
             </div>
         </body>
+        <!-- ><script>alert("ddddddddddddddddd");</script> -->
 
         <script>
             sessionStorage.setItem("url", location.href);

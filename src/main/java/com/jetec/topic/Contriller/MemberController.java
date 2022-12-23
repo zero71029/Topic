@@ -3,8 +3,10 @@ package com.jetec.topic.Contriller;
 import com.jetec.topic.Tools.SystemCode;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
+import com.jetec.topic.model.CollectBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
+import com.jetec.topic.service.CollectService;
 import com.jetec.topic.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,8 @@ public class MemberController {
     MemberService ms;
     @Autowired
     ArticleService as;
+    @Autowired
+    CollectService cs;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //我的頁面
@@ -75,6 +79,7 @@ public class MemberController {
         list.forEach(e -> {
             Map<String, Object> artlcle = new HashMap<>();
             Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
+            e.setTotal(as.countReplyArticle(e.getArticleid()));
             artlcle.put("bean", e);
             artlcle.put("watch", i);
             a.add(artlcle);
@@ -123,15 +128,47 @@ public class MemberController {
         logger.info("修改我的資料 {}", bean.getName());
         return result;
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //test
-//    @RequestMapping("/XXX")
-//    @ResponseBody
-//    public Map<String, Object> cccc() {
-//        System.out.println("*****xxxxxxxx*****");
-//        MemberBean member = new MemberBean();
-//        if(member.getMemberid().equals("dddd"))
-//        System.out.println(member.getMemberid());
-//        return null;
-//    }
+
+
+    @RequestMapping("/mycollect")
+    @ResponseBody
+    public Map<String, Object> mycollect(HttpSession session, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+
+
+        MemberBean memberBean = ZeroTools.getMemberBean();
+        logger.info("我的收藏  {}", memberBean.getName());
+
+
+
+
+        page--;
+        Pageable p = PageRequest.of(page, size, Sort.Direction.DESC, "createtime");
+        Page<CollectBean> pa = cs.findByMemberid(memberBean.getMemberid(), p);
+        Map<String, Object> result = new HashMap<>();
+
+        //取 未看 回復數
+        List<CollectBean> list = pa.getContent();
+        List<Map<String, Object>> a = new ArrayList<>();
+        list.forEach(e -> {
+            Map<String, Object> artlcle = new HashMap<>();
+
+
+            Integer i = as.getWatchCount(memberBean.getMemberid(), e.getArticleid());
+
+
+            ArticleBean articleBean = as.findById( e.getArticleid());
+            articleBean.setTotal(as.countReplyArticle(e.getArticleid()));
+
+            artlcle.put("bean",     articleBean           );
+            artlcle.put("watch", i);
+            a.add(artlcle);
+        });
+
+        //a = { "bean" : articleBean , "watch" : i }
+
+
+        result.put("list", a);
+        result.put("total", pa.getTotalElements());
+        return result;
+    }
 }

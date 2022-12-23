@@ -263,12 +263,13 @@
                     },
                     //上傳檢查
                     beforeAvatarUpload(file) {
-                        const isJPG = file.type === 'image/jpeg';
+                        // const isJPG = file.type === 'image/jpeg';
+                        console.log(file.type);
                         const isLt2M = file.size / 1024 / 1024 < 2;
-                        if (!(file.type == 'image/jpeg' || file.type == 'image/png')) {
-                            this.$message.error('上傳圖片只能是 JPG/PNG 格式!');
-                            return false;
-                        }
+                        // if (!(file.type == 'image/jpeg' || file.type == 'image/png' || file.type == 'image/gif')) {
+                        //     this.$message.error('上傳圖片只能是 JPG/PNG 格式!');
+                        //     return false;
+                        // }
                         if (!isLt2M) {
                             this.$message.error('上傳圖片大小不能超過 2MB!');
                             return false;

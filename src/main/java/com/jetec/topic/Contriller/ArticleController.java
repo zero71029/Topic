@@ -1,12 +1,15 @@
 package com.jetec.topic.Contriller;
 
 import com.jetec.topic.Tools.MailTool;
+import com.jetec.topic.Tools.ResultBean;
+import com.jetec.topic.Tools.ZeroFactory;
 import com.jetec.topic.Tools.ZeroTools;
 import com.jetec.topic.model.ArticleBean;
 import com.jetec.topic.model.ArticleContentBean;
 import com.jetec.topic.model.ArticleReplyBean;
 import com.jetec.topic.model.MemberBean;
 import com.jetec.topic.service.ArticleService;
+import com.jetec.topic.service.CollectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,9 @@ public class ArticleController {
     @Autowired
     MailTool mail;
 
+    @Autowired
+    CollectService cs;
+
     final ArticleService as;
 
     public ArticleController(ArticleService as) {
@@ -52,29 +58,35 @@ public class ArticleController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //發布文章
     @RequestMapping("/save")
-    public String save(ArticleBean articleBean, @RequestParam("content") String content, HttpSession session) {
-        logger.info("*****發布文章*****{}", ZeroTools.getMemberBean().getName());
-        System.out.println(articleBean.getArticleoption());
+    public String save(ArticleBean articleBean, @RequestParam("content") String content) {
+        MemberBean memberBean = ZeroTools.getMemberBean();
+        logger.info("*****發布文章*****{}", memberBean.getName());
+        //如果是新案件  插入基本資料
         if (articleBean.getArticleid() == null || articleBean.getArticleid().equals("")) {
             articleBean.setArticleid(ZeroTools.getUUID());
             articleBean.setCreatetime(ZeroTools.getTime(new Date()));
-            SecurityContextImpl sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-            MemberBean memberBean = (MemberBean) sci.getAuthentication().getPrincipal();
             articleBean.setMemberid(memberBean.getMemberid());
             articleBean.setMembername(memberBean.getName());
             articleBean.setState("未驗證");
             articleBean.setReplytime(articleBean.getCreatetime());
-
+            //寄信
             new Thread(() -> {
                 try {
-                    mail.sendSimpleMail("jeter.tony56@gmail.com", "久德討論版有新文章", "https://forum.jetec.com.tw/Backend/article/Detail?id=" + articleBean.getArticleid());
+//                    mail.sendSimpleMail("jeter.tony56@gmail.com", "久德討論版有新文章", "https://forum.jetec.com.tw/Backend/article/Detail?id=" + articleBean.getArticleid());
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.info("發布文章  寄信失敗");
                 }
             }).start();
+            //計算積分
             new Thread(() -> as.Integral(memberBean.getMemberid())).start();
         }
+
+        //預防基本XSS
+        content = ZeroTools.xssEncode(content);
+
+
+        //儲存
         ArticleBean save = as.save(articleBean);
         if (save != null) {
             ArticleContentBean acBean = new ArticleContentBean(save.getArticleid(), content);
@@ -150,5 +162,19 @@ public class ArticleController {
         }
 
         return as.getReplyList(article, p);
+    }
+
+
+    /**
+     * 收集
+     *
+     * @param articleid 正如
+     * @return {@link ResultBean}
+     */
+    @RequestMapping("/collect")
+    @ResponseBody
+    public ResultBean collect(@RequestParam("articleid") String articleid) {
+        logger.info("{}  收藏   {}", ZeroTools.getMemberBean().getName(), articleid);
+        return ZeroFactory.success(cs.collect(ZeroTools.getMemberBean(), articleid));
     }
 }

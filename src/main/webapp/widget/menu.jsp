@@ -21,6 +21,7 @@
                 height: 100vh;
                 visibility: hidden;
             }
+
             .el-dialog {
                 position: relative;
                 margin: 20vh auto 50px;
@@ -138,6 +139,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" rel="nofollow"
                                         href="${pageContext.request.contextPath}/member/mypage.jsp">我的頁面</a></li>
+                                <li><a class="dropdown-item" rel="nofollow"
+                                        href="${pageContext.request.contextPath}/member/mycollect.jsp">我的收藏</a></li>
                                 <li><a rel="nofollow" class="dropdown-item"
                                         href="${pageContext.request.contextPath}/logout">登出</a>
                                 </li>

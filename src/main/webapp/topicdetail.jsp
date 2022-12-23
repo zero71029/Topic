@@ -152,7 +152,7 @@
                                                     <span
                                                         style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">樓主</span><br>
 
-                                                    <span style="color: #379cf4;">${article.membername} </span>
+                                                    <span style="color: #379cf4;">${article.membername}</span>
                                                     <br>
                                                     <!--...... <div class="fb-share-button"
                                                         data-href="https://www.your-domain.com/your-page.html"
@@ -170,7 +170,8 @@
                                                         <img src="${pageContext.request.contextPath}/images/CustomerService.svg"
                                                             style="width: 95px;">
                                                     </c:if>
-                                                    <c:if test="${!(isManage || isMarketingStaff || isCustomerService)}">
+                                                    <c:if
+                                                        test="${!(isManage || isMarketingStaff || isCustomerService)}">
                                                         <img :src="level" style="width: 60px;">
                                                         <br>
                                                         <span id="integral">積分:${article.member.integral}</span>
@@ -192,14 +193,23 @@
                                                                         test="${article.memberid == SPRING_SECURITY_CONTEXT.authentication.principal.memberid}">
                                                                         <a rel="nofollow"
                                                                             href="${pageContext.request.contextPath}/article/publish.jsp?nav=${article.articlegroup}&id=${article.articleid}"><i
-                                                                                class="bi bi-pencil-square">修改</i></a>
+                                                                                class="bi bi-pencil-square collectIcon">修改</i></a>
                                                                         &nbsp;|
                                                                     </c:if>
-                                                                    &nbsp;
+
+
+
+
+
+
+
+                                                                    <i class="el-icon-collection icon collectIcon"
+                                                                        @click="collect">收藏</i>&nbsp; | &nbsp;
+
                                                                     <el-dropdown @command="handleCommand">
                                                                         <span class="el-dropdown-link">
                                                                             <!-- 下拉 -->
-                                                                            <i class="el-icon-s-tools"
+                                                                            <i class="el-icon-s-tools icon"
                                                                                 style="font-size: 18px;"></i>
                                                                         </span>
                                                                         <el-dropdown-menu slot="dropdown">
@@ -236,9 +246,11 @@
                                                         <span
                                                             style="margin-top: 5px; line-height: 25px; color: white;background-color: #379cf4; width: 80px;height: 25px;display: inline-block;border-radius: 20px;">{{s.floor}}樓</span><br>
                                                         <span style="color: #379cf4;">{{s.membername}}</span><br>
-                                                        <img :src="s.level" style="width: 60px;"  v-show="!(s.level.indexOf('MarketingStaff.svg')>0 || s.level.indexOf('CustomerService.svg')>0)">
+                                                        <img :src="s.level" style="width: 60px;"
+                                                            v-show="!(s.level.indexOf('MarketingStaff.svg')>0 || s.level.indexOf('CustomerService.svg')>0)">
 
-                                                        <img :src="s.level" style="width: 95px;"  v-show="s.level.indexOf('MarketingStaff.svg')>0 || s.level.indexOf('CustomerService.svg')>0"><br>
+                                                        <img :src="s.level" style="width: 95px;"
+                                                            v-show="s.level.indexOf('MarketingStaff.svg')>0 || s.level.indexOf('CustomerService.svg')>0"><br>
 
 
 
@@ -366,6 +378,7 @@
 
             </html>
             <script>
+
                 var id = '${article.articleid}';
                 const nav = '${article.articlegroup}';
                 const integral = '${article.member.integral}';
@@ -459,6 +472,7 @@
                             integral: integral,
                             rigthAdvertise: [],
                             level: contextPath + "/images/小青銅.svg",
+                            hasCollect:false,
                         }
                     },
                     created() {
@@ -478,6 +492,7 @@
                             success: response => {
                                 this.thumbsupNum = response.thumbsupNum;
                                 this.hasThumbsup = response.hasThumbsup;
+                                this.hasCollect =response.hasCollect;
                                 this.replylist = response.replylist;
                                 this.total = response.total;
                                 this.total++;
@@ -500,52 +515,18 @@
 
 
 
-                        //判斷 瀏覽者是否點讚(回覆)
-                        this.replylist.forEach(reply => {
-                            if (reply.state == "封鎖") {
-                                reply.content = "因違反版規，此條回覆已被封鎖";
-                                reply.replylist = [];
-                            }
-                            reply.thumbsupNum = reply.thumbsuplist.length;
-                            reply.see = false;
-                            reply.thumbsuplist.forEach(e => {
-                                if (e.memberid == memberid) {
-                                    reply.isthumbs = true;
-                                }
-                            })
-                            reply.level = contextPath + '/images/小青銅.svg';
-                            if (reply.member.integral >= 90000) {
-                                reply.level = contextPath + '/images/小傳奇.svg';
-                            } else if (reply.member.integral >= 30000) {
-                                reply.level = contextPath + '/images/小鉑金.svg';
-                            } else if (reply.member.integral >= 10000) {
-                                reply.level = contextPath + '/images/小黃金.svg';
-                            } else if (reply.member.integral >= 1000) {
-                                reply.level = contextPath + '/images/小白銀.svg';
-                            }
-                            //管理員改圖
-                            reply.showIntegral = true;
-                            for (const e of reply.member.permitList) {
-                                if (e.level == 9) {
-                                    reply.level = contextPath + '/images/Moderator.svg';
-                                    reply.showIntegral = false;
-                                    break;
-                                }
-                                if (e.level == 8) {
-                                    reply.level = contextPath + '/images/MarketingStaff.svg';
-                                    reply.showIntegral = false;
-                                    break;
-                                }
-                                if (e.level == 7) {
-                                    reply.level = contextPath + '/images/CustomerService.svg';
-                                    reply.showIntegral = false;
-                                    break;
-                                }
+                        //判斷 瀏覽者是否點讚(回覆) and 改圖
+                        this.changIcon();
 
-                            }
-                        });
+
+
                         if (this.hasThumbsup) {
                             $(".main").css("color", "#0d6efd");
+                        }
+                        console.log(this.hasCollect);
+                        //判斷是否收藏
+                        if (this.hasCollect) {
+                            $(".collectIcon").css("color", "#0d6efd");
                         }
                         //廣告                        
                         $.ajax({
@@ -680,13 +661,30 @@
                                     console.log(response);
                                     tinyMCE.editors[index].setContent("");
                                     this.replylist = response.list;
+
                                 },
                                 error: function (returndata) {
                                     console.log(returndata);
                                 }
                             });
-                            //判斷 瀏覽者是否點讚
+
+
+
+                            //判斷 瀏覽者是否點讚(回覆) and 改圖
+                            this.changIcon();
+
+
+
+                            this.$forceUpdate();
+
+                        },
+                        //判斷 瀏覽者是否點讚(回覆) and 改圖
+                        changIcon() {
                             this.replylist.forEach(reply => {
+                                if (reply.state == "封鎖") {
+                                    reply.content = "因違反版規，此條回覆已被封鎖";
+                                    reply.replylist = [];
+                                }
                                 reply.thumbsupNum = reply.thumbsuplist.length;
                                 reply.see = false;
                                 reply.thumbsuplist.forEach(e => {
@@ -694,8 +692,38 @@
                                         reply.isthumbs = true;
                                     }
                                 })
+                                reply.level = contextPath + '/images/小青銅.svg';
+                                if (reply.member.integral >= 90000) {
+                                    reply.level = contextPath + '/images/小傳奇.svg';
+                                } else if (reply.member.integral >= 30000) {
+                                    reply.level = contextPath + '/images/小鉑金.svg';
+                                } else if (reply.member.integral >= 10000) {
+                                    reply.level = contextPath + '/images/小黃金.svg';
+                                } else if (reply.member.integral >= 1000) {
+                                    reply.level = contextPath + '/images/小白銀.svg';
+                                }
+                                //管理員改圖
+                                reply.showIntegral = true;
+                                for (const e of reply.member.permitList) {
+                                    if (e.level == 9) {
+                                        reply.level = contextPath + '/images/Moderator.svg';
+                                        reply.showIntegral = false;
+                                        break;
+                                    }
+                                    if (e.level == 8) {
+                                        reply.level = contextPath + '/images/MarketingStaff.svg';
+                                        reply.showIntegral = false;
+                                        break;
+                                    }
+                                    if (e.level == 7) {
+                                        reply.level = contextPath + '/images/CustomerService.svg';
+                                        reply.showIntegral = false;
+                                        break;
+                                    }
+
+                                }
                             });
-                            this.$forceUpdate();
+
 
                         },
                         clickReply() {
@@ -727,6 +755,33 @@
                         //分頁
                         handleCurrentChange(val) {
                             location.href = contextPath + "/detail/" + id + "?p=" + val;
+                        },
+                        //收藏
+                        collect() {
+                            $.ajax({
+                                url: contextPath + '/article/collect',
+                                type: 'POST',
+                                data: 'articleid=${article.articleid}',
+                                async: false,
+                                cache: false,
+                                success: (response) => {
+                                    console.log(response)
+                                    if (response.code == 200) {
+                                        if (response.message == "收藏成功") {
+                                            this.$message.success(response.message);
+                                            $(".collectIcon").css("color", "#0d6efd");
+
+                                        }
+                                        if (response.message == "取消成功") {
+                                            this.$message.error(response.message);
+                                            $(".collectIcon").css("color", "#212529");
+                                        }
+                                    }
+                                },
+                                error: (returndata) => {
+                                    this.$message.error('連線錯誤');
+                                }
+                            });
                         }
 
                     },
@@ -766,7 +821,7 @@
             <script>
                 const metaRobots = document.createElement('meta');
                 metaRobots.name = 'description';
-                metaRobots.content = '${article.name}';
+                metaRobots.content = "${article.name}";
                 document.head.appendChild(metaRobots);
 
             </script><!-- description代碼結束 -->

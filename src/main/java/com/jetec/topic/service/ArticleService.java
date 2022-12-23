@@ -256,4 +256,6 @@ public class ArticleService {
     public void saveLoginIp(LoginIpBean loginIpBean) {
          lir.save(loginIpBean);
     }
+
+
 }

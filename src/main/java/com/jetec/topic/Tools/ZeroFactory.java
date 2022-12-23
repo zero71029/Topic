@@ -19,8 +19,15 @@ public class ZeroFactory {
     public static ResultBean fail(String message){
         return new ResultBean(300, message);
     }
+
     public static ResultBean success(String message, Object data){
         return new ResultBean(200, message ,data);
+    }
+    public static ResultBean success(String message){
+        return new ResultBean(200, message);
+    }
+    public static ResultBean success(){
+        return new ResultBean(200);
     }
     public static LoginIpBean buildLoginIp(String memberid ,String ip) {
         return new LoginIpBean(memberid,ip);

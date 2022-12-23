@@ -52,16 +52,16 @@
                             </tr>
                             <tr v-for="(s, index) in list" :key="index">
                                 <th scope="row">{{index + 1}}</th>
-                                <td> 
+                                <td>
                                     <a :href="'${pageContext.request.contextPath}/detail/'+s.bean.articleid">
                                         <div style="width: 100%;height: 80%;">{{s.bean.name}} </div>
-                                    </a> 
+                                    </a>
                                 </td>
                                 <td>{{s.bean.createtime}}</td>
                                 <td>{{s.bean.replytime}}</td>
                                 <td>{{s.bean.total}}
                                     <el-tag v-if="s.watch > 0" type="danger" effect="dark" size="mini">
-                                        NEW {{ s.watch }}
+                                        NEW {{s.watch}}
                                     </el-tag>
                                 </td>
                                 <td :class="s.allow">{{s.bean.state}}</td>
@@ -69,7 +69,7 @@
                         </table>
                         <p style="text-align: center;">
                             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                                :current-page="currentPage" :page-sizes="[10, 20, 30, 40,80]"
+                                :current-page="currentPage" :page-sizes="[1,2,3,10, 20, 30, 40,100]"
                                 :page-size="pageSize" layout=" sizes, prev, pager, next, jumper" :total="total">
                             </el-pagination>
                         </p>
@@ -83,9 +83,94 @@
             </div>
         </body>
         <script>
-          const contextPath = "${pageContext.request.contextPath}";
-       </script>
-          <script src="${pageContext.request.contextPath}/js/member/myArticle.js"></script>
+            const contextPath = "${pageContext.request.contextPath}";
+            var vm = new Vue({
+                el: ".app",
+                data() {
+                    return {
+                        list: [],
+                        currentPage: 1,
+                        pageSize: 20,
+                        total: 100,
+                    }
+                },
+                created() {
+                    $.ajax({
+                        url: contextPath + '/member/mycollect?page=1&size=20',
+                        type: 'POST',
+                        async: false,//同步請求
+                        cache: false,//不快取頁面
+                        success: response => {
+                            this.list = response.list;
+                            this.total = response.total;
+                            this.list.forEach(e => {
+                                if (e.bean.state == "允許") {
+                                    e.allow = "blue";
+                                } else {
+                                    e.allow = "red";
+                                }
+                            });
+                        },
+                        error: function (returndata) {
+                            console.log(returndata);
+                        }                     
+
+
+                    });
+                    console.log(this.list);
+                },
+                methods: {
+                    handleSizeChange(val) {
+                        this.pageSize = val;
+                        $.ajax({
+                            url: contextPath + '/member/mycollect?page=' + this.currentPage + '&size=' + val,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.list = response.list;
+                                this.total = response.total;
+                                this.list.forEach(e => {
+                                    if (e.bean.state == "允許") {
+                                        e.allow = "blue";
+                                    } else {
+                                        e.allow = "red";
+                                    }
+                                });
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+                    },
+                    handleCurrentChange(val) {
+                        this.currentPage = val;
+                        $.ajax({
+                            url: contextPath + '/member/mycollect?page=' + val + '&size=' + this.pageSize,
+                            type: 'POST',
+                            async: false,//同步請求
+                            cache: false,//不快取頁面
+                            success: response => {
+                                this.list = response.list;
+                                this.total = response.total;
+                                this.list.forEach(e => {
+                                    if (e.bean.state == "允許") {
+                                        e.allow = "blue";
+                                    } else {
+                                        e.allow = "red";
+                                    }
+                                });
+                            },
+                            error: function (returndata) {
+                                console.log(returndata);
+                            }
+                        });
+                    }
+                },
+            })
+
+        </script>
+
         <style>
             tr td a {
                 text-decoration: none;
