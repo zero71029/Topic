@@ -29,11 +29,13 @@
 
         <body>
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" style="margin: 25px 0; ">
                     <div class="col-lg-12 text-center">
-                        <h1>討論區</h1>
+                        <a href=""><img src="${pageContext.request.contextPath}/images/LOGO.png" alt="九德電子"
+                                style="height: 45px;"></a>
                     </div>
                 </div>
+
                 <div class="row">
                     <!-- 傘型特效 -->
                     <jsp:include page="/widget/umbrella.jsp"></jsp:include>
@@ -41,6 +43,11 @@
                     <jsp:include page="/widget/menu.jsp"></jsp:include>
                     <!-- <%-- 右邊工具列--%> -->
                     <jsp:include page="/widget/rightTool.jsp"></jsp:include>
+                </div>
+                <div class="row" style="margin: 25px 0 0 0; ">
+                    <div class="col-lg-12 text-center">
+                        <h1>討論區</h1>
+                    </div>
                 </div>
                 <!-- 中間主體 -->
                 <div class="row app">

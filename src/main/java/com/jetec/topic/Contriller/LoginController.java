@@ -335,7 +335,8 @@ public class LoginController {
                 Email : %s<br>
                 公司-組織 : %s<br>
                 連絡電話 : %s<br>
-                """.formatted(mBean.getName(), mBean.getEmail(), mBean.getCompany(), mBean.getPhone());
+                姓名 : %s<br>
+                """.formatted(mBean.getName(), mBean.getEmail(), mBean.getCompany(), mBean.getPhone() ,mBean.getReality());
         try {
             String[] address = new String[3];
             address[0] = "jeter.tony56@gmail.com";

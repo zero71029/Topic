@@ -52,11 +52,14 @@
         <body>
             <canvas id="canvas" style="position:fixed;height: 100vh;z-index: -1;display: flex;"></canvas>
             <script src="${pageContext.request.contextPath}/js/umbrella.js"></script>
-            <div class="container-fluid">
-                <div class="row">
+            <div class="container-fluid" >
+                <!-- LOGO -->
+                <div class="row" style="margin: 25px 0; ">
                     <div class="col-lg-12 text-center">
-                        <h1>久德討論版</h1>
-                        <span style="font-size: 0;">久德討論區是一結合傳感器與生活的論壇，討論範疇從傳感器介紹到技術問題，從開箱到應用分享，涉及了各項溫濕度、壓力、液位、氣體、氣象站、光照、流量、顯示看板、控制器...等傳感領域，各種傳感器問題都能來此找到解答，是傳感器專業分享與討論文的集散地。</span>
+                        <a href=""><img src="${pageContext.request.contextPath}/images/LOGO.png" alt="九德電子"
+                                style="height: 45px;"></a>
+                        <span
+                            style="font-size: 0;">久德討論區是一結合傳感器與生活的論壇，討論範疇從傳感器介紹到技術問題，從開箱到應用分享，涉及了各項溫濕度、壓力、液位、氣體、氣象站、光照、流量、顯示看板、控制器...等傳感領域，各種傳感器問題都能來此找到解答，是傳感器專業分享與討論文的集散地。</span>
                     </div>
                 </div>
                 <div class="row">
@@ -64,6 +67,12 @@
                     <jsp:include page="/widget/menu.jsp"></jsp:include>
                     <!-- <%-- 右邊工具列--%> -->
                     <jsp:include page="/widget/rightTool.jsp"></jsp:include>
+
+                </div>
+                <div class="row" style="margin: 25px 0 0 0; ">
+                    <div class="col-lg-12 text-center">
+                        <h1>久德討論版</h1>
+                    </div>
                 </div>
                 <!-- 中間主體 -->
                 <div class="row app">
@@ -132,7 +141,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             感測器</div>
-                                        <table class="table" >
+                                        <table class="table">
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in sensor" :key="index">
                                                     <td>
@@ -154,7 +163,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             儀器儀表</div>
-                                        <table class="table" >
+                                        <table class="table">
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in apparatus" :key="index">
                                                     <td>
@@ -174,7 +183,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             網通裝置</div>
-                                        <table class="table" >
+                                        <table class="table">
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in Netcom" :key="index">
                                                     <td>
@@ -194,7 +203,7 @@
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             軟體配件</div>
-                                        <table class="table" >
+                                        <table class="table">
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in software" :key="index">
                                                     <td>
@@ -210,11 +219,11 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <!-- <div class="col-lg-6">
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             控制箱</div>
-                                        <table class="table" >
+                                        <table class="table">
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in controlbox" :key="index">
                                                     <td>
@@ -229,12 +238,12 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-6">
                                         <div
                                             style="width: 100%;background-color: #388DCE;color: #FFF;font-size: 40px;line-height: 80px;padding-left: 20px;">
                                             應用</div>
-                                        <table class="table" >
+                                        <table class="table">
                                             <tbody>
                                                 <tr class="article" v-for="(s, index) in application" :key="index">
                                                     <td>

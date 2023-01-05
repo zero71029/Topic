@@ -60,10 +60,11 @@
                     }
                 </style>
                 <div class="container-fluid ">
-                    <div class="row">
+                    <!-- LOGO -->
+                    <div class="row" style="margin: 25px 0; ">
                         <div class="col-lg-12 text-center">
-                            <h1>久德討論版
-                            </h1>
+                            <a href=""><img src="${pageContext.request.contextPath}/images/LOGO.png" alt="九德電子"
+                                    style="height: 45px;"></a>
                         </div>
                     </div>
                     <div class="row">
@@ -75,6 +76,7 @@
                         <!-- <%-- 右邊工具列--%> -->
                         <jsp:include page="/widget/rightTool.jsp"></jsp:include>
                     </div>
+
                     <div class="row app" v-cloak>
                         <!-- 彈窗 -->
                         <el-dialog title="分享" :visible.sync="dialogVisible" width="30%" v-cloak>
@@ -115,6 +117,7 @@
                                     <div class="row ">
                                         <div class="col-lg-12">&nbsp;</div>
                                     </div>
+                                    <!-- 麵包屑 -->
                                     <div class="row ">
                                         <div class="col-lg-12">
                                             <el-breadcrumb separator="/">
@@ -132,9 +135,8 @@
                                     </div>
                                     <div class="row ">
                                         <!-- 中間主體 -->
-                                        <div class="col-lg-10" v-loading="loading">
+                                        <div class="col-lg-10">
                                             <div class="row ">
-
                                                 <c:if
                                                     test="${not empty SPRING_SECURITY_CONTEXT.authentication.principal}">
                                                     <p style="text-align: right;"> <button type="button"
@@ -176,9 +178,10 @@
                                                         <br>
                                                         <span id="integral">積分:${article.member.integral}</span>
                                                     </c:if>
+                                                    <p>${isManage}d${isMarketingStaff}d${isCustomerService}</p>
                                                 </div>
                                                 <!-- 主文 -->
-                                                <div class="col-lg-9 ">
+                                                <div class="col-lg-9 " v-loading="loading">
                                                     <div class="row">
                                                         <div class="col-lg-12 text-break">
                                                             <h3 id="articlename">${article.name}</h3>
@@ -235,10 +238,10 @@
                                                 </div>
                                             </div>
                                             <!-- 回覆 -->
-                                            <div v-for="(s, index) in replylist" :key="index">
+                                            <div v-for="(s, index) in replylist" :key="index" v-loading="s.load">
                                                 <div class="row">
                                                     <div class="col-lg-12 text-center">
-                                                        <hr>
+                                                        <hr>                                                    
                                                     </div>
                                                 </div>
                                                 <div class="row ">
@@ -459,7 +462,7 @@
                     el: ".app",
                     data() {
                         return {
-                            loading: name == '',
+                            loading: '${SPRING_SECURITY_CONTEXT.authentication.principal.name}' == '',
                             currentPage: 1,
                             total: 15,
                             dialogVisible: false,
@@ -472,14 +475,19 @@
                             integral: integral,
                             rigthAdvertise: [],
                             level: contextPath + "/images/小青銅.svg",
-                            hasCollect:false,
+                            hasCollect: false,
                         }
                     },
                     created() {
-                        //封鎖例外, , 
+                        //遮罩例外, , 
                         if (location.href == 'https://forum.jetec.com.tw/Forum/detail/1ed1dd98a38f60deabc0b3dcb2aa2070' ||
                             location.href == 'https://forum.jetec.com.tw/Forum/detail/1ed1dd9499ed6addabc0dfbec63a6d48') {
                             this.loading = false;
+                        }
+
+                        //內部人員才產生遮罩
+                        if (this.loading) {
+                            this.loading = ${ (isManage || isMarketingStaff || isCustomerService) };
                         }
 
                         //
@@ -492,7 +500,7 @@
                             success: response => {
                                 this.thumbsupNum = response.thumbsupNum;
                                 this.hasThumbsup = response.hasThumbsup;
-                                this.hasCollect =response.hasCollect;
+                                this.hasCollect = response.hasCollect;
                                 this.replylist = response.replylist;
                                 this.total = response.total;
                                 this.total++;
@@ -515,7 +523,7 @@
 
 
 
-                        //判斷 瀏覽者是否點讚(回覆) and 改圖
+                        //(回覆處理) 判斷  瀏覽者是否點讚 and 改圖
                         this.changIcon();
 
 
@@ -670,7 +678,7 @@
 
 
 
-                            //判斷 瀏覽者是否點讚(回覆) and 改圖
+                            //(回覆處理) 判斷 瀏覽者是否點讚 and 改圖
                             this.changIcon();
 
 
@@ -678,7 +686,7 @@
                             this.$forceUpdate();
 
                         },
-                        //判斷 瀏覽者是否點讚(回覆) and 改圖
+                        //(回覆處理) 判斷 瀏覽者是否點讚 and 改圖
                         changIcon() {
                             this.replylist.forEach(reply => {
                                 if (reply.state == "封鎖") {
@@ -705,22 +713,34 @@
                                 //管理員改圖
                                 reply.showIntegral = true;
                                 for (const e of reply.member.permitList) {
+                                    reply.load =false;
+                                    //如果沒有登入
+                                    if ('${SPRING_SECURITY_CONTEXT.authentication.principal.name}' == '') {
+                                        reply.load = true;
+                                    }
+                                    //如果沒有登入 而且不是管理員
+                                    if( reply.load && e.level != 9 && e.level != 8 && e.level != 7){
+                                        reply.load =false;
+                                    }
+
                                     if (e.level == 9) {
+                                      
                                         reply.level = contextPath + '/images/Moderator.svg';
                                         reply.showIntegral = false;
                                         break;
                                     }
                                     if (e.level == 8) {
+                                    
                                         reply.level = contextPath + '/images/MarketingStaff.svg';
                                         reply.showIntegral = false;
                                         break;
                                     }
                                     if (e.level == 7) {
+                                      
                                         reply.level = contextPath + '/images/CustomerService.svg';
                                         reply.showIntegral = false;
                                         break;
                                     }
-
                                 }
                             });
 

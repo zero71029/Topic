@@ -18,31 +18,233 @@
       若您需要其他協助，歡迎您透過<a href="https://www.jetec.com.tw/Contact-us">聯絡我們</a>與久德客服團隊聯繫。</p>
   </div>
 
-<!-- 收集失敗頁面 -->
+  <!-- 收集失敗頁面 -->
+  <script>
+    var formData = new FormData();
+    formData.append("url", location.href);
+    $.ajax({
+      url: '/zeroPageNotFind.php',//接受請求的Servlet地址
+      type: 'POST',
+      data: formData,
+      // async: false,//同步請求
+      cache: false,//不快取頁面
+      contentType: false,//當form以multipart/form-data方式上傳檔案時，需要設定為false
+      processData: false,//如果要傳送Dom樹資訊或其他不需要轉換的資訊，請設定為false
+      success: function (url) {
+        console.log(url);
+      },
+      error: function (returndata) {
+        console.log(returndata);
+      }
+    })
+  </script>
+
+</body>
+
+
+
+
+
+
+
+<div class="Mask"
+  style="z-index: 10000; position: fixed;background-color: #444; width: 100vw;height:100vh;top: 0%;opacity: 0.4;left: 0%;">
+  <div class="spinner-border text-primary" role="status"
+    style="position: absolute;left: 0%;right: 0%;margin: auto;top: 0%;bottom: 0%;">&nbsp;</div>
+</div>
+<link href="/themes/custom/execoore/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script>
-  var formData = new FormData();
-  formData.append("url", location.href);
-  $.ajax({
-    url: '/zeroPageNotFind.php',//接受請求的Servlet地址
-    type: 'POST',
-    data: formData,
-    // async: false,//同步請求
-    cache: false,//不快取頁面
-    contentType: false,//當form以multipart/form-data方式上傳檔案時，需要設定為false
-    processData: false,//如果要傳送Dom樹資訊或其他不需要轉換的資訊，請設定為false
-    success: function (url) {
-      console.log(url);
-    },
-    error: function (returndata) {
-      console.log(returndata);
+  //插入google按鈕
+  $("#edit-actions-submit").hide();
+  $("#edit-actions").append('<button class="g-recaptcha webform-button--submit button button--primary js-form-submit form-submit btn btn-sm" type="button" data-sitekey="6LeTLs8eAAAAANw3YLd5WOPshAGZu36gP2WVt3tX" id="btn"  data-callback="onSubmit" data-action="submit" >留言送出');
+
+  const regex =  /^[a-zA-Z0-9_\u4e00-\u9fa5\u3400-\u4db5\u9fa6-\u9fbb\s]*$/;
+  function validate(input, s) {
+    if (regex.test(input)) {
+      console.log("Valid input");
+    } else {
+      alert(s + " 不能使用特殊字符")
+      console.log("Invalid input");
+      return true;
     }
-  })
+  }
+
+
+
+
+
+  //
+  $(".Mask").hide();
+  console.log("form由zero接管");
+  function onSubmit(token) {
+    $(".Mask").show();
+    var isOk = true;
+
+
+
+    //產業類別
+    const xunwenshixiang = $("select[name='xunwenshixiang']");
+    if (xunwenshixiang.val() == "") {
+      xunwenshixiang.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      xunwenshixiang.css("border", "black 1px solid")
+    }
+
+
+    if (xunwenshixiang.val() == "sale1" && $("input[name='ProductName']").val() == "") {
+      isOk = false;
+    }
+
+
+    const name = $("input[name='name']");
+    if (name.val() == "" || validate(name.val(), "連絡人姓名")) {
+      name.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      name.css("border", "black 1px solid")
+    }
+
+    //公司-組織 Organization
+    const zuzhidanwei = $("input[name='zuzhidanwei']");
+    if (zuzhidanwei.val() == "") {
+      zuzhidanwei.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      zuzhidanwei.css("border", "black 1px solid")
+    }
+
+
+    const email = $("input[name='email']");
+    if (email.val() == "") {
+      email.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      email.css("border", "black 1px solid")
+    }
+
+    //地址 Address
+    const dezhi = $("input[name='dezhi']");
+    if (dezhi.val() == "") {
+      dezhi.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      dezhi.css("border", "black 1px solid")
+    }
+
+    const message = $("textarea[name='message']");
+    if (message.val() == "") {
+      message.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      message.css("border", "black 1px solid")
+    }
+
+    //聯絡電話  Phone Number
+    const lianluodianhua = $("input[name='lianluodianhua']");
+    if (lianluodianhua.val() == "") {
+      lianluodianhua.css("border", "red 1px solid");
+      isOk = false;
+    } else {
+      lianluodianhua.css("border", "black 1px solid")
+    }
+
+    if (email.val().indexOf("@") < 0) {
+      alert("Email錯誤");
+      email.css("border", "red 1px solid");
+      $(".Mask").hide();
+      isOk = false;
+    } else {
+      email.css("border", "black 1px solid");
+    }
+    if (isOk) {
+      var formData = new FormData($('.webform-submission-form')[0]);
+      $.ajax({
+        url: '/zero.php',//接受請求的Servlet地址
+        type: 'POST',
+        data: formData,
+        //async: false,//同步請求
+        cache: false,//不快取頁面
+        contentType: false,//當form以multipart/form-data方式上傳檔案時，需要設定為false
+        processData: false,//如果要傳送Dom樹資訊或其他不需要轉換的資訊，請設定為false
+        success: function (url) {
+          console.log(url);
+          if (url == "true") {
+            alert("寄件成功,我們會盡快回復");
+            location.href = "/";
+          } else {
+            alert("驗證失敗,請重新嘗試")
+          }
+        },
+        error: function (returndata) {
+          console.log(returndata);
+          $(".Mask").hide();
+          alert("寄件失敗");
+        }
+      })
+    } else {
+      alert("*必須輸入");
+      $(".Mask").hide();
+    }
+  }
+</script>
+<style type="text/css">
+  div .btn {
+    background-color: #8e8e8e
+  }
+
+  hr {
+    background-color: white;
+  }
+
+  .menu-cnt>ul>li.dropdown ul a {
+    color: rgb(64, 77, 96);
+  }
+
+  div div .grecaptcha-badge {
+    bottom: 63px !important;
+  }
+</style>
+<script>
+  console.log("***********抓取網址,添加optin*******");
+  const url = new URL(location.href);
+  const u = url.searchParams.get("Product");
+  var ele = document.getElementById("edit-xunwenshixiang");
+  if (u != null && u.length != 0) {
+
+    var index = ele.selectedIndex;
+    ele.options[index] = new Option("產品詢價 :" + u, "產品詢價 :" + u); //更改對應的值
+    ele.options[index].selected = true; //保持選中狀態
+    ele.options[1] = new Option("其他商品詢價", "其他商品詢價");
+  }
+
+  ele.setAttribute("onchange", "changeSelect()");
+  function changeSelect() {
+    console.log(ele.selectedIndex);
+    if (ele.selectedIndex == 1) {
+      $("#ProductName").show();
+    } else {
+      $("#ProductName").hide();
+    }
+  }
+  $("#edit-xunwenshixiang").after(` <div id="ProductName" class="webform-element--title-inline webform-has-field-prefix js-form-item form-item js-form-type-textfield form-item-zuzhidanwei js-form-item-zuzhidanwei">
+       <br><label for="xxx"
+       class="js-form-required form-required">商品型號或類別</label>
+       <span class="field-prefix">*</span>
+       <input data-drupal-selector="xxx" type="text" id="xxx" style="border: 1px solid red;"
+       name="ProductName" value="" size="100" maxlength="255"
+       class="required input-text" required="required">
+   </div>`);
+  $("#ProductName").hide();
+  console.log("************************");
+</script>
+<script>
+  var a = document.getElementsByClassName("webform-has-field-prefix");
+  a[6].style.margin = "30px 0 0 0";
 </script>
 
 
 
-Ben 您好，傳感器的使用損耗會依據場域而有所不同，不知道您欲安裝的位置為何，或者是您方便留言私訊給我們，我們派業務專員為您提供更貼身的建議與服務 聯絡我們：<a href="https://www.jetec.com.tw/Contact-us">https://www.jetec.com.tw/Contact-us</a> 
 
-</body>
 
 </html>

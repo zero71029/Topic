@@ -79,7 +79,7 @@
                                             <option value="apparatus">儀器儀表</option>
                                             <option value="Netcom">網通裝置</option>
                                             <option value="software">軟體配件</option>
-                                            <option value="controlbox">控制箱</option>
+                                          
                                             <option value="application">應用</option>
                                         </select>
                                     </div>

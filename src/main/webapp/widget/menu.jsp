@@ -33,6 +33,10 @@
                 min-height: 230px;
 
             }
+            .nav-item,.navbar-brand{
+                margin: 0 10px;
+                font-size: 1.5rem;
+            }
         </style>
         <div class="mask">
             <div class="el-dialog row text-center">
@@ -77,27 +81,27 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item" id="sensor">
+                        <li class="nav-item" id="sensor" >
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=sensor">感測器</a>
                         </li>
-                        <li class="nav-item" id="apparatus">
+                        <li class="nav-item" id="apparatus" >
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=apparatus">儀器儀表</a>
                         </li>
-                        <li class="nav-item" id="Netcom">
+                        <li class="nav-item" id="Netcom" >
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=Netcom">網通裝置</a>
                         </li>
-                        <li class="nav-item" id="software">
+                        <li class="nav-item" id="software" >
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=software">軟體配件</a>
                         </li>
-                        <li class="nav-item" id="controlbox">
+                        <!-- <li class="nav-item" id="controlbox">
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=controlbox">控制箱</a>
-                        </li>
-                        <li class="nav-item" id="application">
+                        </li> -->
+                        <li class="nav-item" id="application" >
                             <a class="nav-link"
                                 href="${pageContext.request.contextPath}/topiclist.jsp?nav=application">應用</a>
                         </li>&nbsp;&nbsp;&nbsp;
